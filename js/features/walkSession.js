@@ -7,6 +7,7 @@ let _walkRouteMap = null;
 let _walkPolyline = null;
 let _walkLiveMarker = null;
 let _walkRoutePoints = [];
+let _walkRoutePointKeys = new Set();
 let _walkPositionHandler = null;
 let _walkNavWatchId = null;
 let _walkNavLine = null;
@@ -18,6 +19,12 @@ let _walkStartMs = 0;
 let _walkerLocationInterval = null;
 let _reviewSelectedStar = 0;
 let _elapsedTimer = null;
+let _elapsedTimerStartMs = 0;
+const GPS_MOCK_WALKER_ID = 'mock-walker-gps';
+
+function isGpsMockWalkerId(userId) {
+  return String(userId || '') === GPS_MOCK_WALKER_ID;
+}
 
 const WALK_SESSION_ACTIVE_STATUSES = ['heading', 'arrived', 'handoff', 'walking', 'returning', 'return_arrived'];
 
@@ -100,11 +107,33 @@ async function _fetchProfileMarkerData(userId) {
 }
 
 // ── 경과 시간 타이머 ──
+function _asValidTimeMs(value) {
+  const ms = typeof value === 'number' ? value : new Date(value || 0).getTime();
+  return Number.isFinite(ms) && ms > 0 ? ms : 0;
+}
+
+function _routePointTimeMs(point) {
+  return _asValidTimeMs(point?.timestamp || point?.createdAt);
+}
+
+function _resolveWalkStartMs(session, routePoints = []) {
+  const routeStart = (routePoints || [])
+    .map(_routePointTimeMs)
+    .filter(Boolean)
+    .sort((a, b) => a - b)[0] || 0;
+  return _asValidTimeMs(session?.walkStartedAt) ||
+    routeStart ||
+    _asValidTimeMs(session?.startedAt) ||
+    Date.now();
+}
+
 function _startElapsedTimer(startAt) {
   if (_elapsedTimer) clearInterval(_elapsedTimer);
-  const startMs = startAt ? new Date(startAt).getTime() : Date.now();
+  const startMs = _asValidTimeMs(startAt) || Date.now();
+  _elapsedTimerStartMs = startMs;
+  _walkStartMs = startMs;
   function tick() {
-    const elapsed = Math.floor((Date.now() - startMs) / 1000);
+    const elapsed = Math.max(0, Math.floor((Date.now() - startMs) / 1000));
     const m = Math.floor(elapsed / 60);
     const s = elapsed % 60;
     const el = document.getElementById('route-elapsed');
@@ -112,6 +141,13 @@ function _startElapsedTimer(startAt) {
   }
   tick();
   _elapsedTimer = setInterval(tick, 1000);
+}
+
+function _syncElapsedTimer(session, routePoints = []) {
+  const startMs = _resolveWalkStartMs(session, routePoints);
+  if (!_elapsedTimer || Math.abs(startMs - _elapsedTimerStartMs) > 1000) {
+    _startElapsedTimer(startMs);
+  }
 }
 
 // ── 도우미 위치 공유 ──
@@ -181,7 +217,8 @@ async function startWalkSession(requestId, requesterId, dogName) {
     if (!result.success) { showToast(result.error || '출발 처리에 실패했습니다.', 'error'); return; }
     _activeSessionId = result.session.id;
     window._activeWalkRequestId = requestId;
-    _startWalkerLocationSharing(requestId);
+    if (isGpsMockWalkerId(user.id)) _stopWalkerLocationSharing();
+    else _startWalkerLocationSharing(requestId);
     showToast('요청자 위치로 출발합니다.', 'success');
     Router.navigate('/walk-session');
   } catch(e) {
@@ -220,9 +257,14 @@ async function startActualWalk(sessionId) {
     const result = await res.json();
     if (!result.success) { showToast(result.error || '오류가 발생했습니다.', 'error'); return; }
     _activeSessionId = sessionId;
-    RealtimeService.startRouteTracking(sessionId);
-    if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(()=>{});
-    showToast('산책 중 화면을 꺼지 마세요 — 위치 공유가 유지됩니다.', 'info');
+    if (isGpsMockWalkerId(user.id)) {
+      RealtimeService.stopRouteTracking();
+      showToast('Mock GPS 경로를 재생합니다. 요청자 화면에서 이동 경로를 확인해보세요.', 'info');
+    } else {
+      RealtimeService.startRouteTracking(sessionId);
+      if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(()=>{});
+      showToast('산책 중 화면을 꺼지 마세요 — 위치 공유가 유지됩니다.', 'info');
+    }
     renderWalkSessionPage(sessionId);
   } catch(e) {
     showToast('오류가 발생했습니다.', 'error');
@@ -278,7 +320,6 @@ async function confirmReturnHandoff(sessionId) {
       _stopWalkerLocationSharing();
       _activeSessionId = null;
       showWalkCompletionScreen(result.session, result.totalDistanceKm);
-      setTimeout(() => showRequesterReviewPrompt(sessionId, result.session?.walkerId, result.totalDistanceKm), 350);
       return;
     }
     showToast('인계 확인을 보냈어요. 도우미 확인을 기다려주세요.', 'success');
@@ -316,6 +357,8 @@ async function confirmWalkerReturnHandoff(sessionId) {
 function showWalkCompletionScreen(session, distKm) {
   document.getElementById('walk-completion-screen')?.remove();
   const user = AuthService.getCurrentUser();
+  const canShareWalk = !!(user && session?.requesterId === user.id && typeof WalkShareService !== 'undefined');
+  if (canShareWalk) WalkShareService.prepareMatchedSession(session, distKm);
   const el = document.createElement('div');
   el.id = 'walk-completion-screen';
   el.style.cssText = 'position:fixed;inset:0;z-index:9500;background:#fff;display:flex;flex-direction:column;overflow-y:auto;animation:ltFadeIn 0.3s ease;';
@@ -351,13 +394,38 @@ function showWalkCompletionScreen(session, distKm) {
     </div>
 
     <div style="padding:16px 24px 32px;">
-      <button onclick="document.getElementById('walk-completion-screen').remove();Router.navigate('/matching')"
+      ${canShareWalk ? `
+      <div style="padding:14px 15px;border:1px solid #DDE6F0;border-radius:14px;background:#F8FAFC;margin-bottom:12px;">
+        <div style="font-size:0.9rem;font-weight:850;color:#0B1220;margin-bottom:4px;">오늘 산책기록을 공유해볼까요?</div>
+        <div style="font-size:0.76rem;color:#64748B;line-height:1.55;">도우미 산책의 시간, 거리, GPS 동선을 커뮤니티 산책 카드로 바로 등록할 수 있어요.</div>
+      </div>
+      <button onclick="WalkShareService.sharePendingMatchedWalk()"
+        style="width:100%;padding:14px;background:#2563EB;color:#fff;border:none;border-radius:14px;font-size:0.95rem;font-weight:700;cursor:pointer;margin-bottom:8px;">
+        ${icon('navigation', 15, '#fff')} 커뮤니티에 공유
+      </button>` : ''}
+      <button onclick="handleWalkCompletionConfirm()"
         style="width:100%;padding:14px;background:#1a1a1a;color:#fff;border:none;border-radius:14px;font-size:0.95rem;font-weight:700;cursor:pointer;">
         확인
       </button>
     </div>
   `;
+  window._walkCompletionConfirmData = {
+    sessionId: session?.id || null,
+    walkerId: session?.walkerId || null,
+    distKm,
+    shouldReview: !!(user && session?.requesterId === user.id && session?.walkerId)
+  };
   document.body.appendChild(el);
+}
+
+function handleWalkCompletionConfirm() {
+  const data = window._walkCompletionConfirmData || {};
+  document.getElementById('walk-completion-screen')?.remove();
+  if (data.shouldReview && data.sessionId && data.walkerId) {
+    showRequesterReviewPrompt(data.sessionId, data.walkerId, data.distKm);
+    return;
+  }
+  Router.navigate('/matching');
 }
 
 async function showRequesterReviewPrompt(sessionId, walkerId, distKm) {
@@ -489,6 +557,54 @@ function _updatePaceDisplay(distKm) {
   if (elapsedHr <= 0) return;
   const kmh = distKm / elapsedHr;
   paceEl.textContent = kmh.toFixed(1) + ' km/h';
+}
+
+function _routePointLatLng(point) {
+  const la = Number(point?.latitude);
+  const lo = Number(point?.longitude);
+  if (!Number.isFinite(la) || !Number.isFinite(lo)) return null;
+  return [la, lo];
+}
+
+function _routePointKey(point) {
+  if (!point) return '';
+  if (point.id) return String(point.id);
+  const latlng = _routePointLatLng(point);
+  if (!latlng) return '';
+  return [
+    point.timestamp || point.createdAt || '',
+    latlng[0].toFixed(7),
+    latlng[1].toFixed(7),
+    point.source || ''
+  ].join(':');
+}
+
+function _rememberRoutePoint(point) {
+  const key = _routePointKey(point);
+  if (!key || _walkRoutePointKeys.has(key)) return false;
+  _walkRoutePointKeys.add(key);
+  return true;
+}
+
+function _loadRoutePoints(points, { mockOnly = false } = {}) {
+  _walkRoutePointKeys = new Set();
+  const normalized = [];
+  (points || []).forEach(point => {
+    if (mockOnly && point?.source !== 'mock-gps') return;
+    const latlng = _routePointLatLng(point);
+    if (!latlng || !_rememberRoutePoint(point)) return;
+    normalized.push({ point, latlng });
+  });
+  _walkRoutePoints = normalized.map(item => item.latlng);
+  return normalized;
+}
+
+function _appendRoutePoint(point, { mockOnly = false } = {}) {
+  if (mockOnly && point?.source !== 'mock-gps') return null;
+  const latlng = _routePointLatLng(point);
+  if (!latlng || !_rememberRoutePoint(point)) return null;
+  _walkRoutePoints.push(latlng);
+  return latlng;
 }
 
 function updateLiveWalkerMarker(lat, lng) {
@@ -759,9 +875,7 @@ async function renderWalkSessionPage(sessionId) {
   setTimeout(() => _initWalkSessionMap(sid, { isWalker, sessionStatus: st, requestId: premiumResolvedReqId, session }), 80);
 
   if (showStats) {
-    const startAt = session?.walkStartedAt || session?.startedAt;
-    _walkStartMs = startAt ? new Date(startAt).getTime() : Date.now();
-    _startElapsedTimer(startAt);
+    _syncElapsedTimer(session);
   }
 
   if (premiumResolvedReqId) showChatButton(premiumResolvedReqId);
@@ -787,6 +901,7 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
   _walkNavLine = null;
   _walkNavMyMarker = null;
   _walkRoutePoints = [];
+  _walkRoutePointKeys = new Set();
 
   const hav = (la1, lo1, la2, lo2) => {
     const R = 6371000;
@@ -810,7 +925,7 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
     myLng = pos.coords.longitude;
   } catch (e) {}
 
-  const hasGps = myLat !== null && myLng !== null;
+  let hasGps = myLat !== null && myLng !== null;
   const currentUser = AuthService.getCurrentUser();
   const currentUserData = currentUser?.id ? await _fetchProfileMarkerData(currentUser.id) : null;
 
@@ -831,6 +946,12 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
 
   const requesterId = requestRecord?.requesterId || session?.requesterId || null;
   const walkerId = requestRecord?.walkerId || session?.walkerId || null;
+  const isMockGpsWalker = isGpsMockWalkerId(walkerId || currentUser?.id);
+  if (isMockGpsWalker && isWalker) {
+    myLat = null;
+    myLng = null;
+    hasGps = false;
+  }
   const requesterData = requesterId ? await _fetchProfileMarkerData(requesterId) : null;
   const walkerData = walkerId ? await _fetchProfileMarkerData(walkerId) : null;
 
@@ -871,7 +992,7 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
   }
 
   const pushWalkerLocation = (lat, lng) => {
-    if (!requestId) return;
+    if (!requestId || isMockGpsWalker) return;
     fetch(`/api/walk-requests/${requestId}/walker-location`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -889,6 +1010,29 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
         fitAnchorAndWalker(myLat, myLng);
         const dist = hav(myLat, myLng, pickupLat, pickupLng);
         showBanner(`픽업까지 ${distText(dist)} · ${etaText(Math.ceil(dist / 1.3))}`);
+      }
+      if (isMockGpsWalker) {
+        const updateMockPickupMarker = (la, lo) => {
+          if (!Number.isFinite(la) || !Number.isFinite(lo)) return;
+          if (_walkNavMyMarker) _walkNavMyMarker.setLatLng([la, lo]);
+          else _walkNavMyMarker = L.marker([la, lo], { icon: iconWalker(true) }).addTo(_walkRouteMap);
+          if (pickupLat && pickupLng) {
+            if (_walkNavLine) _walkNavLine.setLatLngs([[la, lo], [pickupLat, pickupLng]]);
+            else _walkNavLine = L.polyline([[la, lo], [pickupLat, pickupLng]], { color: '#2563EB', weight: 5, opacity: .85 }).addTo(_walkRouteMap);
+            fitAnchorAndWalker(la, lo);
+            const dist = hav(la, lo, pickupLat, pickupLng);
+            showBanner(`Mock 도우미 이동 중 · 픽업까지 ${distText(dist)}`);
+          }
+        };
+        const pollMockPickup = async () => {
+          try {
+            const data = await (await fetch(`/api/walk-requests/${requestId}/walker-location`)).json();
+            if (data.lat && data.lng) updateMockPickupMarker(Number(data.lat), Number(data.lng));
+          } catch (e) {}
+        };
+        pollMockPickup();
+        _walkSessionPollTimer = setInterval(pollMockPickup, 3000);
+        return;
       }
       if (navigator.geolocation) {
         _walkNavWatchId = navigator.geolocation.watchPosition(pos => {
@@ -915,11 +1059,14 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
     try {
       const routeData = await (await fetch(`/api/walk-sessions/${sessionId}/route`)).json();
       if (routeData.points?.length > 0) {
-        _walkRoutePoints = routeData.points.map(p => [p.latitude, p.longitude]);
-        _walkPolyline = L.polyline(_walkRoutePoints, { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
-        lastPt = _walkRoutePoints[_walkRoutePoints.length - 1];
-        _walkLiveMarker = L.marker(lastPt, { icon: iconWalker(sessionStatus !== 'completed') }).addTo(_walkRouteMap);
-        _updateRouteStats(routeData.points.length, routeData.totalDistanceKm);
+        const normalized = _loadRoutePoints(routeData.points, { mockOnly: isMockGpsWalker });
+        if (normalized.length > 0) {
+          _walkPolyline = L.polyline(_walkRoutePoints, { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
+          lastPt = _walkRoutePoints[_walkRoutePoints.length - 1];
+          _walkLiveMarker = L.marker(lastPt, { icon: iconWalker(sessionStatus !== 'completed') }).addTo(_walkRouteMap);
+          _updateRouteStats(_walkRoutePoints.length, routeData.totalDistanceKm);
+        }
+        _syncElapsedTimer(session, routeData.points || []);
       }
     } catch (e) {}
 
@@ -927,6 +1074,34 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
       hideBanner();
       if (lastPt) _walkRouteMap.setView(lastPt, 17);
       else if (hasGps) _walkRouteMap.setView([myLat, myLng], 16);
+
+      if (isMockGpsWalker) {
+        showBanner('Mock GPS 경로 재생 중이에요');
+        const applyMockRoutePoint = point => {
+          const latlng = _appendRoutePoint(point, { mockOnly: true });
+          if (!latlng) return;
+          if (_walkLiveMarker) _walkLiveMarker.setLatLng(latlng);
+          else _walkLiveMarker = L.marker(latlng, { icon: iconWalker(true) }).addTo(_walkRouteMap);
+          if (_walkPolyline) _walkPolyline.addLatLng(latlng);
+          else _walkPolyline = L.polyline([latlng], { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
+          _walkRouteMap.setView(latlng, _walkRouteMap.getZoom() >= 16 ? _walkRouteMap.getZoom() : 17, { animate: true, duration: .4 });
+          _updateRouteStatsDelta();
+        };
+        _walkSessionPollTimer = setInterval(async () => {
+          try {
+            const routeData = await (await fetch(`/api/walk-sessions/${sessionId}/route`)).json();
+            (routeData.points || []).forEach(applyMockRoutePoint);
+            if (routeData.totalDistanceKm != null) _updateRouteStats(_walkRoutePoints.length, routeData.totalDistanceKm);
+            _syncElapsedTimer(session, routeData.points || []);
+          } catch (e) {}
+        }, 3000);
+        _walkPositionHandler = data => {
+          if (data.sessionId !== sessionId) return;
+          applyMockRoutePoint(data);
+        };
+        RealtimeService.on('walker-position', _walkPositionHandler);
+        return;
+      }
 
       RealtimeService.startRouteTracking(sessionId);
       if (navigator.geolocation) {
@@ -964,6 +1139,31 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
 
     if (sessionStatus === 'completed') {
       hideBanner();
+      return;
+    }
+
+    if (isMockGpsWalker) {
+      const updateMockReturnMarker = (la, lo) => {
+        if (!Number.isFinite(la) || !Number.isFinite(lo)) return;
+        const latlng = [la, lo];
+        if (_walkLiveMarker) _walkLiveMarker.setLatLng(latlng);
+        else _walkLiveMarker = L.marker(latlng, { icon: iconWalker(true) }).addTo(_walkRouteMap);
+        if (pickupLat && pickupLng) {
+          fitAnchorAndWalker(la, lo);
+          const dist = hav(la, lo, pickupLat, pickupLng);
+          showBanner(sessionStatus === 'return_arrived'
+            ? '재인계 확인을 기다리는 중…'
+            : `Mock 복귀 중 · ${distText(dist)}`);
+        }
+      };
+      const pollMockReturn = async () => {
+        try {
+          const data = await (await fetch(`/api/walk-requests/${requestId}/walker-location`)).json();
+          if (data.lat && data.lng) updateMockReturnMarker(Number(data.lat), Number(data.lng));
+        } catch (e) {}
+      };
+      pollMockReturn();
+      _walkSessionPollTimer = setInterval(pollMockReturn, 3000);
       return;
     }
 
@@ -1035,24 +1235,29 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
   try {
     const routeData = await (await fetch(`/api/walk-sessions/${sessionId}/route`)).json();
     if (routeData.points?.length > 0) {
-      _walkRoutePoints = routeData.points.map(p => [p.latitude, p.longitude]);
-      _walkPolyline = L.polyline(_walkRoutePoints, { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
-      lastPt = _walkRoutePoints[_walkRoutePoints.length - 1];
-      walkerMarker = L.marker(lastPt, { icon: iconWalker(sessionStatus === 'walking') }).addTo(_walkRouteMap);
-      _updateRouteStats(routeData.points.length, routeData.totalDistanceKm);
-      if (sessionStatus === 'completed') _walkRouteMap.fitBounds(_walkPolyline.getBounds(), { padding: [50, 50], maxZoom: 17 });
-      else _walkRouteMap.setView(lastPt, 16);
+      const normalized = _loadRoutePoints(routeData.points, { mockOnly: isMockGpsWalker });
+      if (normalized.length > 0) {
+        _walkPolyline = L.polyline(_walkRoutePoints, { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
+        lastPt = _walkRoutePoints[_walkRoutePoints.length - 1];
+        walkerMarker = L.marker(lastPt, { icon: iconWalker(sessionStatus === 'walking') }).addTo(_walkRouteMap);
+        _updateRouteStats(_walkRoutePoints.length, routeData.totalDistanceKm);
+        if (sessionStatus === 'completed') _walkRouteMap.fitBounds(_walkPolyline.getBounds(), { padding: [50, 50], maxZoom: 17 });
+        else _walkRouteMap.setView(lastPt, 16);
+      }
+      _syncElapsedTimer(session, routeData.points || []);
     }
   } catch (e) {}
 
   if (!lastPt) _walkRouteMap.setView([anchorLat, anchorLng], 15);
   if (sessionStatus !== 'walking') return;
 
-  _walkSessionPollTimer = setInterval(fetchWalkerPosition, 5000);
+  if (!isMockGpsWalker) {
+    _walkSessionPollTimer = setInterval(fetchWalkerPosition, 5000);
+  }
   _walkPositionHandler = data => {
     if (data.sessionId !== sessionId) return;
-    const latlng = [data.latitude, data.longitude];
-    _walkRoutePoints.push(latlng);
+    const latlng = _appendRoutePoint(data, { mockOnly: isMockGpsWalker });
+    if (!latlng) return;
     if (_walkPolyline) _walkPolyline.addLatLng(latlng);
     else _walkPolyline = L.polyline([latlng], { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
     updateWalkerMarker(latlng[0], latlng[1]);

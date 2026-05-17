@@ -1,1 +1,42 @@
-[{"id":"id-mp6omaw5-pscifvd","walkSessionId":"id-mp6ojw8t-714csuh","latitude":37.60980802652318,"longitude":126.9974337909735,"timestamp":"2026-05-15T08:55:16.901Z"}]
+[
+  {
+    "latitude": 37.59915,
+    "longitude": 127.02285,
+    "timestamp": 1778753400000
+  },
+  {
+    "latitude": 37.60035,
+    "longitude": 127.0233,
+    "timestamp": 1778753640000
+  },
+  {
+    "latitude": 37.60115,
+    "longitude": 127.0241,
+    "timestamp": 1778753880000
+  },
+  {
+    "latitude": 37.60065,
+    "longitude": 127.025,
+    "timestamp": 1778754120000
+  },
+  {
+    "latitude": 37.5996,
+    "longitude": 127.0253,
+    "timestamp": 1778754360000
+  },
+  {
+    "latitude": 37.5989,
+    "longitude": 127.0244,
+    "timestamp": 1778754600000
+  },
+  {
+    "latitude": 37.5993,
+    "longitude": 127.0235,
+    "timestamp": 1778754840000
+  },
+  {
+    "latitude": 37.59915,
+    "longitude": 127.02285,
+    "timestamp": 1778755080000
+  }
+]

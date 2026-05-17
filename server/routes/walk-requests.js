@@ -11,6 +11,13 @@
 const express = require('express');
 const router  = express.Router();
 const db      = require('../db');
+const GPS_MOCK_WALKER_ID = 'mock-walker-gps';
+
+function isGpsMockWalker(walkerOrId) {
+  if (!walkerOrId) return false;
+  if (typeof walkerOrId === 'string') return walkerOrId === GPS_MOCK_WALKER_ID;
+  return walkerOrId.userId === GPS_MOCK_WALKER_ID || walkerOrId.id === GPS_MOCK_WALKER_ID || walkerOrId.isGpsMockWalker === true;
+}
 
 function setWalkerAvailability(app, userId, isAvailable) {
   const walkers = db.get('walkers', []);
@@ -415,7 +422,7 @@ router.post('/broadcast', (req, res) => {
 
   // DB 기준 isAvailable 도우미 수 (Socket 연결 여부 무관)
   const walkers = db.get('walkers', []);
-  const availableCount = walkers.filter(w => w.isAvailable && w.userId !== requesterId).length;
+  const availableCount = walkers.filter(w => !isGpsMockWalker(w) && w.isAvailable && w.userId !== requesterId).length;
 
   res.json({ success: true, request: newRequest, sentCount, availableCount });
 });
@@ -441,6 +448,9 @@ router.patch('/:id/accept-broadcast', (req, res) => {
 
   const walkers = db.get('walkers', []);
   const walker = walkers.find(w => w.userId === walkerId);
+  if (isGpsMockWalker(walker || walkerId)) {
+    return res.json({ success: false, error: 'Mock walker cannot accept broadcast requests.' });
+  }
   const users = db.get('users', []);
   const walkerUser = users.find(u => u.id === walkerId);
 

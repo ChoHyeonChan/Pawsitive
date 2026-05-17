@@ -30,6 +30,7 @@ const walkReviewRoutes   = require('./routes/walk-review');
 const phoneRoutes        = require('./routes/phone');
 const expertRoutes       = require('./routes/experts');
 const dmRoutes           = require('./routes/dm');
+const GPS_MOCK_WALKER_ID = 'mock-walker-gps';
 
 const app    = express();
 const server = http.createServer(app);
@@ -139,22 +140,25 @@ function emitToUser(userId, event, data) {
 function emitToAvailableWalkers(event, data) {
   const db = require('./db');
   const walkers = db.get('walkers', []);
+  const isRealBroadcastWalker = w => w && w.userId !== GPS_MOCK_WALKER_ID && w.isGpsMockWalker !== true;
 
   // isAvailable + 소켓 연결된 워커에게 개인 emit
   const availableWalkerIds = walkers
-    .filter(w => w.isAvailable && userSockets[w.userId])
+    .filter(w => isRealBroadcastWalker(w) && w.isAvailable && userSockets[w.userId])
     .map(w => w.userId);
   availableWalkerIds.forEach(uid => emitToUser(uid, event, data));
 
   // 소켓 연결은 됐지만 isAvailable 체크 안 된 워커도 포함 (클라이언트가 필터링)
   const connectedWalkerIds = walkers
-    .filter(w => userSockets[w.userId] && !availableWalkerIds.includes(w.userId))
+    .filter(w => isRealBroadcastWalker(w) && userSockets[w.userId] && !availableWalkerIds.includes(w.userId))
     .map(w => w.userId);
   connectedWalkerIds.forEach(uid => emitToUser(uid, event, { ...data, _softBroadcast: true }));
 
   // 최후 수단: 연결된 모든 소켓에 emit (클라이언트가 워커 여부 판단)
   if (availableWalkerIds.length === 0) {
-    io.emit(event, { ...data, _fallback: true });
+    Object.keys(userSockets)
+      .filter(uid => uid !== GPS_MOCK_WALKER_ID)
+      .forEach(uid => emitToUser(uid, event, { ...data, _fallback: true }));
   }
 
   return availableWalkerIds.length;

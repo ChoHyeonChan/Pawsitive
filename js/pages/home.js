@@ -342,7 +342,8 @@ function renderHomePage() {
  .walk-flow__step:hover .walk-flow__icon-wrap { transform:translateY(-6px) scale(1.08); }
  .walk-flow__num { position:absolute; top:-6px; right:-4px; width:20px; height:20px; border-radius:50%; background:linear-gradient(135deg,#7c3aed,#2563eb); color:#fff; font-size:0.6rem; font-weight:800; display:flex; align-items:center; justify-content:center; z-index:2; }
  .walk-flow__label { font-size:0.82rem; font-weight:700; color:#fff; margin-bottom:6px; text-align:center; white-space:nowrap; }
- .walk-flow__desc { font-size:0.72rem; color:rgba(255,255,255,0.45); text-align:center; line-height:1.55; max-width:100px; }
+ .walk-flow__desc { font-size:0.72rem; color:rgba(255,255,255,0.45); text-align:center; line-height:1.55; width:max-content; max-width:142px; }
+ .walk-flow__desc-line { display:block; white-space:nowrap; }
  .walk-flow__cta { display:flex; justify-content:center; }
  .walk-flow__cta-btn { display:inline-flex; align-items:center; gap:10px; padding:16px 36px; border-radius:999px; background:linear-gradient(135deg,#7c3aed,#2563eb); color:#fff; font-weight:700; font-size:0.92rem; border:none; cursor:pointer; transition:all 0.25s; box-shadow:0 8px 30px rgba(124,58,237,0.35); }
  .walk-flow__cta-btn:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(124,58,237,0.45); }
@@ -369,7 +370,10 @@ function renderHomePage() {
        <span class="walk-flow__num">1</span>
      </div>
      <div class="walk-flow__label">산책 요청</div>
-     <div class="walk-flow__desc">반려견 정보·시간·지역 선택 후 원클릭 요청</div>
+     <div class="walk-flow__desc">
+       <span class="walk-flow__desc-line">반려견 정보·시간·지역</span>
+       <span class="walk-flow__desc-line">선택 후 원클릭 요청</span>
+     </div>
    </div>
 
    <div class="walk-flow__connector"></div>
@@ -380,7 +384,10 @@ function renderHomePage() {
        <span class="walk-flow__num">2</span>
      </div>
      <div class="walk-flow__label">AI 매칭</div>
-     <div class="walk-flow__desc">성격·지역·시간대 분석 후 최적 도우미 추천</div>
+     <div class="walk-flow__desc">
+       <span class="walk-flow__desc-line">성격·지역·시간대 분석 후</span>
+       <span class="walk-flow__desc-line">최적 도우미 추천</span>
+     </div>
    </div>
 
    <div class="walk-flow__connector"></div>
@@ -391,7 +398,10 @@ function renderHomePage() {
        <span class="walk-flow__num">3</span>
      </div>
      <div class="walk-flow__label">도우미 픽업</div>
-     <div class="walk-flow__desc">약속 장소에서 도우미가 반려견 직접 픽업</div>
+     <div class="walk-flow__desc">
+       <span class="walk-flow__desc-line">약속 장소에서 도우미가</span>
+       <span class="walk-flow__desc-line">반려견 직접 픽업</span>
+     </div>
    </div>
 
    <div class="walk-flow__connector"></div>

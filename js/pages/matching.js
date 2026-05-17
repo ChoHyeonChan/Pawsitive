@@ -1048,7 +1048,7 @@ async function renderWalkerDashboard(user, myProfile) {
  <input type="checkbox" id="match-avail-toggle" ${isAvail ? 'checked' : ''} onchange="handleToggleMatcherAvailability()">
  <span class="dw-toggle__track"></span>
  </label>
- <span class="dw-toggle__status">${isAvail ? 'ON' : '? OFF'}</span>
+  <span class="dw-toggle__status">${isAvail ? 'ON' : 'OFF'}</span>
  </div>
  </div>
  `;
@@ -2458,7 +2458,7 @@ async function handleToggleMatcherAvailability() {
 
  if (!navigator.geolocation) {
  alert('이 브라우저는 GPS를 지원하지 않아요.');
- if (statusEl) statusEl.textContent = '? 매칭 OFF';
+ if (statusEl) statusEl.textContent = '매칭 OFF';
  // 체크박스 원복
  const cb = document.getElementById('match-avail-toggle');
  if (cb) cb.checked = false;
@@ -2607,7 +2607,7 @@ async function _sendMatchRequestAfterPayment(toUserId, paymentResult) {
      _markPaymentCompleted(paymentResult.orderId, result.request?.id || result.id || null);
    }
    if (alertEl) {
-     alertEl.innerHTML = '<div class="alert alert-success">결제 완료! 매칭 요청을 보냈습니다 💳</div>';
+    alertEl.innerHTML = '<div class="alert alert-success">결제 완료! 매칭 요청을 보냈습니다.</div>';
      setTimeout(() => { if (alertEl) alertEl.innerHTML = ''; }, 4000);
    }
    renderMatchingPage();

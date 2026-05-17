@@ -8,6 +8,7 @@ let _trackingPolyline = null;
 let _trackingTimer = null;
 let _trackingMarker = null;
 let _trackingStartMarker = null;
+let _trackingGpsWaitTimer = null;
 let _walkHistoryCache = [];
 let _walkCalYear = new Date().getFullYear();
 let _walkCalMonth = new Date().getMonth();
@@ -96,6 +97,26 @@ async function renderWalkTrackingPage() {
     .gps-dot { width:7px; height:7px; border-radius:50%; background:currentColor; }
     .gps-dot--pulse { animation:gpsDotPulse 1.4s ease-in-out infinite; }
     @keyframes gpsDotPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(1.45)} }
+    .gps-live-marker {
+      position:relative;
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      background:#F59E0B;
+      border:3px solid #fff;
+      box-shadow:0 8px 22px rgba(245,158,11,.34), 0 2px 8px rgba(15,23,42,.25);
+      animation:gpsMarkerBreathe 1.8s ease-in-out infinite;
+    }
+    .gps-live-marker::after {
+      content:'';
+      position:absolute;
+      inset:-10px;
+      border-radius:50%;
+      border:2px solid rgba(245,158,11,.34);
+      animation:gpsMarkerRipple 1.8s ease-in-out infinite;
+    }
+    @keyframes gpsMarkerBreathe { 0%,100%{transform:scale(.94)} 50%{transform:scale(1.08)} }
+    @keyframes gpsMarkerRipple { 0%{transform:scale(.72);opacity:.72} 100%{transform:scale(1.28);opacity:0} }
     .gps-match-grid { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid #EEF2F7; border-bottom:1px solid #EEF2F7; margin:16px -20px 18px; background:#F8FAFC; }
     .gps-match-cell { padding:13px 17px; border-right:1px solid #EEF2F7; min-width:0; }
     .gps-match-cell:last-child { border-right:0; }
@@ -120,6 +141,9 @@ async function renderWalkTrackingPage() {
     .gps-map-wrap { position:relative; margin:0 22px; border:1px solid #CBD5E1; border-radius:8px; overflow:hidden; background:#F8FAFC; box-shadow:inset 0 0 0 1px rgba(255,255,255,.7); }
     .gps-map { height:430px; width:100%; background:#F8FAFC; }
     .gps-map-overlay { position:absolute; inset:0; z-index:2; display:flex; align-items:center; justify-content:center; padding:20px; text-align:center; background:rgba(255,255,255,.82); color:#475569; font-size:0.86rem; font-weight:900; pointer-events:none; backdrop-filter:blur(4px); }
+    .gps-map-overlay--loading { flex-direction:column; gap:6px; padding:0; background:#fdfdfd; color:#64748B; backdrop-filter:none; pointer-events:auto; }
+    .gps-map-loading-video { width:auto; height:min(300px, 82%); max-width:90%; object-fit:contain; display:block; }
+    .gps-map-loading-text { margin-top:-16px; font-size:0.82rem; font-weight:900; color:#64748B; }
     .gps-map-legend { position:absolute; top:12px; right:12px; z-index:3; display:flex; gap:6px; align-items:center; flex-wrap:wrap; max-width:calc(100% - 74px); pointer-events:none; }
     .gps-map-legend__item { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 9px; border-radius:999px; background:rgba(255,255,255,.92); border:1px solid rgba(203,213,225,.82); color:#334155; font-size:.68rem; font-weight:900; box-shadow:0 6px 14px rgba(15,23,42,.08); }
     .gps-map-legend__dot { width:9px; height:9px; border-radius:50%; background:#F59E0B; box-shadow:0 0 0 2px #fff; }
@@ -579,13 +603,61 @@ function initTrackingMap(currentData) {
     return;
   }
 
+  if (currentData?.startTime) {
+    showTrackingGpsLoading();
+    startTrackingGpsWaitFallback();
+  }
+
   navigator.geolocation?.getCurrentPosition(pos => {
     const latlng = [pos.coords.latitude, pos.coords.longitude];
     _trackingMap.setView(latlng, 16);
     setCurrentMarker(latlng);
-    const overlay = document.getElementById('walk-map-overlay');
-    if (overlay) overlay.style.display = 'none';
+    clearTrackingGpsWaitFallback();
+    hideTrackingMapOverlay();
   }, () => {}, { timeout: 6000, maximumAge: 60000 });
+}
+
+function showTrackingGpsLoading(message = '내 위치를 확인하고 있어요.') {
+  const overlay = document.getElementById('walk-map-overlay');
+  if (!overlay) return;
+  overlay.classList.add('gps-map-overlay--loading');
+  overlay.style.display = 'flex';
+  overlay.innerHTML = `
+    <video class="gps-map-loading-video" src="/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <div class="gps-map-loading-text">${message}</div>
+  `;
+}
+
+function showTrackingMapMessage(message) {
+  const overlay = document.getElementById('walk-map-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('gps-map-overlay--loading');
+  overlay.style.display = 'flex';
+  overlay.textContent = message;
+}
+
+function hideTrackingMapOverlay() {
+  const overlay = document.getElementById('walk-map-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('gps-map-overlay--loading');
+  overlay.style.display = 'none';
+  overlay.textContent = '';
+}
+
+function clearTrackingGpsWaitFallback() {
+  if (_trackingGpsWaitTimer) {
+    clearTimeout(_trackingGpsWaitTimer);
+    _trackingGpsWaitTimer = null;
+  }
+}
+
+function startTrackingGpsWaitFallback() {
+  clearTrackingGpsWaitFallback();
+  _trackingGpsWaitTimer = setTimeout(() => {
+    const data = GPSTrackingService.getCurrentData();
+    if (data?.coordinates?.length) return;
+    showTrackingMapMessage('GPS 신호를 기다리는 중이에요. 위치 권한과 신호 상태를 확인해주세요.');
+  }, 12000);
 }
 
 function handleStartTracking() {
@@ -627,8 +699,12 @@ function handleStartTracking() {
 function paintActiveTrackingState(data) {
   const stats = document.getElementById('tracking-data');
   if (stats) stats.style.display = '';
-  const overlay = document.getElementById('walk-map-overlay');
-  if (overlay) overlay.style.display = 'none';
+  if (data?.coordinates?.length) {
+    hideTrackingMapOverlay();
+  } else {
+    showTrackingGpsLoading();
+    startTrackingGpsWaitFallback();
+  }
   const quickAction = document.getElementById('tracking-quick-action');
   if (quickAction) {
     quickAction.innerHTML = '<button class="gps-mini-action gps-mini-action--danger" onclick="handleStopTracking()">종료</button>';
@@ -685,6 +761,8 @@ function paintTrackingMap(data) {
   else _trackingPolyline = L.polyline(coords, { color:'#F59E0B', weight:5, opacity:.9 }).addTo(_trackingMap);
 
   _trackingMap.setView(latest, Math.max(_trackingMap.getZoom(), 16), { animate:true, duration:.35 });
+  clearTrackingGpsWaitFallback();
+  hideTrackingMapOverlay();
 }
 
 function setCurrentMarker(latlng) {
@@ -695,15 +773,16 @@ function setCurrentMarker(latlng) {
   }
   const myIcon = L.divIcon({
     className: '',
-    html: '<div style="width:20px;height:20px;background:#F59E0B;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
-    iconSize: [20, 20],
-    iconAnchor: [10, 10]
+    html: '<div class="gps-live-marker"></div>',
+    iconSize: [22, 22],
+    iconAnchor: [11, 11]
   });
   _trackingMarker = L.marker(latlng, { icon: myIcon }).bindPopup('현재 위치').addTo(_trackingMap);
 }
 
 async function handleStopTracking() {
   if (_trackingTimer) { clearInterval(_trackingTimer); _trackingTimer = null; }
+  clearTrackingGpsWaitFallback();
 
   const walkData = GPSTrackingService.stopTracking();
   if (!walkData) return;
@@ -713,12 +792,23 @@ async function handleStopTracking() {
   const selectedIdx = StorageService.get('walkingDogIdx', 0);
   const dog = dogs.length > 0 ? dogs[Math.min(selectedIdx, dogs.length - 1)] : null;
 
-  await GPSTrackingService.saveWalkToServer(
+  const saveResult = await GPSTrackingService.saveWalkToServer(
     user.id,
     dog ? (dog.id || dog.name) : 'default',
     dog ? dog.name : '반려견',
     walkData
   );
+  const savedWalk = saveResult?.walk || {
+    ...walkData,
+    id: StorageService.generateId(),
+    userId: user.id,
+    dogId: dog ? (dog.id || dog.name) : 'default',
+    dogName: dog ? dog.name : '반려견',
+    createdAt: new Date().toISOString()
+  };
+  if (typeof WalkShareService !== 'undefined') {
+    WalkShareService.preparePersonalWalk(savedWalk, dog);
+  }
 
   if (walkData.distance > 0.1 && typeof WalletService !== 'undefined') {
     const coins = Math.round(walkData.distance * 10);
@@ -735,7 +825,12 @@ async function handleStopTracking() {
       <div class="gps-complete">
         <div style="font-size:1rem;font-weight:900;margin-bottom:5px;">산책 완료</div>
         <div style="font-size:0.82rem;color:#64748B;margin-bottom:14px;">${walkData.distance.toFixed(2)}km · ${walkData.duration}분 · ${walkData.calories}kcal</div>
+        <div style="padding:13px 14px;border:1px solid #DDE6F0;border-radius:8px;background:#F8FAFC;margin-bottom:12px;text-align:left;">
+          <div style="font-size:0.86rem;font-weight:950;color:#0B1220;margin-bottom:4px;">오늘 산책기록을 공유해볼까요?</div>
+          <div style="font-size:0.74rem;color:#64748B;line-height:1.55;">거리, 시간, GPS 동선을 커뮤니티 산책 카드로 바로 등록할 수 있어요.</div>
+        </div>
         <div class="gps-actions" style="justify-content:center;">
+          <button class="gps-btn gps-btn--blue" onclick="WalkShareService.sharePendingWalk()">${icon('navigation', 14)} 커뮤니티에 공유</button>
           <button class="gps-btn gps-btn--primary" onclick="Router.navigate('/health')">${icon('activity', 14)} 건강 분석 보기</button>
           <button class="gps-btn gps-btn--soft" onclick="renderWalkTrackingPage()">다시 산책하기</button>
         </div>

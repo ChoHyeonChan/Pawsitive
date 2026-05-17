@@ -128,7 +128,7 @@ const RealtimeService = (() => {
     _sessionRouteInterval = _startGeoPolling(
       `/api/walk-sessions/${sessionId}/route`,
       'POST',
-      coords => ({ latitude: coords.latitude, longitude: coords.longitude }),
+      coords => ({ latitude: coords.latitude, longitude: coords.longitude, accuracy: coords.accuracy || null }),
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 2000 },
       intervalMs
     );

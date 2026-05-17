@@ -3,6 +3,7 @@
 let _aiChatMode = 'training';
 let _aiCurrentSession = null; // { id, title, mode, messages:[] }
 let _aiSessionList = [];
+let _aiHealthTransferContext = null;
 
 function escapeAiHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -10,10 +11,129 @@ function escapeAiHtml(value) {
   }[ch]));
 }
 
+function consumePendingAiHealthContext(user) {
+  const context = StorageService.get('pendingAiHealthContext', null);
+  if (!context) return null;
+
+  StorageService.remove('pendingAiHealthContext');
+  if (user?.id && context.userId && context.userId !== user.id) return null;
+
+  const createdAt = context.createdAt ? new Date(context.createdAt).getTime() : Date.now();
+  if (!Number.isFinite(createdAt) || Date.now() - createdAt > 10 * 60 * 1000) return null;
+  return context;
+}
+
+function formatAiHealthStatsForPrompt(stats) {
+  if (!stats) return '';
+  const weekly = stats.weekly || {};
+  const total = stats.total || {};
+  return [
+    `이번 주 산책: ${weekly.count ?? 0}회`,
+    `이번 주 거리: ${weekly.totalDistance ?? 0}km`,
+    `이번 주 시간: ${weekly.totalDuration ?? 0}분`,
+    `이번 주 칼로리: ${weekly.totalCalories ?? 0}kcal`,
+    `전체 평균 산책 시간: ${total.avgDuration ?? 0}분`,
+    `전체 평균 거리: ${total.avgDistance ?? 0}km`
+  ].join('\n');
+}
+
+function formatAiHealthAnalysisForPrompt(analysis) {
+  if (!analysis) return '저장된 AI 건강 분석 결과는 아직 없어요.';
+  const lines = [];
+  if (analysis.overallScore !== undefined) lines.push(`종합 건강 점수: ${analysis.overallScore}/100`);
+  if (analysis.summary) lines.push(`요약: ${analysis.summary}`);
+  if (analysis.behaviorAnalysis?.pattern) lines.push(`행동 패턴: ${analysis.behaviorAnalysis.pattern}`);
+  if (analysis.behaviorAnalysis?.recommendation) lines.push(`행동 권장사항: ${analysis.behaviorAnalysis.recommendation}`);
+  if (analysis.obesityRisk?.level) lines.push(`비만 위험: ${analysis.obesityRisk.level}`);
+  if (analysis.obesityRisk?.recommendation) lines.push(`비만 관리 권장사항: ${analysis.obesityRisk.recommendation}`);
+  if (analysis.dietRecommendation?.dailyCalories) lines.push(`권장 칼로리: ${analysis.dietRecommendation.dailyCalories}kcal`);
+  if (analysis.dietRecommendation?.foods?.length) lines.push(`추천 식품: ${analysis.dietRecommendation.foods.join(', ')}`);
+  if (analysis.dietRecommendation?.avoid?.length) lines.push(`주의 식품: ${analysis.dietRecommendation.avoid.join(', ')}`);
+  return lines.join('\n') || 'AI 건강 분석 결과가 비어 있어요.';
+}
+
+function buildAiHealthTransferPrompt(context) {
+  if (!context) return '';
+  const dog = context.dog || {};
+  return [
+    '[건강 분석에서 전달된 데이터]',
+    `반려견: ${dog.name || '반려견'}`,
+    dog.breed ? `견종: ${dog.breed}` : '',
+    dog.age ? `나이: ${dog.age}살` : '',
+    dog.weight ? `체중: ${dog.weight}kg` : '',
+    dog.healthNote ? `특이사항: ${dog.healthNote}` : '',
+    `활동 점수: ${context.activityScore ?? 0}/100`,
+    '',
+    formatAiHealthStatsForPrompt(context.stats),
+    '',
+    formatAiHealthAnalysisForPrompt(context.analysis)
+  ].filter(Boolean).join('\n');
+}
+
+function renderAiHealthTransferCard(context) {
+  if (!context) return;
+  const welcome = document.querySelector('.ai-welcome-center');
+  if (!welcome || document.getElementById('ai-health-transfer-card')) return;
+
+  const dog = context.dog || {};
+  const stats = context.stats || {};
+  const weekly = stats.weekly || {};
+  const analysis = context.analysis || {};
+  const analyzedAt = context.analyzedAt ? new Date(context.analyzedAt).toLocaleString('ko-KR') : '';
+
+  const card = document.createElement('div');
+  card.id = 'ai-health-transfer-card';
+  card.className = 'ai-health-transfer-card';
+  card.innerHTML = `
+    <div class="ai-health-transfer-card__top">
+      <span>${icon('activity', 14, '#0F766E')} 건강 분석 데이터 연결됨</span>
+      ${analyzedAt ? `<small>${escapeAiHtml(analyzedAt)}</small>` : ''}
+    </div>
+    <div class="ai-health-transfer-card__body">
+      <strong>${escapeAiHtml(dog.name || '반려견')}</strong>
+      <span>활동 점수 ${escapeAiHtml(context.activityScore ?? 0)}점</span>
+      ${analysis.overallScore !== undefined ? `<span>건강 점수 ${escapeAiHtml(analysis.overallScore)}/100</span>` : ''}
+      <span>이번 주 ${escapeAiHtml(weekly.count ?? 0)}회 · ${escapeAiHtml(weekly.totalDistance ?? 0)}km · ${escapeAiHtml(weekly.totalDuration ?? 0)}분</span>
+    </div>
+  `;
+
+  const modeGrid = welcome.querySelector('.ai-mode-grid');
+  const modeDetail = document.getElementById('ai-mode-detail');
+  welcome.insertBefore(card, modeGrid || modeDetail || welcome.firstChild);
+}
+
+function applyAiHealthTransferContext(context) {
+  if (!context) return;
+  selectAiModeCard('health');
+
+  const dog = context.dog || {};
+  const breedInput = document.getElementById('ai-breed');
+  const topicInput = document.getElementById('ai-topic');
+  const ageInput = document.getElementById('ai-age');
+  const messageInput = document.getElementById('ai-input');
+
+  if (breedInput && dog.breed) breedInput.value = dog.breed;
+  if (topicInput) topicInput.value = '건강 분석 기반 상담';
+  if (ageInput && dog.age) ageInput.value = `${dog.age}살`;
+  if (messageInput) {
+    messageInput.value = `${dog.name || '우리 아이'}의 건강 분석과 최근 산책 데이터를 바탕으로, 지금 우선 확인해야 할 건강 관리 포인트를 알려주세요.`;
+    resizeAiComposer(messageInput);
+  }
+
+  renderAiHealthTransferCard(context);
+  if (typeof showToast === 'function') showToast('건강 분석 데이터가 AI 상담에 연결됐어요.', 'success');
+}
+
 function renderAiPage() {
   const user = AuthService.getCurrentUser();
-  _aiChatMode = 'training';
-  _aiCurrentSession = { id: StorageService.generateId(), title: '새 대화', mode: 'training', messages: [] };
+  _aiHealthTransferContext = consumePendingAiHealthContext(user);
+  _aiChatMode = _aiHealthTransferContext ? 'health' : 'training';
+  _aiCurrentSession = {
+    id: StorageService.generateId(),
+    title: _aiHealthTransferContext ? '건강 분석 상담' : '새 대화',
+    mode: _aiChatMode,
+    messages: []
+  };
 
   // 풀스크린 ChatGPT 스타일 레이아웃 (page-content 패딩 오버라이드)
   const app = document.getElementById('app');
@@ -84,6 +204,14 @@ function renderAiPage() {
       .ai-feature-strip { display:flex; gap:8px; align-items:flex-start; margin-top:14px; padding:12px 13px; border-radius:8px; background:#F8FAFC; border:1px solid #E2E8F0; color:#52637A; font-size:.76rem; line-height:1.55; font-weight:800; }
       .ai-feature-strip strong { display:inline-flex; align-items:center; gap:6px; color:#175CD3; white-space:nowrap; }
       .ai-disclaimer { margin-top:14px; padding:11px 12px; border-radius:8px; background:#F8FAFC; border:1px solid #E2E8F0; color:#64748B; font-size:.74rem; line-height:1.55; font-weight:750; }
+      .ai-health-transfer-card { margin-top:16px; padding:14px; border:1px solid rgba(15,118,110,.22); border-radius:8px; background:#F7FCFA; box-shadow:0 12px 28px rgba(15,118,110,.07); }
+      .ai-health-transfer-card__top { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:10px; }
+      .ai-health-transfer-card__top span { display:inline-flex; align-items:center; gap:7px; color:#0F766E; font-size:.78rem; font-weight:950; }
+      .ai-health-transfer-card__top small { color:#8290A3; font-size:.68rem; font-weight:800; }
+      .ai-health-transfer-card__body { display:flex; flex-wrap:wrap; gap:7px; align-items:center; }
+      .ai-health-transfer-card__body strong,
+      .ai-health-transfer-card__body span { padding:7px 10px; border-radius:999px; background:#fff; border:1px solid #DDECE8; color:#334155; font-size:.75rem; font-weight:850; }
+      .ai-health-transfer-card__body strong { color:#0B1220; border-color:#BFE3D8; }
       .ai-input-area { position:relative; z-index:1; padding:16px 26px 24px; flex-shrink:0; background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.92) 30%, rgba(255,255,255,.98)); }
       .ai-input-box { max-width:var(--ai-chat-width); width:100%; box-sizing:border-box; margin:0 auto; display:flex; gap:10px; align-items:flex-end; border:1.5px solid #DDE6F0; border-radius:8px; padding:12px 14px; background:#fff; transition:border-color 0.15s, box-shadow .15s; box-shadow:0 16px 38px rgba(15,23,42,0.08); }
       .ai-input-box:focus-within { border-color:#0B1220; box-shadow:0 18px 46px rgba(15,23,42,0.12); }
@@ -204,6 +332,8 @@ function renderAiPage() {
   updateAiModeDesc();
   updateAiContextPanel(_aiChatMode);
   restoreAiChat();
+  updateAiModeCards(_aiChatMode);
+  applyAiHealthTransferContext(_aiHealthTransferContext);
   _renderAiSidebar();
 
   // 세션 목록 로드
@@ -307,6 +437,7 @@ async function confirmEditTitle(sessionId) {
 function startNewAiSession() {
   // 현재 세션 저장
   saveCurrentSession();
+  _aiHealthTransferContext = null;
   // 새 세션
   _aiCurrentSession = { id: StorageService.generateId(), title: '새 대화', mode: _aiChatMode, messages: [] };
   restoreAiChat();
@@ -327,6 +458,7 @@ async function loadAiSession(sessionId) {
     if (res.ok) {
       const session = await res.json();
       _aiCurrentSession = session;
+      _aiHealthTransferContext = null;
       _aiChatMode = session.mode || 'training';
 
       // 탭 상태 업데이트
@@ -614,7 +746,10 @@ function buildAiConsultMessage(message) {
 
   if (_aiChatMode === 'health') {
     const symptomInfo = topic ? '증상 키워드: ' + topic + '. ' : '';
-    return '[건강/질병 상담 모드] ' + breedInfo + ageInfo + symptomInfo + message;
+    const transferContext = _aiHealthTransferContext
+      ? '\n\n' + buildAiHealthTransferPrompt(_aiHealthTransferContext)
+      : '';
+    return '[건강/질병 상담 모드] ' + breedInfo + ageInfo + symptomInfo + message + transferContext;
   }
 
   const topicInfo = topic ? '고민 유형: ' + topic + '. ' : '';
