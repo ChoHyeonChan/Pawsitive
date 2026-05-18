@@ -18,7 +18,7 @@
   <img src="poster.png" alt="Pawsitive 포스터" width="800">
 </div>
 
-
+<br/><br/>
 
 ---
 
@@ -44,8 +44,9 @@
 
 그러나 현재 반려견 관련 서비스들은 산책, 건강 관리, 상담 등의 기능이 각각 분리된 앱과 사이트로 운영되어 여러 서비스를 따로 이용해야 하는 불편함이 존재합니다. 이로 인해 **건강 기록과 관리 정보가 분산되어 지속적이고 체계적인 관리가 어려운 문제가 발생**하고 있습니다.
 
-저희는 이러한 문제를 해결하기 위해 AI 기반 반려견 통합 케어 플랫폼 **Pawsitive(포지티브)**를 개발하였습니다. Pawsitive는 **실시간 산책 매칭, AI 건강 분석, 전문가 및 도우미 매칭, AI 상담, 건강 서류 통합 관리 기능을 하나의 서비스로 제공**하여 보호자와 반려견 모두의 더 나은 일상을 지원합니다. 또한 AI 기술을 활용해 반려견의 활동 데이터와 건강 정보를 분석하고 맞춤형 서비스를 제공함으로써 보다 **편리하고 체계적인 반려 생활 환경을 제공**합니다.
+저희는 이러한 문제를 해결하기 위해 AI 기반 반려견 통합 케어 플랫폼 **Pawsitive**(포지티브)를 개발하였습니다. Pawsitive는 **실시간 산책 매칭, AI 건강 분석, 전문가 및 도우미 매칭, AI 상담, 건강 서류 통합 관리 기능을 하나의 서비스로 제공**하여 보호자와 반려견 모두의 더 나은 일상을 지원합니다. 또한 AI 기술을 활용해 반려견의 활동 데이터와 건강 정보를 분석하고 맞춤형 서비스를 제공함으로써 보다 **편리하고 체계적인 반려 생활 환경을 제공**합니다.
 
+<br/>
 
 ### **Pawsitive만의 강점**
 
@@ -55,7 +56,7 @@
 
 ✅ **Pawsitive**는 Gemini 기반 AI 상담 시스템과 AI 건강 분석 기능을 활용하여 반려견의 활동 데이터와 건강 정보를 기반으로 맞춤형 건강 리포트 및 상담 서비스를 제공합니다.
 
-
+<br/><br/>
 
 ---
 
@@ -70,14 +71,14 @@
 | **커뮤니티** | 게시물 작성(사진·동영상 첨부), 좋아요·댓글, 스토리, 팔로우, DM, AI 맞춤 게시물 추천 |
 
 
-
+<br/><br/>
 
 ---
 
 ## 3. 주요 화면
 
 
-
+<br/><br/>
 
 ---
 
@@ -95,11 +96,13 @@
 - **컴퓨팅/데이터** — Private Subnet 내 EC2에서 Express + Socket.IO 구동, ElastiCache(Redis)로 실시간 세션 캐싱, RDS(PostgreSQL)로 영구 데이터 저장
 - **고도화 기능** — Cognito(소셜 로그인), Lambda(백그라운드 연산), Bedrock(AI 상담 분석) 연동
 
+<br/>
+
 ### 현재 MVP 구현
 
 캡스톤 프로젝트의 한정된 시간과 인프라 비용을 고려하여, 핵심 비즈니스 로직(실시간 산책 매칭, Gemini AI 상담 분석)의 완성도에 집중하는 전략을 선택하였습니다. 현재는 단일 Node.js(Express) 서버 + JSON 파일 기반 데이터 저장 + 브라우저 웹 스토리지를 활용한 하이브리드 구조로 구현되어 있으며, 향후 상용화 시 위 AWS 아키텍처로 전환할 수 있도록 설계되었습니다.
 
-
+<br/><br/>
 
 ---
 
@@ -115,7 +118,7 @@
 | 인증 | ![Passport.js](https://img.shields.io/badge/Passport.js-34E27A?style=flat-square&logo=passport&logoColor=white) ![Google](https://img.shields.io/badge/Google-4285F4?style=flat-square&logo=google&logoColor=white) ![Kakao](https://img.shields.io/badge/Kakao-FFCD00?style=flat-square&logo=kakao&logoColor=black) ![Naver](https://img.shields.io/badge/Naver-03C75A?style=flat-square&logo=naver&logoColor=white) |
 | 결제 | ![토스페이먼츠](https://img.shields.io/badge/토스페이먼츠-0064FF?style=flat-square&logoColor=white) |
 
-
+<br/><br/>
 
 ---
 
@@ -128,7 +131,7 @@
 | **이충범** | 풀스택 개발 | 산책 매칭·GPS 추적, 워커 대시보드, UI 설계, 리뷰·평점 시스템 구현 |
 | **하준서** | 풀스택 개발 | AI 건강 분석, 프로필·반려견 건강서류 관리, 알림 시스템 구현 |
 
-
+<br/><br/>
 
 ---
 
