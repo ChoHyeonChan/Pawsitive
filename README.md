@@ -86,6 +86,18 @@
   <img src="System_Architecture.png" alt="시스템 아키텍처" width="800">
 </div>
 
+### 목표 아키텍처
+
+상용화 및 대규모 트래픽 처리를 대비하여 AWS 기반 고가용성 아키텍처를 설계하였습니다.
+
+- **네트워크** — Route 53 → ALB로 트래픽 분산, 정적 자원은 S3 + CloudFront CDN으로 글로벌 캐싱
+- **컴퓨팅/데이터** — Private Subnet 내 EC2에서 Express + Socket.IO 구동, ElastiCache(Redis)로 실시간 세션 캐싱, RDS(PostgreSQL)로 영구 데이터 저장
+- **고도화 기능** — Cognito(소셜 로그인), Lambda(백그라운드 연산), Bedrock(AI 상담 분석) 연동
+
+### 현재 MVP 구현
+
+캡스톤 프로젝트의 한정된 시간과 인프라 비용을 고려하여, 핵심 비즈니스 로직(실시간 산책 매칭, Gemini AI 상담 분석)의 완성도에 집중하는 전략을 선택하였습니다. 현재는 단일 Node.js(Express) 서버 + JSON 파일 기반 데이터 저장 + 브라우저 웹 스토리지를 활용한 하이브리드 구조로 구현되어 있으며, 향후 상용화 시 위 AWS 아키텍처로 전환할 수 있도록 설계되었습니다.
+
 
 
 ---
