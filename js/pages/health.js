@@ -323,6 +323,25 @@ function handleSelectHealthDog() {
   }
 }
 
+function storeHealthAnalysisCache(userId, dogId, analysis, analyzedAt) {
+  if (!userId || !analysis) return;
+  StorageService.set(`healthAnalysis_${userId}_${dogId || '_all'}`, {
+    analysis,
+    analyzedAt: analyzedAt || new Date().toISOString()
+  });
+}
+
+async function tryRenderSavedHealthProfile(user, selectedDogId, analysisSection) {
+  if (!user || !analysisSection) return false;
+
+  const profile = await HealthAnalysisService.getHealthProfile(user.id);
+  if (!profile || !profile.lastAnalysis) return false;
+
+  storeHealthAnalysisCache(user.id, selectedDogId, profile.lastAnalysis, profile.analyzedAt);
+  renderHealthAnalysisResult(profile.lastAnalysis, analysisSection, selectedDogId);
+  return true;
+}
+
 async function loadHealthDashboard(user) {
   const statsSection = document.getElementById('health-stats-section');
   const analysisSection = document.getElementById('health-analysis-section');
@@ -392,6 +411,8 @@ async function loadHealthDashboard(user) {
   const cached = HealthAnalysisService.getCachedAnalysis(user.id, selectedDogId);
   if (cached && analysisSection) {
     renderHealthAnalysisResult(cached.analysis, analysisSection, selectedDogId);
+  } else if (analysisSection && await tryRenderSavedHealthProfile(user, selectedDogId, analysisSection)) {
+    return;
   } else if (analysisSection && stats && stats.total.count > 0) {
     // 캐시 없으면 자동 분석 실행
     handleRunHealthAnalysis();
@@ -430,8 +451,14 @@ async function handleRunHealthAnalysis() {
       healthNote: dog.healthNote || null
     } : {}, selectedDogId);
 
+    if (alertEl) alertEl.innerHTML = '';
     if (section) renderHealthAnalysisResult(analysis, section, selectedDogId);
   } catch (e) {
+    const renderedSaved = await tryRenderSavedHealthProfile(user, selectedDogId, section);
+    if (renderedSaved) {
+      if (alertEl) alertEl.innerHTML = '';
+      return;
+    }
     if (alertEl) alertEl.innerHTML = `<div class="alert alert-error">분석 실패: ${e.message}</div>`;
     if (section) section.innerHTML = '';
   }

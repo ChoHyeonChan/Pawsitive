@@ -32,10 +32,136 @@ function saveHealthProfiles(profiles) {
 
 // Gemini 설정
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+let Anthropic;
+try { Anthropic = require('@anthropic-ai/sdk'); } catch (e) { Anthropic = null; }
+
 function getGemini() {
   if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY.includes('여기에')) return null;
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  return genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+}
+
+function getClaudeClient() {
+  if (!Anthropic || !process.env.ANTHROPIC_API_KEY) return null;
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
+
+function getHealthModelNames() {
+  const configured = [
+    process.env.GEMINI_HEALTH_MODELS,
+    process.env.GEMINI_MODEL
+  ]
+    .filter(Boolean)
+    .flatMap(value => String(value).split(','))
+    .map(value => value.trim())
+    .filter(Boolean);
+
+  return [...new Set([
+    ...configured,
+    'gemini-2.5-flash',
+    'gemini-2.5-flash-lite',
+    'gemini-2.5-flash-preview-05-20',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash'
+  ])];
+}
+
+function isRetryableGeminiError(error) {
+  const message = String(error?.message || error || '').toLowerCase();
+  const status = Number(error?.status || error?.response?.status || 0);
+  return [429, 500, 502, 503, 504].includes(status)
+    || /\b(429|500|502|503|504)\b/.test(message)
+    || message.includes('high demand')
+    || message.includes('service unavailable')
+    || message.includes('overload')
+    || message.includes('temporarily')
+    || message.includes('timeout');
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function generateHealthContent(genAI, parts) {
+  let lastError = null;
+  const attempts = [];
+
+  for (const modelName of getHealthModelNames()) {
+    const model = genAI.getGenerativeModel({
+      model: modelName,
+      generationConfig: {
+        temperature: 0.25,
+        responseMimeType: 'application/json'
+      }
+    });
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const result = await model.generateContent(parts);
+        return {
+          text: result.response.text(),
+          modelName
+        };
+      } catch (error) {
+        lastError = error;
+        attempts.push(`${modelName}#${attempt}`);
+        console.warn(`[Health] Gemini model failed (${modelName}, attempt ${attempt}):`, error.message);
+
+        if (!isRetryableGeminiError(error)) break;
+        if (attempt < 3) await sleep(1200 * attempt);
+      }
+    }
+  }
+
+  const claudeText = await generateHealthContentWithClaude(parts);
+  if (claudeText) {
+    return {
+      text: claudeText,
+      modelName: 'claude-sonnet-4-20250514'
+    };
+  }
+
+  const error = new Error('AI 분석 서버가 혼잡해요. 잠시 후 다시 시도해주세요.');
+  error.cause = lastError;
+  error.healthModelAttempts = attempts;
+  throw error;
+}
+
+async function generateHealthContentWithClaude(parts) {
+  const client = getClaudeClient();
+  if (!client) return null;
+
+  try {
+    const content = [];
+    for (const part of parts) {
+      if (part.text) {
+        content.push({
+          type: 'text',
+          text: `${part.text}\n\nReturn only one valid JSON object. Do not include markdown fences or extra prose.`
+        });
+      } else if (part.inlineData?.data && part.inlineData?.mimeType) {
+        content.push({
+          type: 'image',
+          source: {
+            type: 'base64',
+            media_type: part.inlineData.mimeType,
+            data: part.inlineData.data
+          }
+        });
+      }
+    }
+
+    const response = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 2600,
+      temperature: 0.25,
+      messages: [{ role: 'user', content }]
+    });
+
+    return response.content?.[0]?.text || null;
+  } catch (error) {
+    console.warn('[Health] Claude fallback failed:', error.message);
+    return null;
+  }
 }
 
 // 종합 건강 분석 (행동 패턴 + 비만 위험 + 식단 + 예방접종)
@@ -49,8 +175,8 @@ router.post('/analyze', async (req, res) => {
     if (dogInfo?.name && !dogInfo?.allDogs) {
       walks = walks.filter(w => w.dogName === dogInfo.name || w.dogId === dogInfo.name);
     }
-    const model = getGemini();
-    if (!model) return res.status(500).json({ error: 'AI 서비스 미설정' });
+    const genAI = getGemini();
+    if (!genAI) return res.status(500).json({ error: 'AI 서비스 키가 설정되어 있지 않아요.' });
 
     // 업로드된 서류 정보 로드
     let uploadedDocs = [];
@@ -181,8 +307,8 @@ ${imageDocs.length > 0 ? '\n※ 첨부된 이미지 서류를 분석하여 건�
       } catch(e) {}
     }
 
-    const result = await model.generateContent(parts);
-    const text = result.response.text();
+    const generated = await generateHealthContent(genAI, parts);
+    const text = generated.text;
 
     // JSON 파싱
     let analysis;
@@ -209,10 +335,10 @@ ${imageDocs.length > 0 ? '\n※ 첨부된 이미지 서류를 분석하여 건�
     else profiles.push(profile);
     saveHealthProfiles(profiles);
 
-    res.json({ success: true, analysis });
+    res.json({ success: true, analysis, model: generated.modelName });
   } catch (e) {
     console.error('[Health] 분석 실패:', e);
-    res.status(500).json({ error: 'AI 건강 분석 실패: ' + e.message });
+    res.status(503).json({ error: e.message || 'AI 분석 서버가 혼잡해요. 잠시 후 다시 시도해주세요.' });
   }
 });
 

@@ -158,5 +158,44 @@
     ],
     "reactions": {},
     "comments": []
+  },
+  {
+    "id": "sample-story-20260518-0",
+    "authorId": "sample-1",
+    "authorName": "초코맘",
+    "authorProfileImage": "/photos/01_interior.png",
+    "imageData": "/photos/01_interior.png",
+    "text": "한강 산책로 기록",
+    "createdAt": "2026-05-18T13:30:39.775Z",
+    "expiresAt": 1779178359775,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260518-1",
+    "authorId": "sample-4",
+    "authorName": "시바집사",
+    "authorProfileImage": "/images/dog_walker.png",
+    "imageData": "/images/dog_walker.png",
+    "text": "오후 산책 체크인",
+    "createdAt": "2026-05-18T12:48:39.775Z",
+    "expiresAt": 1779181959775,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260518-2",
+    "authorId": "sample-5",
+    "authorName": "댕댕이네",
+    "authorProfileImage": "/photos/03_customers.png",
+    "imageData": "/photos/03_customers.png",
+    "text": "새 놀이터 저장",
+    "createdAt": "2026-05-18T12:06:39.775Z",
+    "expiresAt": 1779185559775,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
   }
 ]

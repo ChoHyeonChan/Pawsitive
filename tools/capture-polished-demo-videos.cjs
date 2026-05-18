@@ -2701,8 +2701,7 @@ async function recordWalkHealthEducationFlow(browser) {
     await sleep(900);
   }
 
-  await page.evaluate(() => Router.navigate('/education'));
-  await page.waitForSelector('#education-list', { timeout: 18000 });
+  await navigateViaDrawer(page, '교육', '#education-list');
   await sleep(1200);
   await smoothScrollTo(page, 0, 900);
   await page.evaluate(() => {
@@ -2727,21 +2726,28 @@ async function recordWalkHealthEducationFlow(browser) {
   });
   await page.waitForSelector('#edu-quiz-questions', { timeout: 12000 });
   await sleep(700);
-  await page.evaluate(() => {
-    if (Array.isArray(_currentQuiz) && _currentQuiz.length > 1 && typeof _buildQuizHtml === 'function') {
-      _currentQuiz = _currentQuiz.slice(0, 1);
-      const box = document.getElementById('edu-quiz-questions');
-      if (box) box.innerHTML = _buildQuizHtml(_currentQuiz);
-    }
-  }).catch(() => {});
+  const quizCount = await page.evaluate(() => (
+    typeof _currentQuiz !== 'undefined' && Array.isArray(_currentQuiz) ? _currentQuiz.length : 0
+  )).catch(() => 0);
+  for (let i = 0; i < Math.min(5, quizCount || 5); i += 1) {
+    await smoothScrollLocatorTo(page, page.locator(`[id^="quiz-opt-${i}-"]`).first(), 850, 'center').catch(() => {});
+    await sleep(240);
+    await page.evaluate(questionIdx => {
+      const quiz = (typeof _currentQuiz !== 'undefined' && Array.isArray(_currentQuiz)) ? _currentQuiz : [];
+      const answer = quiz[questionIdx]?.answer ?? 0;
+      if (typeof selectQuizOption === 'function') selectQuizOption(questionIdx, answer);
+    }, i).catch(() => {});
+    await sleep(720);
+  }
+  await smoothScrollLocatorTo(page, page.locator('#quiz-submit-btn'), 1100, 'center').catch(() => {});
   await sleep(500);
-  await page.evaluate(() => {
-    const quiz = _currentQuiz || [];
-    const answer = quiz[0]?.answer ?? 0;
-    if (typeof selectQuizOption === 'function') selectQuizOption(0, answer);
-  }).catch(() => {});
-  await sleep(1400);
-  await page.evaluate(() => {
+  await clickVisible(page, '#quiz-submit-btn');
+  await page.waitForFunction(() => {
+    const result = document.getElementById('quiz-result');
+    return result && result.style.display !== 'none' && result.textContent.trim().length > 0;
+  }, { timeout: 10000 }).catch(() => {});
+  await sleep(3200);
+  await page.evaluate(() => { return;
     const user = AuthService.getCurrentUser();
     if (user && EducationService) EducationService.markComplete(user.id, 'edu-b01');
     const resultEl = document.getElementById('quiz-result');
