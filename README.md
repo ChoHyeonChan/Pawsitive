@@ -2,8 +2,19 @@
 
 <div align="center">
   <img src="pawsitive_logo_transparent.png" alt="Pawsitive" width="800">
+  <h1>Pawsitive (포지티브)</h1>
   <p><strong>반려견과의 더 나은 일상</strong></p>
   <p>AI 건강 분석부터 산책 매칭까지, 당신과 반려견을 위한 공간.</p>
+
+  <a href="https://competent-famished-leatrice.ngrok-free.dev">
+    <img src="https://img.shields.io/badge/🚀 LIVE DEMO-Pawsitive 바로가기-blueviolet?style=for-the-badge" alt="Live Demo">
+  </a>
+  <a href="https://kookmin-sw.github.io/2026-capstone-55/">
+    <img src="https://img.shields.io/badge/📄 GITHUB PAGES-프로젝트 소개-gray?style=for-the-badge" alt="GitHub Pages">
+  </a>
+
+  <br/><br/>
+
   <img src="poster.png" alt="Pawsitive 포스터" width="800">
 </div>
 
@@ -11,13 +22,13 @@
 
 ## 목차
 
-- [프로젝트 소개](#1-프로젝트-소개)
-- [주요 기능 소개](#2-주요-기능-소개)
-- [주요 화면](#3-주요-화면)
-- [시스템 아키텍처](#4-시스템-아키텍처)
-- [기술 스택](#5-기술-스택)
-- [팀원 소개](#6-팀원-소개)
-- [설치 및 실행](#7-설치-및-실행)
+- [1. 프로젝트 소개](#1-프로젝트-소개)
+- [2. 주요 기능 소개](#2-주요-기능-소개)
+- [3. 주요 화면](#3-주요-화면)
+- [4. 시스템 아키텍처](#4-시스템-아키텍처)
+- [5. 기술 스택](#5-기술-스택)
+- [6. 팀원 소개](#6-팀원-소개)
+- [7. 설치 및 실행](#7-설치-및-실행)
 
 ---
 
@@ -36,8 +47,6 @@
 ✅ 훈련사·전문가 매칭 기능을 통해 행동 교정, 건강 관리 등 반려견 상황에 맞는 전문 상담과 도움을 빠르게 받을 수 있습니다.
 
 ✅ Gemini 기반 AI 상담 시스템과 AI 건강 분석 기능을 활용하여 반려견의 활동 데이터와 건강 정보를 기반으로 맞춤형 건강 리포트 및 상담 서비스를 제공합니다.
-
-- 웹사이트: [Pawsitive 바로가기](https://competent-famished-leatrice.ngrok-free.dev)
 
 ---
 
@@ -61,6 +70,22 @@
 ---
 
 ## 5. 기술 스택
+
+<div align="center">
+
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express">
+  <img src="https://img.shields.io/badge/Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini">
+  <img src="https://img.shields.io/badge/Anthropic%20Claude-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude">
+  <img src="https://img.shields.io/badge/OpenStreetMap-7EBC6F?style=for-the-badge&logo=openstreetmap&logoColor=white" alt="OpenStreetMap">
+  <img src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.IO">
+  <img src="https://img.shields.io/badge/Passport.js-34E27A?style=for-the-badge&logo=passport&logoColor=white" alt="Passport.js">
+  <img src="https://img.shields.io/badge/토스페이먼츠-0064FF?style=for-the-badge&logoColor=white" alt="토스페이먼츠">
+
+</div>
 
 | 구분 | 기술 |
 |------|------|
