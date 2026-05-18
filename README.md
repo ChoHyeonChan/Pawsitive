@@ -69,6 +69,10 @@
 
 ## 4. 시스템 아키텍처
 
+<div align="center">
+  <img src="System_Architecture.png" alt="시스템 아키텍처" width="800">
+</div>
+
 ---
 
 ## 5. 기술 스택
