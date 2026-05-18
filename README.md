@@ -3,8 +3,8 @@
 <div align="center">
   <img src="pawsitive_logo_transparent.png" alt="Pawsitive" width="800">
   <h1>Pawsitive (포지티브)</h1>
-  <p><strong>반려견과의 더 나은 일상</strong></p>
-  <p>AI 건강 분석부터 산책 매칭까지, 당신과 반려견을 위한 공간.</p>
+  <p><strong>Be Pawsitive! 반려견과 함께하는 더 나은 일상</strong></p>
+  <p>AI 건강 상담부터 산책 매칭까지, 당신과 반려견을 위한 통합 케어 플랫폼.</p>
 
   <a href="https://competent-famished-leatrice.ngrok-free.dev">
     <img src="https://img.shields.io/badge/🚀 LIVE DEMO-Pawsitive 바로가기-blueviolet?style=for-the-badge" alt="Live Demo">
@@ -34,7 +34,7 @@
 
 ## 1. 프로젝트 소개
 
-> ### **"Pawsitive : AI 기반 반려견 통합 케어 플랫폼"**
+ ### **| "Pawsitive : AI 기반 반려견 통합 케어 플랫폼"**
 
 현대 사회에서 반려견 양육 가구는 **꾸준히 증가**하고 있지만, 보호자들은 바쁜 일상 속에서 산책, 건강 관리, 행동 상담 등을 **체계적으로 관리하는 데 어려움**을 겪고 있습니다. 또한 **자신의 반려견에 대한 정보와 지식 부족**으로 적절한 대응이 어려운 경우도 많습니다.
 
