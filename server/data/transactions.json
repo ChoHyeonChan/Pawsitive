@@ -106,5 +106,32 @@
     "reason": "실험",
     "createdAt": "2026-05-13T05:08:33.525Z",
     "balanceAfter": 0
+  },
+  {
+    "id": "id-mp9je5jl-s09w79t",
+    "userId": "id-mol2g5lb-rvnvuvi",
+    "type": "earn",
+    "amount": 1,
+    "reason": "산책 완료 (0.12km)",
+    "createdAt": "2026-05-17T08:52:17.169Z",
+    "balanceAfter": 3001
+  },
+  {
+    "id": "id-mp9jf8le-8yswflv",
+    "userId": "id-mol2g5lb-rvnvuvi",
+    "type": "earn",
+    "amount": 1,
+    "reason": "산책 완료 (0.12km)",
+    "createdAt": "2026-05-17T08:53:07.778Z",
+    "balanceAfter": 3002
+  },
+  {
+    "id": "id-mp9jgcpb-50t68oc",
+    "userId": "id-mol2g5lb-rvnvuvi",
+    "type": "earn",
+    "amount": 1,
+    "reason": "산책 완료 (0.12km)",
+    "createdAt": "2026-05-17T08:53:59.759Z",
+    "balanceAfter": 3003
   }
 ]

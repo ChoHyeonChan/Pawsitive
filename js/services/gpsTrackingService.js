@@ -12,6 +12,7 @@ const GPSTrackingService = (() => {
   let coordinates = [];
   let totalDistance = 0;
   let onUpdateCallback = null;
+  let _mockGpsInterval = null;
 
   // 백그라운드 유지 관련
   let _wakeLock = null;
@@ -192,8 +193,80 @@ const GPSTrackingService = (() => {
     };
   }
 
+  function shouldUseMockGps() {
+    try {
+      const params = new URLSearchParams(window.location.search || '');
+      return params.get('demoGps') === '1'
+        || window.location.hash.includes('demoGps=1')
+        || localStorage.getItem('pawsitive_demoGpsTracking') === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function startMockTracking(onUpdate, options) {
+    if (isTracking) return { success: false, error: '이미 트래킹 중입니다.' };
+
+    const anchorRoute = [
+      [37.57242, 127.01634], [37.57245, 127.01672], [37.57248, 127.01709],
+      [37.57251, 127.01746], [37.57257, 127.01782], [37.57283, 127.01784],
+      [37.57311, 127.01786], [37.57339, 127.01789], [37.57367, 127.01792],
+      [37.57394, 127.01796], [37.57396, 127.01828], [37.57396, 127.01858],
+      [37.57368, 127.01856], [37.57339, 127.01852], [37.57310, 127.01845],
+      [37.57284, 127.01822], [37.57264, 127.01794], [37.57250, 127.01758],
+      [37.57242, 127.01718], [37.57239, 127.01676], [37.57242, 127.01634]
+    ];
+
+    const route = anchorRoute.flatMap((current, index) => {
+      const next = anchorRoute[index + 1];
+      if (!next) return [current];
+      const steps = 4;
+      return Array.from({ length: steps }, (_, step) => {
+        const t = step / steps;
+        return [
+          current[0] + (next[0] - current[0]) * t,
+          current[1] + (next[1] - current[1]) * t
+        ];
+      });
+    });
+
+    isTracking = true;
+    let demoStartOffsetMs = 0;
+    try {
+      demoStartOffsetMs = Math.max(0, Number(localStorage.getItem('pawsitive_demoGpsStartOffsetMinutes') || 0)) * 60000;
+    } catch (e) {}
+    startTime = Date.now() - demoStartOffsetMs;
+    coordinates = [];
+    totalDistance = 0;
+    onUpdateCallback = onUpdate || null;
+
+    let idx = 0;
+    const pushPoint = () => {
+      const pair = route[idx % route.length];
+      const point = {
+        lat: pair[0],
+        lng: pair[1],
+        accuracy: 9,
+        timestamp: Date.now()
+      };
+
+      if (coordinates.length > 0) {
+        const last = coordinates[coordinates.length - 1];
+        totalDistance += calcDistance(last.lat, last.lng, point.lat, point.lng);
+      }
+      coordinates.push(point);
+      idx += 1;
+      if (onUpdateCallback) onUpdateCallback(getCurrentData());
+    };
+
+    pushPoint();
+    _mockGpsInterval = setInterval(pushPoint, 420);
+    return { success: true };
+  }
+
   // ===== 트래킹 시작 (백그라운드 지원 포함) =====
   function startTracking(onUpdate, options) {
+    if (shouldUseMockGps()) return startMockTracking(onUpdate, options);
     if (isTracking) return { success: false, error: '이미 트래킹 중입니다.' };
     if (!navigator.geolocation) return { success: false, error: 'GPS를 지원하지 않는 브라우저입니다.' };
 
@@ -260,6 +333,10 @@ const GPSTrackingService = (() => {
     if (watchId !== null) {
       navigator.geolocation.clearWatch(watchId);
       watchId = null;
+    }
+    if (_mockGpsInterval) {
+      clearInterval(_mockGpsInterval);
+      _mockGpsInterval = null;
     }
     isTracking = false;
 

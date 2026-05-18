@@ -74,5 +74,89 @@
         "createdAt": "2026-05-15T08:51:39.923Z"
       }
     ]
+  },
+  {
+    "id": "sample-story-20260516-0",
+    "authorId": "sample-1",
+    "authorName": "초코맘",
+    "authorProfileImage": "/photos/01_interior.png",
+    "imageData": "/photos/01_interior.png",
+    "text": "한강 산책로 기록",
+    "createdAt": "2026-05-16T11:23:11.477Z",
+    "expiresAt": 1778997911477,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260516-1",
+    "authorId": "sample-4",
+    "authorName": "시바집사",
+    "authorProfileImage": "/images/dog_walker.png",
+    "imageData": "/images/dog_walker.png",
+    "text": "오후 산책 체크인",
+    "createdAt": "2026-05-16T10:41:11.477Z",
+    "expiresAt": 1779001511477,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260516-2",
+    "authorId": "sample-5",
+    "authorName": "댕댕이네",
+    "authorProfileImage": "/photos/03_customers.png",
+    "imageData": "/photos/03_customers.png",
+    "text": "새 놀이터 저장",
+    "createdAt": "2026-05-16T09:59:11.477Z",
+    "expiresAt": 1779005111477,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260517-0",
+    "authorId": "sample-1",
+    "authorName": "초코맘",
+    "authorProfileImage": "/photos/01_interior.png",
+    "imageData": "/photos/01_interior.png",
+    "text": "한강 산책로 기록",
+    "createdAt": "2026-05-17T08:11:07.885Z",
+    "expiresAt": 1779072787885,
+    "viewedBy": [
+      "id-mol2g5lb-rvnvuvi"
+    ],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260517-1",
+    "authorId": "sample-4",
+    "authorName": "시바집사",
+    "authorProfileImage": "/images/dog_walker.png",
+    "imageData": "/images/dog_walker.png",
+    "text": "오후 산책 체크인",
+    "createdAt": "2026-05-17T07:29:07.885Z",
+    "expiresAt": 1779076387885,
+    "viewedBy": [
+      "id-mol2g5lb-rvnvuvi"
+    ],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260517-2",
+    "authorId": "sample-5",
+    "authorName": "댕댕이네",
+    "authorProfileImage": "/photos/03_customers.png",
+    "imageData": "/photos/03_customers.png",
+    "text": "새 놀이터 저장",
+    "createdAt": "2026-05-17T06:47:07.885Z",
+    "expiresAt": 1779079987885,
+    "viewedBy": [
+      "id-mol2g5lb-rvnvuvi"
+    ],
+    "reactions": {},
+    "comments": []
   }
 ]

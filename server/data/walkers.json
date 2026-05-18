@@ -341,5 +341,57 @@
     "lat": 37.60983766680475,
     "lng": 126.99750266809617,
     "lastLocationUpdatedAt": "2026-05-15T08:53:15.016Z"
+  },
+  {
+    "userId": "mock-walker-gps",
+    "name": "GPS 모의 도우미",
+    "userName": "GPS 모의 도우미",
+    "nickname": "GPS워커",
+    "intro": "테스트 전용 계정입니다. 결제 후 산책이 시작되면 GPS 좌표가 자동으로 움직입니다.",
+    "message": "요청자 화면에서 GPS 트래킹을 확인하기 위한 mock 도우미입니다.",
+    "location": "서울특별시 성북구 안암동",
+    "locationSido": "서울특별시",
+    "locationSigungu": "성북구",
+    "locationDong": "안암동",
+    "lat": 37.60363324458114,
+    "lng": 127.03224464381957,
+    "preferredTime": "상시 가능",
+    "preferredTimeSlots": [
+      "anytime"
+    ],
+    "careerYears": "over3y",
+    "largeDogExp": "lots",
+    "aggressionHandle": "yes",
+    "ownPetExp": "current",
+    "breedExp": [
+      "리트리버",
+      "푸들",
+      "진돗개",
+      "믹스"
+    ],
+    "problemBehavior": [
+      "줄 당김",
+      "다른 강아지에게 흥분",
+      "짖음"
+    ],
+    "acceptedSizes": [
+      "small",
+      "medium",
+      "large"
+    ],
+    "canWalkLarge": true,
+    "canWalkMultiple": true,
+    "price": 0,
+    "rating": 5,
+    "reviewCount": 99,
+    "isAvailable": true,
+    "isDemoWalker": true,
+    "isGpsMockWalker": true,
+    "profilePhoto": "/images/walkers/dummy-walker-004.png",
+    "trustScore": 99,
+    "specialty": "GPS 테스트 전용",
+    "registeredAt": "2026-05-16T12:19:21.669Z",
+    "lastSeenAt": "2026-05-18T10:31:22.458Z",
+    "lastLocationUpdatedAt": "2026-05-16T15:55:48.290Z"
   }
 ]

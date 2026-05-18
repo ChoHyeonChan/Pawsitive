@@ -307,59 +307,333 @@
     "createdAt": "2026-05-13T13:07:26.665Z"
   },
   {
-    "id": "walk_1778815008110_zrmym8",
+    "id": "demo_choco_20260517_morning",
     "userId": "id-mol2g5lb-rvnvuvi",
     "dogId": "id-motxbdfb-9r1w6sq",
     "dogName": "초코",
-    "startTime": "2026-05-15T03:16:32.212Z",
-    "endTime": "2026-05-15T03:16:43.376Z",
-    "duration": 0,
-    "distance": 0,
-    "avgPace": 0,
-    "calories": 0,
-    "coordinates": [],
-    "createdAt": "2026-05-15T03:16:48.110Z"
+    "title": "초코 아침 산책",
+    "source": "personal",
+    "type": "personal",
+    "startTime": "2026-05-16T23:20:00.000Z",
+    "endTime": "2026-05-16T23:54:00.000Z",
+    "duration": 34,
+    "distance": 2.1,
+    "avgPace": 3.7,
+    "calories": 118,
+    "coordinates": [
+      {
+        "lat": 37.59255,
+        "lng": 127.01685,
+        "accuracy": 12,
+        "timestamp": 1778973600000
+      },
+      {
+        "lat": 37.59375,
+        "lng": 127.0173,
+        "accuracy": 15,
+        "timestamp": 1778973840000
+      },
+      {
+        "lat": 37.59455,
+        "lng": 127.0181,
+        "accuracy": 18,
+        "timestamp": 1778974080000
+      },
+      {
+        "lat": 37.59405,
+        "lng": 127.019,
+        "accuracy": 12,
+        "timestamp": 1778974320000
+      },
+      {
+        "lat": 37.593,
+        "lng": 127.0193,
+        "accuracy": 15,
+        "timestamp": 1778974560000
+      },
+      {
+        "lat": 37.5923,
+        "lng": 127.0184,
+        "accuracy": 18,
+        "timestamp": 1778974800000
+      },
+      {
+        "lat": 37.5927,
+        "lng": 127.0175,
+        "accuracy": 12,
+        "timestamp": 1778975040000
+      },
+      {
+        "lat": 37.59255,
+        "lng": 127.01685,
+        "accuracy": 15,
+        "timestamp": 1778975280000
+      }
+    ],
+    "createdAt": "2026-05-16T23:54:00.000Z"
   },
   {
-    "id": "walk_1778827670589_qzugn4",
+    "id": "demo_choco_20260515_evening",
     "userId": "id-mol2g5lb-rvnvuvi",
-    "dogId": "id-motxbyf3-7ithoib",
-    "dogName": "바비",
-    "startTime": "2026-05-15T06:47:45.160Z",
-    "endTime": "2026-05-15T06:47:49.160Z",
-    "duration": 0,
-    "distance": 0,
-    "avgPace": 0,
-    "calories": 0,
-    "coordinates": [],
-    "createdAt": "2026-05-15T06:47:50.589Z"
+    "dogId": "id-motxbdfb-9r1w6sq",
+    "dogName": "초코",
+    "title": "초코 퇴근 후 산책",
+    "source": "personal",
+    "type": "personal",
+    "startTime": "2026-05-15T09:40:00.000Z",
+    "endTime": "2026-05-15T10:11:00.000Z",
+    "duration": 31,
+    "distance": 1.9,
+    "avgPace": 3.7,
+    "calories": 106,
+    "coordinates": [
+      {
+        "lat": 37.59365,
+        "lng": 127.01785,
+        "accuracy": 12,
+        "timestamp": 1778838000000
+      },
+      {
+        "lat": 37.59485,
+        "lng": 127.0183,
+        "accuracy": 15,
+        "timestamp": 1778838240000
+      },
+      {
+        "lat": 37.59565,
+        "lng": 127.0191,
+        "accuracy": 18,
+        "timestamp": 1778838480000
+      },
+      {
+        "lat": 37.59515,
+        "lng": 127.02,
+        "accuracy": 12,
+        "timestamp": 1778838720000
+      },
+      {
+        "lat": 37.5941,
+        "lng": 127.0203,
+        "accuracy": 15,
+        "timestamp": 1778838960000
+      },
+      {
+        "lat": 37.5934,
+        "lng": 127.0194,
+        "accuracy": 18,
+        "timestamp": 1778839200000
+      },
+      {
+        "lat": 37.5938,
+        "lng": 127.0185,
+        "accuracy": 12,
+        "timestamp": 1778839440000
+      },
+      {
+        "lat": 37.59365,
+        "lng": 127.01785,
+        "accuracy": 15,
+        "timestamp": 1778839680000
+      }
+    ],
+    "createdAt": "2026-05-15T10:11:00.000Z"
   },
   {
-    "id": "walk_1778827674369_jlo4yy",
+    "id": "demo_choco_20260513_morning",
     "userId": "id-mol2g5lb-rvnvuvi",
-    "dogId": "id-motxbyf3-7ithoib",
-    "dogName": "바비",
-    "startTime": "2026-05-15T06:47:52.479Z",
-    "endTime": "2026-05-15T06:47:54.364Z",
-    "duration": 0,
-    "distance": 0,
-    "avgPace": 0,
-    "calories": 0,
-    "coordinates": [],
-    "createdAt": "2026-05-15T06:47:54.369Z"
+    "dogId": "id-motxbdfb-9r1w6sq",
+    "dogName": "초코",
+    "title": "초코 아침 루틴",
+    "source": "personal",
+    "type": "personal",
+    "startTime": "2026-05-12T22:50:00.000Z",
+    "endTime": "2026-05-12T23:27:00.000Z",
+    "duration": 37,
+    "distance": 2.4,
+    "avgPace": 3.9,
+    "calories": 132,
+    "coordinates": [
+      {
+        "lat": 37.59475,
+        "lng": 127.01885,
+        "accuracy": 12,
+        "timestamp": 1778626200000
+      },
+      {
+        "lat": 37.59595,
+        "lng": 127.0193,
+        "accuracy": 15,
+        "timestamp": 1778626440000
+      },
+      {
+        "lat": 37.59675,
+        "lng": 127.0201,
+        "accuracy": 18,
+        "timestamp": 1778626680000
+      },
+      {
+        "lat": 37.59625,
+        "lng": 127.021,
+        "accuracy": 12,
+        "timestamp": 1778626920000
+      },
+      {
+        "lat": 37.5952,
+        "lng": 127.0213,
+        "accuracy": 15,
+        "timestamp": 1778627160000
+      },
+      {
+        "lat": 37.5945,
+        "lng": 127.0204,
+        "accuracy": 18,
+        "timestamp": 1778627400000
+      },
+      {
+        "lat": 37.5949,
+        "lng": 127.0195,
+        "accuracy": 12,
+        "timestamp": 1778627640000
+      },
+      {
+        "lat": 37.59475,
+        "lng": 127.01885,
+        "accuracy": 15,
+        "timestamp": 1778627880000
+      }
+    ],
+    "createdAt": "2026-05-12T23:27:00.000Z"
   },
   {
-    "id": "walk_1778827681542_eyhw7k",
+    "id": "demo_choco_20260509_evening",
     "userId": "id-mol2g5lb-rvnvuvi",
-    "dogId": "id-motxbyf3-7ithoib",
-    "dogName": "바비",
-    "startTime": "2026-05-15T06:48:00.585Z",
-    "endTime": "2026-05-15T06:48:01.537Z",
-    "duration": 0,
-    "distance": 0,
-    "avgPace": 0,
-    "calories": 0,
-    "coordinates": [],
-    "createdAt": "2026-05-15T06:48:01.542Z"
+    "dogId": "id-motxbdfb-9r1w6sq",
+    "dogName": "초코",
+    "title": "초코 저녁 산책",
+    "source": "personal",
+    "type": "personal",
+    "startTime": "2026-05-09T10:05:00.000Z",
+    "endTime": "2026-05-09T10:38:00.000Z",
+    "duration": 33,
+    "distance": 2,
+    "avgPace": 3.6,
+    "calories": 112,
+    "coordinates": [
+      {
+        "lat": 37.59585,
+        "lng": 127.01985,
+        "accuracy": 12,
+        "timestamp": 1778321100000
+      },
+      {
+        "lat": 37.59705,
+        "lng": 127.0203,
+        "accuracy": 15,
+        "timestamp": 1778321340000
+      },
+      {
+        "lat": 37.59785,
+        "lng": 127.0211,
+        "accuracy": 18,
+        "timestamp": 1778321580000
+      },
+      {
+        "lat": 37.59735,
+        "lng": 127.022,
+        "accuracy": 12,
+        "timestamp": 1778321820000
+      },
+      {
+        "lat": 37.5963,
+        "lng": 127.0223,
+        "accuracy": 15,
+        "timestamp": 1778322060000
+      },
+      {
+        "lat": 37.5956,
+        "lng": 127.0214,
+        "accuracy": 18,
+        "timestamp": 1778322300000
+      },
+      {
+        "lat": 37.596,
+        "lng": 127.0205,
+        "accuracy": 12,
+        "timestamp": 1778322540000
+      },
+      {
+        "lat": 37.59585,
+        "lng": 127.01985,
+        "accuracy": 15,
+        "timestamp": 1778322780000
+      }
+    ],
+    "createdAt": "2026-05-09T10:38:00.000Z"
+  },
+  {
+    "id": "demo_choco_20260507_morning",
+    "userId": "id-mol2g5lb-rvnvuvi",
+    "dogId": "id-motxbdfb-9r1w6sq",
+    "dogName": "초코",
+    "title": "초코 가벼운 산책",
+    "source": "personal",
+    "type": "personal",
+    "startTime": "2026-05-06T23:10:00.000Z",
+    "endTime": "2026-05-06T23:38:00.000Z",
+    "duration": 28,
+    "distance": 1.7,
+    "avgPace": 3.6,
+    "calories": 96,
+    "coordinates": [
+      {
+        "lat": 37.59695,
+        "lng": 127.02085,
+        "accuracy": 12,
+        "timestamp": 1778109000000
+      },
+      {
+        "lat": 37.59815,
+        "lng": 127.0213,
+        "accuracy": 15,
+        "timestamp": 1778109240000
+      },
+      {
+        "lat": 37.59895,
+        "lng": 127.0221,
+        "accuracy": 18,
+        "timestamp": 1778109480000
+      },
+      {
+        "lat": 37.59845,
+        "lng": 127.023,
+        "accuracy": 12,
+        "timestamp": 1778109720000
+      },
+      {
+        "lat": 37.5974,
+        "lng": 127.0233,
+        "accuracy": 15,
+        "timestamp": 1778109960000
+      },
+      {
+        "lat": 37.5967,
+        "lng": 127.0224,
+        "accuracy": 18,
+        "timestamp": 1778110200000
+      },
+      {
+        "lat": 37.5971,
+        "lng": 127.0215,
+        "accuracy": 12,
+        "timestamp": 1778110440000
+      },
+      {
+        "lat": 37.59695,
+        "lng": 127.02085,
+        "accuracy": 15,
+        "timestamp": 1778110680000
+      }
+    ],
+    "createdAt": "2026-05-06T23:38:00.000Z"
   }
 ]

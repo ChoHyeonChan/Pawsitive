@@ -1,5 +1,76 @@
 ﻿// Pawsitive - Health Dashboard Page
 // --- 건강 분석 대시보드 페이지 ---
+async function handleHealthAiConsultFromAnalysis(button) {
+  const user = AuthService.getCurrentUser();
+  if (!user) {
+    showLoginModal('AI 반려견 상담을 이용하려면 로그인이 필요해요!');
+    return;
+  }
+
+  const dogs = user.dogs || [];
+  const selectedDogId = StorageService.get('selectedDogId', dogs.length > 0 ? dogs[0].name : '_all');
+  const dog = dogs.find(d => d.name === selectedDogId) || dogs[0] || null;
+  const dogFilter = dog ? dog.id : null;
+  const originalText = button ? button.textContent : '';
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = '건강 데이터 연결 중...';
+  }
+
+  try {
+    const stats = await GPSTrackingService.getWalkStats(user.id, dogFilter).catch(() => null);
+    let cached = HealthAnalysisService.getCachedAnalysis(user.id, selectedDogId);
+
+    if (!cached?.analysis && stats?.total?.count > 0) {
+      try {
+        const analysis = await HealthAnalysisService.analyzeHealth(user.id, dog ? {
+          name: dog.name,
+          breed: dog.breed,
+          age: dog.age,
+          weight: dog.weight || null,
+          size: dog.size,
+          gender: dog.gender || null,
+          neutered: dog.neutered != null ? dog.neutered : null,
+          personality: dog.personality || null,
+          healthNote: dog.healthNote || null
+        } : {}, selectedDogId);
+        cached = {
+          analysis,
+          analyzedAt: new Date().toISOString()
+        };
+      } catch (e) {}
+    }
+
+    StorageService.set('pendingAiHealthContext', {
+      source: 'health-dashboard',
+      userId: user.id,
+      dogId: selectedDogId,
+      dog: dog ? {
+        name: dog.name,
+        breed: dog.breed,
+        age: dog.age,
+        size: dog.size,
+        weight: dog.weight || null,
+        gender: dog.gender || null,
+        healthNote: dog.healthNote || null
+      } : null,
+      stats,
+      activityScore: HealthAnalysisService.calcActivityScore(stats),
+      analysis: cached?.analysis || null,
+      analyzedAt: cached?.analyzedAt || null,
+      createdAt: new Date().toISOString()
+    });
+
+    Router.navigate('/ai');
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = originalText || 'AI 반려견 상담받기';
+    }
+  }
+}
+
 async function renderHealthDashboardPage() {
   const user = AuthService.getCurrentUser();
   if (!user) {
@@ -151,7 +222,7 @@ async function renderHealthDashboardPage() {
           <div id="health-alert"></div>
           <div class="health-quick-actions">
             <button class="health-action-btn" onclick="${user ? "Router.navigate('/walk-tracking')" : "showLoginModal('건강 분석을 이용하려면 로그인이 필요해요!\\n반려견의 산책 데이터를 기반으로 AI가 건강을 분석해드려요.')"}">산책 시작하기</button>
-            <button class="health-action-btn" onclick="${user ? "Router.navigate('/ai')" : "showLoginModal('AI 반려견 상담을 이용하려면 로그인이 필요해요!')"}">AI 반려견 상담받기</button>
+            <button class="health-action-btn" onclick="${user ? "handleHealthAiConsultFromAnalysis(this)" : "showLoginModal('AI 반려견 상담을 이용하려면 로그인이 필요해요!')"}">AI 반려견 상담받기</button>
           </div>
         </div>
         <div class="health-hero__aside">
