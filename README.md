@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/🚀 LIVE DEMO-Pawsitive 바로가기-blueviolet?style=for-the-badge" alt="Live Demo">
   </a>
   <a href="https://kookmin-sw.github.io/2026-capstone-55/">
-    <img src="https://img.shields.io/badge/📄 GITHUB PAGES-프로젝트 소개-gray?style=for-the-badge" alt="GitHub Pages">
+    <img src="https://img.shields.io/badge/📄 GITHUB TEAM PAGE-프로젝트 소개-gray?style=for-the-badge" alt="GitHub Team Page">
   </a>
 
   <br/><br/>
@@ -71,31 +71,15 @@
 
 ## 5. 기술 스택
 
-<div align="center">
-
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express">
-  <img src="https://img.shields.io/badge/Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini">
-  <img src="https://img.shields.io/badge/Anthropic%20Claude-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude">
-  <img src="https://img.shields.io/badge/OpenStreetMap-7EBC6F?style=for-the-badge&logo=openstreetmap&logoColor=white" alt="OpenStreetMap">
-  <img src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.IO">
-  <img src="https://img.shields.io/badge/Passport.js-34E27A?style=for-the-badge&logo=passport&logoColor=white" alt="Passport.js">
-  <img src="https://img.shields.io/badge/토스페이먼츠-0064FF?style=for-the-badge&logoColor=white" alt="토스페이먼츠">
-
-</div>
-
 | 구분 | 기술 |
 |------|------|
-| Frontend | HTML, CSS, JavaScript (Vanilla) |
-| Backend | Node.js, Express |
-| AI | Google Gemini API, Anthropic Claude API |
-| 지도 | OpenStreetMap API |
-| 실시간 통신 | Socket.IO |
-| 인증 | Passport.js (Google, Kakao, Naver OAuth) |
-| 결제 | 토스페이먼츠 |
+| Frontend | ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
+| Backend | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white) |
+| AI | ![Google Gemini](https://img.shields.io/badge/Google%20Gemini-4285F4?style=flat-square&logo=google&logoColor=white) ![Anthropic Claude](https://img.shields.io/badge/Anthropic%20Claude-191919?style=flat-square&logo=anthropic&logoColor=white) |
+| 지도 | ![OpenStreetMap](https://img.shields.io/badge/OpenStreetMap-7EBC6F?style=flat-square&logo=openstreetmap&logoColor=white) |
+| 실시간 통신 | ![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=flat-square&logo=socket.io&logoColor=white) |
+| 인증 | ![Passport.js](https://img.shields.io/badge/Passport.js-34E27A?style=flat-square&logo=passport&logoColor=white) ![Google](https://img.shields.io/badge/Google-4285F4?style=flat-square&logo=google&logoColor=white) ![Kakao](https://img.shields.io/badge/Kakao-FFCD00?style=flat-square&logo=kakao&logoColor=black) ![Naver](https://img.shields.io/badge/Naver-03C75A?style=flat-square&logo=naver&logoColor=white) |
+| 결제 | ![토스페이먼츠](https://img.shields.io/badge/토스페이먼츠-0064FF?style=flat-square&logoColor=white) |
 
 ---
 
