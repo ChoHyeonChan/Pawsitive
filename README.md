@@ -1,4 +1,4 @@
-<img width="732" height="447" alt="image" src="https://github.com/user-attachments/assets/324403da-133c-4041-b763-1586a0b1b5ad" />[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Lvs6kcL8)
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Lvs6kcL8)
 
 <div align="center">
   <img src="pawsitive_logo_transparent.png" alt="Pawsitive" width="800">
