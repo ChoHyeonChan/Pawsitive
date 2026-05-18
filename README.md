@@ -18,6 +18,8 @@
   <img src="poster.png" alt="Pawsitive 포스터" width="800">
 </div>
 
+
+
 ---
 
 ## 목차
@@ -29,6 +31,8 @@
 - [5. 기술 스택](#5-기술-스택)
 - [6. 팀원 소개](#6-팀원-소개)
 - [7. 설치 및 실행](#7-설치-및-실행)
+
+
 
 ---
 
@@ -42,6 +46,7 @@
 
 저희는 이러한 문제를 해결하기 위해 AI 기반 반려견 통합 케어 플랫폼 **Pawsitive(포지티브)**를 개발하였습니다. Pawsitive는 **실시간 산책 매칭, AI 건강 분석, 전문가 및 도우미 매칭, AI 상담, 건강 서류 통합 관리 기능을 하나의 서비스로 제공**하여 보호자와 반려견 모두의 더 나은 일상을 지원합니다. 또한 AI 기술을 활용해 반려견의 활동 데이터와 건강 정보를 분석하고 맞춤형 서비스를 제공함으로써 보다 **편리하고 체계적인 반려 생활 환경을 제공**합니다.
 
+
 ### 서비스 강점
 
 ✅ **Pawsitive**는 실시간 산책 매칭 기능을 통해 주변 보호자 및 산책 도우미와 연결하여 안전하고 효율적인 산책 환경을 제공합니다.
@@ -49,6 +54,8 @@
 ✅ **Pawsitive**는 훈련사·전문가 매칭 기능을 통해 행동 교정, 건강 관리 등 반려견 상황에 맞는 전문 상담과 도움을 빠르게 받을 수 있습니다.
 
 ✅ **Pawsitive**는 Gemini 기반 AI 상담 시스템과 AI 건강 분석 기능을 활용하여 반려견의 활동 데이터와 건강 정보를 기반으로 맞춤형 건강 리포트 및 상담 서비스를 제공합니다.
+
+
 
 ---
 
@@ -61,9 +68,15 @@
 | **AI 서비스** | Gemini AI 증상 분석·대처법 제시, 라이프스타일 기반 품종 추천, Claude AI 심층 건강·행동 상담 |
 | **품종 정보 및 교육** | 380여 종 품종 도감 검색, 반려견 교육 콘텐츠 제공 |
 
+
+
+
 ---
 
 ## 3. 주요 화면
+
+
+
 
 ---
 
@@ -72,6 +85,8 @@
 <div align="center">
   <img src="System_Architecture.png" alt="시스템 아키텍처" width="800">
 </div>
+
+
 
 ---
 
@@ -87,6 +102,8 @@
 | 인증 | ![Passport.js](https://img.shields.io/badge/Passport.js-34E27A?style=flat-square&logo=passport&logoColor=white) ![Google](https://img.shields.io/badge/Google-4285F4?style=flat-square&logo=google&logoColor=white) ![Kakao](https://img.shields.io/badge/Kakao-FFCD00?style=flat-square&logo=kakao&logoColor=black) ![Naver](https://img.shields.io/badge/Naver-03C75A?style=flat-square&logo=naver&logoColor=white) |
 | 결제 | ![토스페이먼츠](https://img.shields.io/badge/토스페이먼츠-0064FF?style=flat-square&logoColor=white) |
 
+
+
 ---
 
 ## 6. 팀원 소개
@@ -97,6 +114,8 @@
 | **이재준** | 풀스택 개발 | 서버 아키텍처 설계, 전문가 매칭, 커뮤니티 기능 구현 |
 | **이충범** | 풀스택 개발 | 산책 매칭·GPS 추적, 워커 대시보드, UI 설계, 리뷰·평점 시스템 구현 |
 | **하준서** | 풀스택 개발 | AI 건강 분석, 프로필·반려견 건강서류 관리, 알림 시스템 구현 |
+
+
 
 ---
 
