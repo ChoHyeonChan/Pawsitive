@@ -979,6 +979,7 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
   const iconCurrent = () => _walkPhotoMarker(currentPhoto, currentName.charAt(0), '#3B82F6', 38, false);
   const iconRequester = () => _walkPhotoMarker(requesterPhoto, requesterName.charAt(0), '#3B82F6', 40, false);
   const iconWalker = (pulse = false) => _walkPhotoMarker(walkerPhoto, walkerName.charAt(0), '#F59E0B', 42, pulse);
+  const liveRouteZoom = 17;
   const fitAnchorAndWalker = (walkerLat, walkerLng) => {
     if (!_walkRouteMap || !Number.isFinite(walkerLat) || !Number.isFinite(walkerLng)) return;
     const bounds = L.latLngBounds([[anchorLat, anchorLng], [walkerLat, walkerLng]]);
@@ -1072,7 +1073,7 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
 
     if (sessionStatus === 'walking') {
       hideBanner();
-      if (lastPt) _walkRouteMap.setView(lastPt, 17);
+      if (lastPt) _walkRouteMap.setView(lastPt, liveRouteZoom);
       else if (hasGps) _walkRouteMap.setView([myLat, myLng], 16);
 
       if (isMockGpsWalker) {
@@ -1084,7 +1085,7 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
           else _walkLiveMarker = L.marker(latlng, { icon: iconWalker(true) }).addTo(_walkRouteMap);
           if (_walkPolyline) _walkPolyline.addLatLng(latlng);
           else _walkPolyline = L.polyline([latlng], { color: '#F59E0B', weight: 5, opacity: .9 }).addTo(_walkRouteMap);
-          _walkRouteMap.setView(latlng, _walkRouteMap.getZoom() >= 16 ? _walkRouteMap.getZoom() : 17, { animate: true, duration: .4 });
+          _walkRouteMap.setView(latlng, liveRouteZoom, { animate: true, duration: .4 });
           _updateRouteStatsDelta();
         };
         _walkSessionPollTimer = setInterval(async () => {
@@ -1203,7 +1204,10 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
     if (['heading','arrived','handoff','returning','return_arrived'].includes(sessionStatus)) {
       fitAnchorAndWalker(lat, lng);
     } else {
-      _walkRouteMap.setView([lat, lng], _walkRouteMap.getZoom() > 10 ? _walkRouteMap.getZoom() : 16, { animate: true, duration: .4 });
+      const targetZoom = sessionStatus === 'walking'
+        ? liveRouteZoom
+        : (_walkRouteMap.getZoom() > 10 ? _walkRouteMap.getZoom() : 16);
+      _walkRouteMap.setView([lat, lng], targetZoom, { animate: true, duration: .4 });
     }
   };
   const fetchWalkerPosition = async () => {
@@ -1242,13 +1246,13 @@ async function _initWalkSessionMap(sessionId, opts = {}) {
         walkerMarker = L.marker(lastPt, { icon: iconWalker(sessionStatus === 'walking') }).addTo(_walkRouteMap);
         _updateRouteStats(_walkRoutePoints.length, routeData.totalDistanceKm);
         if (sessionStatus === 'completed') _walkRouteMap.fitBounds(_walkPolyline.getBounds(), { padding: [50, 50], maxZoom: 17 });
-        else _walkRouteMap.setView(lastPt, 16);
+        else _walkRouteMap.setView(lastPt, liveRouteZoom);
       }
       _syncElapsedTimer(session, routeData.points || []);
     }
   } catch (e) {}
 
-  if (!lastPt) _walkRouteMap.setView([anchorLat, anchorLng], 15);
+  if (!lastPt) _walkRouteMap.setView([anchorLat, anchorLng], sessionStatus === 'walking' ? liveRouteZoom : 15);
   if (sessionStatus !== 'walking') return;
 
   if (!isMockGpsWalker) {

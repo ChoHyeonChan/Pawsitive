@@ -231,7 +231,11 @@ const GPSTrackingService = (() => {
     });
 
     isTracking = true;
-    startTime = Date.now() - 5 * 60 * 1000;
+    let demoStartOffsetMs = 0;
+    try {
+      demoStartOffsetMs = Math.max(0, Number(localStorage.getItem('pawsitive_demoGpsStartOffsetMinutes') || 0)) * 60000;
+    } catch (e) {}
+    startTime = Date.now() - demoStartOffsetMs;
     coordinates = [];
     totalDistance = 0;
     onUpdateCallback = onUpdate || null;
