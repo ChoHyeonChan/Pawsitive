@@ -73,11 +73,9 @@
 
     .hero {
       min-height: calc(100vh - 64px);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
-      gap: clamp(28px, 6vw, 80px);
+      display: flex;
       align-items: center;
-      padding: clamp(48px, 7vw, 92px) clamp(20px, 5vw, 72px);
+      padding: clamp(80px, 12vw, 160px) clamp(20px, 5vw, 72px);
       background:
         linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.9) 46%, rgba(255,255,255,.72) 100%),
         url("assets/hero/background_pawsitive.png") center / cover no-repeat;
@@ -93,9 +91,9 @@
     h1 {
       margin: 0;
       max-width: 780px;
-      font-size: clamp(42px, 7vw, 78px);
+      font-size: clamp(52px, 9vw, 96px);
       line-height: 1.02;
-      letter-spacing: 0;
+      letter-spacing: -2px;
     }
 
     .lead {
@@ -233,6 +231,7 @@
     .svc-card{background:#fff;border-radius:20px;padding:32px 28px 0;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;cursor:pointer;display:flex;flex-direction:column;min-height:300px;}
     .svc-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.1);}
     .svc-tag{display:inline-flex;align-items:center;width:max-content;padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:700;margin-bottom:14px;}
+    .svc-num{display:block;font-size:.6rem;font-weight:900;letter-spacing:2px;color:#ccc;margin-bottom:6px;}
     .svc-title{font-size:1.12rem;font-weight:800;letter-spacing:-.5px;line-height:1.35;color:#111;margin:0 0 10px;}
     .svc-title em{font-style:normal;}
     .svc-desc{font-size:.82rem;color:#888;line-height:1.7;margin:0 0 24px;flex:1;}
@@ -292,6 +291,15 @@
     .tech-logos{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-bottom:28px;}
     .tech-logos img{height:36px;opacity:.7;transition:opacity .2s;}
     .tech-logos img:hover{opacity:1;}
+
+    /* === TIMELINE === */
+    .timeline{display:grid;gap:0;margin-top:28px;border-left:2px solid var(--line);padding-left:28px;}
+    .timeline__item{position:relative;padding:0 0 32px;}
+    .timeline__item::before{content:'';position:absolute;left:-34px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--brand);border:3px solid #fff;box-shadow:0 0 0 2px var(--brand);}
+    .timeline__item:last-child{padding-bottom:0;}
+    .timeline__date{display:inline-block;font-size:.7rem;font-weight:800;color:var(--brand);letter-spacing:1px;margin-bottom:6px;}
+    .timeline__content h3{margin:0 0 4px;font-size:1rem;font-weight:800;}
+    .timeline__content p{margin:0;font-size:.85rem;color:var(--muted);}
 
     /* === FOOTER REDESIGN === */
     .site-footer{padding:48px clamp(20px,5vw,72px) 32px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
@@ -374,15 +382,15 @@
         <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0;">반려견과의 일상을<br><span style="color:#7c6ff7;">더 특별하게</span> 만드는 7가지</h2>
       </div>
       <div class="svc-grid">
-        <article class="svc-card"><span class="svc-tag" style="background:#ede9ff;color:#6c47ff;">🤝 산책 매칭</span><h3 class="svc-title"><em style="color:#6c47ff;">AI가 골라주는</em><br>딱 맞는 산책 도우미</h3><p class="svc-desc">반려견 크기·성격·선호 시간대를 분석해 가장 잘 맞는 도우미를 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ede9ff,#d4caff);"><div class="ill-match"><div class="ill-match__card"><div class="ill-match__av" style="background:#c4b5fd;"></div><span class="ill-match__sc">⭐ 88점</span><span class="ill-match__nm">김지은</span></div><div class="ill-match__card ill-match__card--c"><div class="ill-match__av" style="background:#a78bfa;"></div><span class="ill-match__sc">⭐ 96점</span><span class="ill-match__nm">이하은</span></div><div class="ill-match__card"><div class="ill-match__av" style="background:#c4b5fd;"></div><span class="ill-match__sc">⭐ 91점</span><span class="ill-match__nm">박서준</span></div></div></div></article>
-        <article class="svc-card"><span class="svc-tag" style="background:#e0f2fe;color:#0284c7;">🗺️ GPS 추적</span><h3 class="svc-title"><em style="color:#0284c7;">실시간 위치</em>로<br>안심하고 맡기세요</h3><p class="svc-desc">산책 중 도우미 위치를 지도에서 확인하고 완료 후 이동 경로와 기록을 저장해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);position:relative;"><div class="ill-gps-grid"></div><div class="ill-gps-badge">✓ 실시간 추적 중</div><svg class="ill-gps-route" width="220" height="70" viewBox="0 0 220 70" fill="none"><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 200 20" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 190 18" stroke="#0284c7" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="190" cy="18" r="7" fill="#0284c7"/><circle cx="190" cy="18" r="13" fill="#0284c7" opacity="0.2"/></svg></div></article>
-        <article class="svc-card"><span class="svc-tag" style="background:#fce7f3;color:#be185d;">🤖 AI 건강 상담</span><h3 class="svc-title"><em style="color:#be185d;">증상을 말하면</em><br>AI가 바로 분석해요</h3><p class="svc-desc">사진·텍스트로 증상을 올리면 AI가 원인을 분석하고 대처법을 알려드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);"><div class="ill-ai"><div class="ill-ai__b ill-ai__b--u">🐾 우리 강아지가 자꾸 긁어요</div><div class="ill-ai__b ill-ai__b--a">🤖 피부 알레르기 가능성이 있어요. 식단과 환경 체크가 필요해요</div></div></div></article>
+        <article class="svc-card"><span class="svc-num">01</span><span class="svc-tag" style="background:#ede9ff;color:#6c47ff;">🤝 산책 매칭</span><h3 class="svc-title"><em style="color:#6c47ff;">AI가 골라주는</em><br>딱 맞는 산책 도우미</h3><p class="svc-desc">반려견 크기·성격·선호 시간대를 분석해 가장 잘 맞는 도우미를 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ede9ff,#d4caff);"><div class="ill-match"><div class="ill-match__card"><div class="ill-match__av" style="background:#c4b5fd;"></div><span class="ill-match__sc">⭐ 88점</span><span class="ill-match__nm">김지은</span></div><div class="ill-match__card ill-match__card--c"><div class="ill-match__av" style="background:#a78bfa;"></div><span class="ill-match__sc">⭐ 96점</span><span class="ill-match__nm">이하은</span></div><div class="ill-match__card"><div class="ill-match__av" style="background:#c4b5fd;"></div><span class="ill-match__sc">⭐ 91점</span><span class="ill-match__nm">박서준</span></div></div></div></article>
+        <article class="svc-card"><span class="svc-num">02</span><span class="svc-tag" style="background:#e0f2fe;color:#0284c7;">🗺️ GPS 추적</span><h3 class="svc-title"><em style="color:#0284c7;">실시간 위치</em>로<br>안심하고 맡기세요</h3><p class="svc-desc">산책 중 도우미 위치를 지도에서 확인하고 완료 후 이동 경로와 기록을 저장해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);position:relative;"><div class="ill-gps-grid"></div><div class="ill-gps-badge">✓ 실시간 추적 중</div><svg class="ill-gps-route" width="220" height="70" viewBox="0 0 220 70" fill="none"><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 200 20" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 190 18" stroke="#0284c7" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="190" cy="18" r="7" fill="#0284c7"/><circle cx="190" cy="18" r="13" fill="#0284c7" opacity="0.2"/></svg></div></article>
+        <article class="svc-card"><span class="svc-num">03</span><span class="svc-tag" style="background:#fce7f3;color:#be185d;">🤖 AI 건강 상담</span><h3 class="svc-title"><em style="color:#be185d;">증상을 말하면</em><br>AI가 바로 분석해요</h3><p class="svc-desc">사진·텍스트로 증상을 올리면 AI가 원인을 분석하고 대처법을 알려드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);"><div class="ill-ai"><div class="ill-ai__b ill-ai__b--u">🐾 우리 강아지가 자꾸 긁어요</div><div class="ill-ai__b ill-ai__b--a">🤖 피부 알레르기 가능성이 있어요. 식단과 환경 체크가 필요해요</div></div></div></article>
       </div>
       <div class="svc-grid svc-grid--bottom">
-        <article class="svc-card"><span class="svc-tag" style="background:#fef3c7;color:#b45309;">📚 교육 센터</span><h3 class="svc-title"><em style="color:#b45309;">44가지</em> 반려견<br>교육 콘텐츠</h3><p class="svc-desc">기본상식·훈련·건강관리까지 10개 카테고리로 배워요</p><div class="svc-illust" style="background:linear-gradient(135deg,#fef3c7,#fde68a);"><div class="ill-edu"><span class="ill-edu__c" style="color:#b45309;">🐾 기본상식</span><span class="ill-edu__c" style="color:#7c3aed;">🏃 훈련</span><span class="ill-edu__c" style="color:#be185d;">❤️ 건강관리</span><span class="ill-edu__c" style="color:#0369a1;">🍽️ 영양/식이</span><span class="ill-edu__c" style="color:#15803d;">✨ 미용/관리</span><span class="ill-edu__c" style="color:#b45309;">🛡️ 안전</span><span class="ill-edu__c" style="color:#6b7280;">👓 노견케어</span></div></div></article>
-        <article class="svc-card"><span class="svc-tag" style="background:#dcfce7;color:#15803d;">🐕 품종 정보</span><h3 class="svc-title"><em style="color:#15803d;">400여 품종</em> 백과사전<br>+ AI 맞춤 추천</h3><p class="svc-desc">생활환경과 선호도를 입력하면 어울리는 품종을 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);"><div class="ill-breed"><div class="ill-breed__r"><span>활동성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:85%;"></div></div><span>85%</span></div><div class="ill-breed__r"><span>친화성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:92%;"></div></div><span>92%</span></div><div class="ill-breed__r"><span>훈련성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:70%;"></div></div><span>70%</span></div></div></div></article>
-        <article class="svc-card"><span class="svc-tag" style="background:#ccfbf1;color:#0f766e;">👨‍⚕️ 전문가 상담</span><h3 class="svc-title"><em style="color:#0f766e;">검증 전문가</em> 상담을<br>바로 이어가요</h3><p class="svc-desc">수의사·훈련사·미용사에게 필요한 상담을 신청해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ccfbf1,#99f6e4);"><div class="ill-expert"><div class="ill-expert__c"><div class="ill-expert__av"></div><span>훈련사</span></div><div class="ill-expert__c ill-expert__c--m"><div class="ill-expert__av"></div><span>수의사</span><small>✓ 검증</small></div><div class="ill-expert__c"><div class="ill-expert__av"></div><span>미용사</span></div></div></div></article>
-        <article class="svc-card"><span class="svc-tag" style="background:#ffedd5;color:#c2410c;">💊 AI 건강 분석</span><h3 class="svc-title"><em style="color:#c2410c;">산책 데이터</em>로<br>건강 신호를 읽어요</h3><p class="svc-desc">산책 기록을 바탕으로 활동 점수와 케어 힌트를 확인해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ffedd5,#fed7aa);"><div class="ill-health"><div class="ill-health__ring"><div class="ill-health__ri"><strong>74</strong><span>활동 점수</span></div></div><div class="ill-health__m"><div class="ill-health__row"><span>산책</span><strong>13회</strong></div><div class="ill-health__row"><span>시간</span><strong>48분</strong></div><div class="ill-health__row"><span>거리</span><strong>2.4km</strong></div></div></div></div></article>
+        <article class="svc-card"><span class="svc-num">04</span><span class="svc-tag" style="background:#fef3c7;color:#b45309;">📚 교육 센터</span><h3 class="svc-title"><em style="color:#b45309;">44가지</em> 반려견<br>교육 콘텐츠</h3><p class="svc-desc">기본상식·훈련·건강관리까지 10개 카테고리로 배워요</p><div class="svc-illust" style="background:linear-gradient(135deg,#fef3c7,#fde68a);"><div class="ill-edu"><span class="ill-edu__c" style="color:#b45309;">🐾 기본상식</span><span class="ill-edu__c" style="color:#7c3aed;">🏃 훈련</span><span class="ill-edu__c" style="color:#be185d;">❤️ 건강관리</span><span class="ill-edu__c" style="color:#0369a1;">🍽️ 영양/식이</span><span class="ill-edu__c" style="color:#15803d;">✨ 미용/관리</span><span class="ill-edu__c" style="color:#b45309;">🛡️ 안전</span><span class="ill-edu__c" style="color:#6b7280;">👓 노견케어</span></div></div></article>
+        <article class="svc-card"><span class="svc-num">05</span><span class="svc-tag" style="background:#dcfce7;color:#15803d;">🐕 품종 정보</span><h3 class="svc-title"><em style="color:#15803d;">400여 품종</em> 백과사전<br>+ AI 맞춤 추천</h3><p class="svc-desc">생활환경과 선호도를 입력하면 어울리는 품종을 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);"><div class="ill-breed"><div class="ill-breed__r"><span>활동성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:85%;"></div></div><span>85%</span></div><div class="ill-breed__r"><span>친화성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:92%;"></div></div><span>92%</span></div><div class="ill-breed__r"><span>훈련성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:70%;"></div></div><span>70%</span></div></div></div></article>
+        <article class="svc-card"><span class="svc-num">06</span><span class="svc-tag" style="background:#ccfbf1;color:#0f766e;">👨‍⚕️ 전문가 상담</span><h3 class="svc-title"><em style="color:#0f766e;">검증 전문가</em> 상담을<br>바로 이어가요</h3><p class="svc-desc">수의사·훈련사·미용사에게 필요한 상담을 신청해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ccfbf1,#99f6e4);"><div class="ill-expert"><div class="ill-expert__c"><div class="ill-expert__av"></div><span>훈련사</span></div><div class="ill-expert__c ill-expert__c--m"><div class="ill-expert__av"></div><span>수의사</span><small>✓ 검증</small></div><div class="ill-expert__c"><div class="ill-expert__av"></div><span>미용사</span></div></div></div></article>
+        <article class="svc-card"><span class="svc-num">07</span><span class="svc-tag" style="background:#ffedd5;color:#c2410c;">💊 AI 건강 분석</span><h3 class="svc-title"><em style="color:#c2410c;">산책 데이터</em>로<br>건강 신호를 읽어요</h3><p class="svc-desc">산책 기록을 바탕으로 활동 점수와 케어 힌트를 확인해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ffedd5,#fed7aa);"><div class="ill-health"><div class="ill-health__ring"><div class="ill-health__ri"><strong>74</strong><span>활동 점수</span></div></div><div class="ill-health__m"><div class="ill-health__row"><span>산책</span><strong>13회</strong></div><div class="ill-health__row"><span>시간</span><strong>48분</strong></div><div class="ill-health__row"><span>거리</span><strong>2.4km</strong></div></div></div></div></article>
       </div>
     </section>
 
@@ -444,6 +452,34 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="section soft reveal">
+      <span class="section-num">04</span>
+      <h2>개발 히스토리</h2>
+      <div class="timeline">
+        <div class="timeline__item">
+          <span class="timeline__date">2026.03</span>
+          <div class="timeline__content">
+            <h3>프로젝트 킥오프</h3>
+            <p>팀 구성 및 기획, 핵심 기능 정의, 기술 스택 선정</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <span class="timeline__date">2026.04</span>
+          <div class="timeline__content">
+            <h3>MVP 개발</h3>
+            <p>산책 매칭, GPS 추적, AI 건강 분석 핵심 모듈 구현</p>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <span class="timeline__date">2026.05</span>
+          <div class="timeline__content">
+            <h3>고도화 및 배포</h3>
+            <p>전문가 상담, 커뮤니티, DM, 품종 도감 완성 및 AWS 배포</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
