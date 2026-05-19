@@ -1346,8 +1346,30 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   padding: 18px;
   margin-bottom: 14px;
 }
+.community-composer--launcher {
+  width: 100%;
+  text-align: left;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.community-composer--launcher:hover {
+  transform: translateY(-1px);
+  border-color: rgba(214, 81, 58, 0.28);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
 .community-composer__row { display: flex; gap: 12px; align-items: flex-start; }
 .community-composer__body { flex: 1; min-width: 0; }
+.community-composer__prompt {
+  min-height: 86px;
+  padding: 2px 0 10px;
+  color: var(--color-text-muted);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
 .community-composer__textarea {
   width: 100%;
   min-height: 86px;
@@ -1390,6 +1412,80 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   margin-bottom: 14px;
 }
 .community-login-card strong { display: block; font-size: 0.94rem; font-weight: 700; }
+
+.community-compose-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.community-compose-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(2px);
+}
+.community-compose-modal__panel {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(760px, calc(100dvh - 36px));
+  overflow: auto;
+  background: var(--color-bg-card);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  animation: communityComposePop 0.22s ease;
+}
+.community-compose-modal__top {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px 12px;
+  background: linear-gradient(to bottom, var(--color-bg-card) 72%, rgba(255,255,255,0));
+}
+.community-compose-modal__top strong {
+  display: block;
+  font-size: 1.04rem;
+  font-weight: 800;
+}
+.community-compose-modal__top span {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+.community-compose-modal__close {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-bg-section);
+  color: var(--color-text);
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.community-composer--modal {
+  margin: 0;
+  padding: 8px 20px 20px;
+  border: 0;
+  box-shadow: none;
+}
+.community-composer--modal .community-composer__textarea {
+  min-height: 170px;
+  font-size: 1.02rem;
+}
+
+@keyframes communityComposePop {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 .community-login-card p { margin-top: 2px; color: var(--color-text-light); font-size: 0.84rem; }
 
 .community-feed { display: grid; gap: 14px; }
@@ -1615,6 +1711,14 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 .community-composer__footer {
   padding-top: 10px;
 }
+.community-compose-modal .community-composer--modal {
+  margin: 0;
+  padding: 8px 20px 20px;
+}
+.community-compose-modal .community-composer--modal .community-composer__textarea {
+  min-height: 170px;
+  font-size: 1.02rem;
+}
 .community-feed {
   gap: 18px;
 }
@@ -1649,6 +1753,32 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   color: var(--color-text);
   font-size: 0.9rem;
   letter-spacing: 1px;
+}
+.community-admin-delete-btn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid rgba(185, 28, 28, 0.14);
+  border-radius: var(--radius-full);
+  background: rgba(254, 242, 242, 0.92);
+  color: #B91C1C;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.community-admin-delete-btn svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2.2;
+}
+.community-admin-delete-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(185, 28, 28, 0.28);
+  background: #FEE2E2;
 }
 .community-avatar {
   width: 34px;
@@ -1757,7 +1887,8 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   font-weight: 800;
 }
 .community-post__body {
-  margin-top: 5px;
+  margin-top: 12px;
+  margin-bottom: 8px;
   font-size: 0.88rem;
   line-height: 1.55;
 }
@@ -2352,6 +2483,18 @@ textarea.form-input { resize: vertical; min-height: 90px; }
   .community-composer__footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+  .community-compose-modal {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .community-compose-modal__panel {
+    width: 100%;
+    max-height: 88dvh;
+    border-radius: 20px 20px 0 0;
+  }
+  .community-compose-modal .community-composer--modal .community-composer__textarea {
+    min-height: 130px;
   }
   .community-page {
     max-width: 560px;

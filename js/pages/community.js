@@ -16,6 +16,116 @@ function renderCommunityAvatar(imageData, className = 'community-avatar') {
  `;
 }
 
+function isCommunityAdmin(user = AuthService.getCurrentUser()) {
+ return !!(user && user.isAdmin === true);
+}
+
+function renderCommunityComposerForm(user, modifierClass = '') {
+ const walkOptions = (window._recentWalks || []).map(w =>
+ `<option value="${w.id}">${new Date(w.createdAt).toLocaleDateString('ko-KR')} ${w.dogName || '산책'} (${(w.distance||0).toFixed(1)}km)</option>`
+ ).join('');
+
+ if (!user) {
+ return `
+ <div class="community-login-card">
+ <div>
+ <strong>로그인하고 사진을 공유해보세요</strong>
+ <p>반응하기, 댓글, 글 작성을 할 수 있어요.</p>
+ </div>
+ <button class="btn btn-primary btn-sm" onclick="Router.navigate('/login')">로그인</button>
+ </div>
+ `;
+ }
+
+ return `
+ <section class="community-composer ${modifierClass}">
+ <div class="community-composer__row">
+ ${renderCommunityAvatar(user.profileImage, 'community-avatar community-avatar--dark')}
+ <div class="community-composer__body">
+ <textarea id="new-post-text" class="community-composer__textarea" placeholder="사진이나 동영상과 함께 오늘의 순간을 남겨보세요" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+ <div id="post-image-preview" class="community-preview" style="display:none;"></div>
+ <div id="post-video-preview" class="community-preview" style="display:none;"></div>
+ <div id="post-walk-preview" class="community-preview" style="display:none;"></div>
+ <div id="post-create-error"></div>
+ <div class="community-composer__footer">
+ <div class="community-composer__tools">
+ <label class="community-tool">
+ 사진
+ <input type="file" id="post-image-input" accept="image/*" style="display:none;" onchange="handlePostImageSelect(this)">
+ </label>
+ <label class="community-tool">
+ 동영상
+ <input type="file" id="post-video-input" accept="video/*" style="display:none;" onchange="handlePostVideoSelect(this)">
+ </label>
+ <select id="post-walk-select" class="community-tool" onchange="handlePostWalkSelect(this)">
+ <option value="">경로 없음</option>
+ ${walkOptions}
+ </select>
+ </div>
+ <button class="btn btn-primary btn-sm" onclick="handleCreatePost()">게시</button>
+ </div>
+ </div>
+ </div>
+ </section>
+ `;
+}
+
+function renderCommunityComposerLauncher(user) {
+ if (!user) return renderCommunityComposerForm(user);
+ return `
+ <button type="button" class="community-composer community-composer--launcher" onclick="openCommunityComposer()">
+ <div class="community-composer__row">
+ ${renderCommunityAvatar(user.profileImage, 'community-avatar community-avatar--dark')}
+ <div class="community-composer__body">
+ <div class="community-composer__prompt">사진이나 동영상과 함께 오늘의 순간을 남겨보세요</div>
+ <div class="community-composer__footer">
+ <div class="community-composer__tools" aria-hidden="true">
+ <span class="community-tool">사진</span>
+ <span class="community-tool">동영상</span>
+ <span class="community-tool">경로 없음</span>
+ </div>
+ <span class="btn btn-primary btn-sm">게시</span>
+ </div>
+ </div>
+ </div>
+ </button>
+ `;
+}
+
+function openCommunityComposer() {
+ const user = AuthService.getCurrentUser();
+ if (!user) {
+ showLoginModal('글쓰기는 로그인 후 이용할 수 있어요.');
+ return;
+ }
+ closeCommunityComposer();
+ const modal = document.createElement('div');
+ modal.id = 'community-compose-modal';
+ modal.className = 'community-compose-modal';
+ modal.innerHTML = `
+ <div class="community-compose-modal__backdrop" onclick="closeCommunityComposer()"></div>
+ <div class="community-compose-modal__panel" role="dialog" aria-modal="true" aria-label="오늘의 광장 글쓰기">
+ <div class="community-compose-modal__top">
+ <div>
+ <strong>오늘의 광장</strong>
+ <span>사진, 동영상, 산책 경로를 함께 남겨보세요.</span>
+ </div>
+ <button class="community-compose-modal__close" onclick="closeCommunityComposer()" aria-label="닫기">×</button>
+ </div>
+ ${renderCommunityComposerForm(user, 'community-composer--modal')}
+ </div>
+ `;
+ document.body.appendChild(modal);
+ document.body.style.overflow = 'hidden';
+ setTimeout(() => document.getElementById('new-post-text')?.focus(), 60);
+}
+
+function closeCommunityComposer() {
+ const modal = document.getElementById('community-compose-modal');
+ if (modal) modal.remove();
+ document.body.style.overflow = '';
+}
+
 function _communityPostDomId(postId) {
  return 'community-post-' + String(postId || '').replace(/[^a-zA-Z0-9_-]/g, '-');
 }
@@ -350,54 +460,7 @@ function renderCommunityPage(options = {}) {
  });
  const topTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
 
- let createFormHtml = '';
- if (user) {
- const walkOptions = (window._recentWalks || []).map(w =>
- `<option value="${w.id}">${new Date(w.createdAt).toLocaleDateString('ko-KR')} ${w.dogName || '산책'} (${(w.distance||0).toFixed(1)}km)</option>`
- ).join('');
-
- createFormHtml = `
- <section class="community-composer">
- <div class="community-composer__row">
- ${renderCommunityAvatar(user.profileImage, 'community-avatar community-avatar--dark')}
- <div class="community-composer__body">
- <textarea id="new-post-text" class="community-composer__textarea" placeholder="사진이나 동영상과 함께 오늘의 순간을 남겨보세요" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
- <div id="post-image-preview" class="community-preview" style="display:none;"></div>
- <div id="post-video-preview" class="community-preview" style="display:none;"></div>
- <div id="post-walk-preview" class="community-preview" style="display:none;"></div>
- <div id="post-create-error"></div>
- <div class="community-composer__footer">
- <div class="community-composer__tools">
- <label class="community-tool">
- 사진
- <input type="file" id="post-image-input" accept="image/*" style="display:none;" onchange="handlePostImageSelect(this)">
- </label>
- <label class="community-tool">
- 동영상
- <input type="file" id="post-video-input" accept="video/*" style="display:none;" onchange="handlePostVideoSelect(this)">
- </label>
- <select id="post-walk-select" class="community-tool" onchange="handlePostWalkSelect(this)">
- <option value="">경로 없음</option>
- ${walkOptions}
- </select>
- </div>
- <button class="btn btn-primary btn-sm" onclick="handleCreatePost()">게시</button>
- </div>
- </div>
- </div>
- </section>
- `;
- } else {
- createFormHtml = `
- <div class="community-login-card">
- <div>
- <strong>로그인하고 사진을 공유해보세요</strong>
- <p>반응하기, 댓글, 글 작성을 할 수 있어요.</p>
- </div>
- <button class="btn btn-primary btn-sm" onclick="Router.navigate('/login')">로그인</button>
- </div>
- `;
- }
+ const createFormHtml = renderCommunityComposerLauncher(user);
 
  // 오늘의 팁 리스트
  const dailyTips = [
@@ -479,7 +542,7 @@ function renderCommunityPage(options = {}) {
  ${icon('calendar', 15)} <span>기록</span>
  </button>
  </div>
- <button class="paw-compose-btn" onclick="${user ? 'document.getElementById(\'community-composer-section\')?.scrollIntoView({behavior:\'smooth\'})' : 'showLoginModal(\'글쓰기는 로그인 후 이용할 수 있어요.\')'}">
+ <button class="paw-compose-btn" onclick="${user ? 'openCommunityComposer()' : 'showLoginModal(\'글쓰기는 로그인 후 이용할 수 있어요.\')'}">
  ${icon('edit-3', 15)} <span>글쓰기</span>
  </button>
  </div>
@@ -973,10 +1036,14 @@ function renderPostCards(posts, user, followingIds) {
  const isAuthorDeleted = _isDeletedUser(post.authorId);
  const authorProfileImage = isAuthorDeleted ? '' : (post.authorProfileImage || (author && author.profileImage) || '');
  const displayAuthorName = isAuthorDeleted ? '알 수 없음' : (post.authorName || '알 수 없음');
+ const canDeletePost = isCommunityAdmin(user);
 
  // 해시태그 링크 변환
  let bodyHtml = (post.text || '').replace(/\n/g, '<br>');
  bodyHtml = bodyHtml.replace(/#([\wㄱ-ㅎㅏ-ㅣ가-힣]+)/g, '<a class="community-inline-tag" onclick="setCommunityHashFilter(\'$1\')">#$1</a>');
+ const bodyBlockHtml = (post.text || '').trim()
+ ? `<div class="community-post__body"><strong>${displayAuthorName}</strong> ${bodyHtml}</div>`
+ : '';
 
  // 이미지 / 동영상
  const imageHtml = post.imageData ? `<div class="community-post__image"><img src="${post.imageData}" alt=""></div>` : '';
@@ -1030,11 +1097,12 @@ function renderPostCards(posts, user, followingIds) {
  <div class="community-post__time">${timeAgo}</div>
  </div>
  ${user && post.authorId !== user.id && !isAuthorDeleted ? `<button class="community-follow-btn${followingIds.includes(post.authorId) ? ' community-follow-btn--following' : ''}" onclick="handleCommunityFollow('${post.authorId}', this)">${followingIds.includes(post.authorId) ? '팔로잉' : '+ 팔로우'}</button>` : ''}
- <button class="community-post__more">···</button>
+ ${canDeletePost ? `<button class="community-admin-delete-btn" onclick="handleAdminDeletePost('${post.id}')" aria-label="게시물 삭제">${icon('trash-2', 15)} <span>삭제</span></button>` : '<button class="community-post__more" aria-label="더보기">···</button>'}
  </div>
  ${imageHtml}
  ${videoHtml}
  ${walkHtml}
+ ${bodyBlockHtml}
  <div class="community-post__actions">
  <button class="community-action${likedClass}" onclick="handleToggleLike('${post.id}')" aria-label="좋아요" aria-pressed="${isLiked ? 'true' : 'false'}">${icon('heart', 24)}</button>
  <button class="community-action community-action--comment" onclick="focusPostComment('${post.id}')" aria-label="댓글">${icon('message-circle', 25)}</button>
@@ -1042,7 +1110,6 @@ function renderPostCards(posts, user, followingIds) {
  <button class="community-action community-action--save${user && isSaved(post.id, user) ? ' saved' : ''}" onclick="handleToggleSave('${post.id}')" aria-label="저장" style="margin-left:auto;">${icon('bookmark', 23)}</button>
  </div>
  <div class="community-post__likes" ${(post.likes || 0) > 0 ? `onclick="showLikesModal('${post.id}')" style="cursor:pointer;"` : ''}>좋아요 ${post.likes || 0}개</div>
- <div class="community-post__body"><strong>${displayAuthorName}</strong> ${bodyHtml}</div>
  ${(post.comments||[]).length > 0 ? `<div class="community-post__comment-count" onclick="handleShowAllComments('${post.id}')" style="cursor:pointer;">댓글 ${(post.comments||[]).length}개 모두 보기</div>` : ''}
  ${commentsHtml}
  ${commentFormHtml}
@@ -1156,6 +1223,7 @@ function shareWalkToFeed(walkId) {
   renderCommunityPage();
 
   setTimeout(() => {
+    openCommunityComposer();
     const preview = document.getElementById('post-walk-preview');
     if (preview) {
       preview.style.display = 'block';
@@ -1163,7 +1231,6 @@ function shareWalkToFeed(walkId) {
     }
     const textarea = document.getElementById('new-post-text');
     if (textarea) textarea.focus();
-    document.getElementById('community-composer-section')?.scrollIntoView({ behavior: 'smooth' });
   }, 200);
 }
 
@@ -1201,10 +1268,33 @@ function handleCreatePost() {
  _postImageData = null;
  _postWalkData = null;
  _postVideoId = null;
+ closeCommunityComposer();
  showToast('게시물이 등록됐어요!', 'success');
  renderCommunityPage();
  } catch (e) {
  if (errEl) errEl.innerHTML = `<div class="alert alert-error">${e.message}</div>`;
+ }
+}
+
+function handleAdminDeletePost(postId) {
+ const user = AuthService.getCurrentUser();
+ if (!isCommunityAdmin(user)) {
+ showToast('관리자만 게시물을 삭제할 수 있어요.', 'error');
+ return;
+ }
+
+ const post = CommunityService.getPostById(postId) || CommunityService.getFeed(1).find(p => p.id === postId);
+ const authorName = post?.authorName || '이 게시물';
+ if (!confirm(`${authorName}님의 게시물을 삭제할까요?`)) return;
+
+ try {
+ CommunityService.deletePost(postId, user);
+ document.getElementById('post-detail-backdrop')?.remove();
+ closeCommunityCommentsPanel();
+ showToast('게시물이 삭제됐어요.', 'success');
+ renderCommunityPage({ preserveScroll: true });
+ } catch (e) {
+ showToast(e.message || '게시물 삭제 중 오류가 발생했어요.', 'error');
  }
 }
 
