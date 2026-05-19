@@ -227,6 +227,62 @@
 
     .team tr:last-child td { border-bottom: 0; }
 
+    /* === SVC CARDS === */
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto;}
+    .svc-grid--bottom{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1160px;margin:20px auto 0;}
+    .svc-card{background:#fff;border-radius:20px;padding:32px 28px 0;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;cursor:pointer;display:flex;flex-direction:column;min-height:300px;}
+    .svc-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.1);}
+    .svc-tag{display:inline-flex;align-items:center;width:max-content;padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:700;margin-bottom:14px;}
+    .svc-title{font-size:1.12rem;font-weight:800;letter-spacing:-.5px;line-height:1.35;color:#111;margin:0 0 10px;}
+    .svc-title em{font-style:normal;}
+    .svc-desc{font-size:.82rem;color:#888;line-height:1.7;margin:0 0 24px;flex:1;}
+    .svc-illust{margin:0 -28px;height:130px;position:relative;overflow:hidden;border-radius:0 0 20px 20px;}
+    /* match */
+    .ill-match{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:flex-end;}
+    .ill-match__card{background:#fff;border-radius:12px 12px 0 0;padding:10px 14px;box-shadow:0 4px 16px rgba(108,71,255,.15);display:flex;flex-direction:column;align-items:center;gap:5px;width:76px;}
+    .ill-match__card--c{transform:translateY(-12px);box-shadow:0 8px 24px rgba(108,71,255,.25);}
+    .ill-match__av{width:36px;height:36px;border-radius:50%;border:2px solid #ede9ff;}
+    .ill-match__sc{font-size:.58rem;font-weight:700;color:#6c47ff;background:#ede9ff;padding:2px 6px;border-radius:999px;}
+    .ill-match__nm{font-size:.58rem;font-weight:600;color:#555;}
+    /* gps */
+    .ill-gps-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(2,132,199,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(2,132,199,.08) 1px,transparent 1px);background-size:24px 24px;}
+    .ill-gps-badge{position:absolute;top:14px;right:16px;background:#0284c7;color:#fff;font-size:.6rem;font-weight:700;padding:4px 10px;border-radius:999px;box-shadow:0 3px 10px rgba(2,132,199,.35);animation:gpsPulse 2s ease-in-out infinite;}
+    .ill-gps-route{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);}
+    @keyframes gpsPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    /* ai */
+    .ill-ai{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:6px;width:210px;}
+    .ill-ai__b{padding:7px 12px;border-radius:10px;font-size:.65rem;font-weight:500;line-height:1.4;max-width:175px;}
+    .ill-ai__b--u{background:#fce7f3;color:#be185d;align-self:flex-end;border-radius:10px 10px 3px 10px;}
+    .ill-ai__b--a{background:#fff;color:#555;align-self:flex-start;border-radius:10px 10px 10px 3px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+    /* edu */
+    .ill-edu{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;flex-wrap:wrap;gap:5px;justify-content:center;width:240px;}
+    .ill-edu__c{padding:4px 10px;border-radius:999px;font-size:.6rem;font-weight:700;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.07);white-space:nowrap;}
+    /* breed */
+    .ill-breed{position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:#fff;border-radius:12px 12px 0 0;width:200px;padding:12px 14px 0;box-shadow:0 4px 18px rgba(21,128,61,.15);}
+    .ill-breed__r{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:.58rem;font-weight:600;color:#555;}
+    .ill-breed__r span:first-child{width:40px;}
+    .ill-breed__r span:last-child{width:24px;text-align:right;color:#15803d;font-weight:700;}
+    .ill-breed__t{flex:1;height:6px;background:#f0fdf4;border-radius:999px;overflow:hidden;}
+    .ill-breed__f{height:100%;border-radius:999px;background:linear-gradient(90deg,#4ade80,#15803d);}
+    /* expert */
+    .ill-expert{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding:0 14px 12px;}
+    .ill-expert__c{width:66px;min-height:86px;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 4px 16px rgba(15,118,110,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+    .ill-expert__c--m{transform:translateY(-10px);box-shadow:0 8px 24px rgba(15,118,110,.22);}
+    .ill-expert__av{width:34px;height:34px;border-radius:50%;background:#ecfdf5;border:2px solid #ccfbf1;}
+    .ill-expert__c span{font-size:.58rem;color:#0f766e;font-weight:800;}
+    .ill-expert__c small{font-size:.5rem;background:#f0fdfa;color:#0f766e;padding:1px 5px;border-radius:999px;font-weight:800;}
+    /* health */
+    .ill-health{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;}
+    .ill-health__ring{width:76px;height:76px;border-radius:50%;background:conic-gradient(#c2410c 0 74%,rgba(255,255,255,.85) 74% 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(194,65,12,.14);}
+    .ill-health__ri{width:56px;height:56px;border-radius:50%;background:#fffaf5;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#c2410c;font-weight:900;}
+    .ill-health__ri strong{font-size:1.1rem;line-height:1;}
+    .ill-health__ri span{margin-top:3px;font-size:.5rem;color:#9a3412;font-weight:800;}
+    .ill-health__m{display:grid;gap:5px;width:88px;}
+    .ill-health__row{display:flex;justify-content:space-between;align-items:center;padding:5px 7px;border-radius:8px;background:rgba(255,255,255,.9);color:#7c2d12;font-size:.56rem;font-weight:800;box-shadow:0 2px 10px rgba(194,65,12,.09);}
+    .ill-health__row strong{color:#c2410c;font-size:.62rem;}
+    @media(max-width:1100px){.svc-grid{grid-template-columns:repeat(2,1fr);}.svc-grid--bottom{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:768px){.svc-grid,.svc-grid--bottom{grid-template-columns:1fr;}.svc-card{min-height:260px;}}
+
     footer {
       padding: 28px clamp(20px, 5vw, 72px);
       color: var(--muted);
@@ -290,110 +346,22 @@
       </div>
     </section>
 
-    <section id="features" class="section" style="padding:80px 24px 96px; background:#f7f6f3;">
+    <section id="features" class="section" style="padding:80px 24px 96px; background:#f7f6f3; border-top:none;">
       <div style="text-align:center; margin-bottom:56px;">
-        <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#7c6ff7; margin-bottom:14px;">SERVICES</span>
-        <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0;">Pawsitive가 제공하는 <span style="color:#7c6ff7;">핵심 기능</span></h2>
+        <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#7c6ff7; margin-bottom:14px;">PAWSITIVE SERVICES</span>
+        <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0;">반려견과의 일상을<br><span style="color:#7c6ff7;">더 특별하게</span> 만드는 7가지</h2>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1080px; margin:0 auto;">
-        <article class="svc-card" style="--tag-bg:#ede9ff; --tag-color:#6c47ff; --illust-bg:linear-gradient(135deg,#ede9ff 0%,#d4caff 100%);">
-          <span class="svc-tag">🤝 매칭</span>
-          <h3 class="svc-title">실시간 <em>산책 매칭</em></h3>
-          <p class="svc-desc">위치 기반으로 주변 산책 도우미와 보호자를 연결하고 요청 상태를 실시간으로 공유합니다.</p>
-          <div class="svc-illust"></div>
-        </article>
-        <article class="svc-card" style="--tag-bg:#e0f2fe; --tag-color:#0284c7; --illust-bg:linear-gradient(135deg,#e0f2fe 0%,#bae6fd 100%);">
-          <span class="svc-tag">🗺️ GPS</span>
-          <h3 class="svc-title"><em>GPS</em> 산책 추적</h3>
-          <p class="svc-desc">산책 경로, 시간, 거리 데이터를 기록하고 보호자에게 산책 상황을 전달합니다.</p>
-          <div class="svc-illust"></div>
-        </article>
-        <article class="svc-card" style="--tag-bg:#fce7f3; --tag-color:#be185d; --illust-bg:linear-gradient(135deg,#fce7f3 0%,#fbcfe8 100%);">
-          <span class="svc-tag">🤖 AI</span>
-          <h3 class="svc-title"><em>AI</em> 건강 분석</h3>
-          <p class="svc-desc">Gemini 기반 상담 흐름으로 증상, 생활 습관, 관리 방법을 안내합니다.</p>
-          <div class="svc-illust"></div>
-        </article>
-        <article class="svc-card" style="--tag-bg:#fef3c7; --tag-color:#b45309; --illust-bg:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);">
-          <span class="svc-tag">📚 교육</span>
-          <h3 class="svc-title"><em>교육</em> 콘텐츠</h3>
-          <p class="svc-desc">산책, 사회화, 리드줄 사용법 등 보호자에게 필요한 학습 콘텐츠를 제공합니다.</p>
-          <div class="svc-illust"></div>
-        </article>
-        <article class="svc-card" style="--tag-bg:#dcfce7; --tag-color:#15803d; --illust-bg:linear-gradient(135deg,#dcfce7 0%,#bbf7d0 100%);">
-          <span class="svc-tag">💬 소통</span>
-          <h3 class="svc-title"><em>커뮤니티</em></h3>
-          <p class="svc-desc">반려견 일상과 산책 기록을 공유하며 사용자 간 소통을 돕습니다.</p>
-          <div class="svc-illust"></div>
-        </article>
-        <article class="svc-card" style="--tag-bg:#ccfbf1; --tag-color:#0f766e; --illust-bg:linear-gradient(135deg,#ccfbf1 0%,#99f6e4 100%);">
-          <span class="svc-tag">💰 포인트</span>
-          <h3 class="svc-title"><em>PAW</em> 포인트</h3>
-          <p class="svc-desc">서비스 활동과 결제 흐름을 포인트 시스템과 연결해 플랫폼 경험을 확장합니다.</p>
-          <div class="svc-illust"></div>
-        </article>
+      <div class="svc-grid">
+        <article class="svc-card"><span class="svc-tag" style="background:#ede9ff;color:#6c47ff;">🤝 산책 매칭</span><h3 class="svc-title"><em style="color:#6c47ff;">AI가 골라주는</em><br>딱 맞는 산책 도우미</h3><p class="svc-desc">반려견 크기·성격·선호 시간대를 분석해 가장 잘 맞는 도우미를 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ede9ff,#d4caff);"><div class="ill-match"><div class="ill-match__card"><div class="ill-match__av" style="background:#c4b5fd;"></div><span class="ill-match__sc">⭐ 88점</span><span class="ill-match__nm">김지은</span></div><div class="ill-match__card ill-match__card--c"><div class="ill-match__av" style="background:#a78bfa;"></div><span class="ill-match__sc">⭐ 96점</span><span class="ill-match__nm">이하은</span></div><div class="ill-match__card"><div class="ill-match__av" style="background:#c4b5fd;"></div><span class="ill-match__sc">⭐ 91점</span><span class="ill-match__nm">박서준</span></div></div></div></article>
+        <article class="svc-card"><span class="svc-tag" style="background:#e0f2fe;color:#0284c7;">🗺️ GPS 추적</span><h3 class="svc-title"><em style="color:#0284c7;">실시간 위치</em>로<br>안심하고 맡기세요</h3><p class="svc-desc">산책 중 도우미 위치를 지도에서 확인하고 완료 후 이동 경로와 기록을 저장해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);position:relative;"><div class="ill-gps-grid"></div><div class="ill-gps-badge">✓ 실시간 추적 중</div><svg class="ill-gps-route" width="220" height="70" viewBox="0 0 220 70" fill="none"><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 200 20" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 190 18" stroke="#0284c7" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="190" cy="18" r="7" fill="#0284c7"/><circle cx="190" cy="18" r="13" fill="#0284c7" opacity="0.2"/></svg></div></article>
+        <article class="svc-card"><span class="svc-tag" style="background:#fce7f3;color:#be185d;">🤖 AI 건강 상담</span><h3 class="svc-title"><em style="color:#be185d;">증상을 말하면</em><br>AI가 바로 분석해요</h3><p class="svc-desc">사진·텍스트로 증상을 올리면 AI가 원인을 분석하고 대처법을 알려드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);"><div class="ill-ai"><div class="ill-ai__b ill-ai__b--u">🐾 우리 강아지가 자꾸 긁어요</div><div class="ill-ai__b ill-ai__b--a">🤖 피부 알레르기 가능성이 있어요. 식단과 환경 체크가 필요해요</div></div></div></article>
       </div>
-      <style>
-        .svc-card {
-          background: #fff;
-          border-radius: 20px;
-          padding: 32px 28px 0;
-          overflow: hidden;
-          box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-          transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          min-height: 280px;
-        }
-        .svc-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-        }
-        .svc-tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          width: max-content;
-          padding: 4px 12px;
-          border-radius: 999px;
-          font-size: 0.72rem;
-          font-weight: 700;
-          letter-spacing: 0.5px;
-          margin-bottom: 14px;
-          background: var(--tag-bg);
-          color: var(--tag-color);
-        }
-        .svc-title {
-          font-size: 1.12rem;
-          font-weight: 800;
-          letter-spacing: -0.5px;
-          line-height: 1.35;
-          color: #111;
-          margin: 0 0 10px;
-        }
-        .svc-title em {
-          font-style: normal;
-          color: var(--tag-color);
-        }
-        .svc-desc {
-          font-size: 0.82rem;
-          color: #888;
-          line-height: 1.7;
-          margin: 0 0 24px;
-          flex: 1;
-        }
-        .svc-illust {
-          margin: 0 -28px;
-          height: 80px;
-          border-radius: 0 0 20px 20px;
-          background: var(--illust-bg);
-        }
-        @media (max-width: 900px) {
-          #features .svc-card { min-height: 220px; }
-          #features > div:last-of-type { grid-template-columns: 1fr !important; }
-        }
-      </style>
+      <div class="svc-grid svc-grid--bottom">
+        <article class="svc-card"><span class="svc-tag" style="background:#fef3c7;color:#b45309;">📚 교육 센터</span><h3 class="svc-title"><em style="color:#b45309;">44가지</em> 반려견<br>교육 콘텐츠</h3><p class="svc-desc">기본상식·훈련·건강관리까지 10개 카테고리로 배워요</p><div class="svc-illust" style="background:linear-gradient(135deg,#fef3c7,#fde68a);"><div class="ill-edu"><span class="ill-edu__c" style="color:#b45309;">🐾 기본상식</span><span class="ill-edu__c" style="color:#7c3aed;">🏃 훈련</span><span class="ill-edu__c" style="color:#be185d;">❤️ 건강관리</span><span class="ill-edu__c" style="color:#0369a1;">🍽️ 영양/식이</span><span class="ill-edu__c" style="color:#15803d;">✨ 미용/관리</span><span class="ill-edu__c" style="color:#b45309;">🛡️ 안전</span><span class="ill-edu__c" style="color:#6b7280;">👓 노견케어</span></div></div></article>
+        <article class="svc-card"><span class="svc-tag" style="background:#dcfce7;color:#15803d;">🐕 품종 정보</span><h3 class="svc-title"><em style="color:#15803d;">400여 품종</em> 백과사전<br>+ AI 맞춤 추천</h3><p class="svc-desc">생활환경과 선호도를 입력하면 어울리는 품종을 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);"><div class="ill-breed"><div class="ill-breed__r"><span>활동성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:85%;"></div></div><span>85%</span></div><div class="ill-breed__r"><span>친화성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:92%;"></div></div><span>92%</span></div><div class="ill-breed__r"><span>훈련성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:70%;"></div></div><span>70%</span></div></div></div></article>
+        <article class="svc-card"><span class="svc-tag" style="background:#ccfbf1;color:#0f766e;">👨‍⚕️ 전문가 상담</span><h3 class="svc-title"><em style="color:#0f766e;">검증 전문가</em> 상담을<br>바로 이어가요</h3><p class="svc-desc">수의사·훈련사·미용사에게 필요한 상담을 신청해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ccfbf1,#99f6e4);"><div class="ill-expert"><div class="ill-expert__c"><div class="ill-expert__av"></div><span>훈련사</span></div><div class="ill-expert__c ill-expert__c--m"><div class="ill-expert__av"></div><span>수의사</span><small>✓ 검증</small></div><div class="ill-expert__c"><div class="ill-expert__av"></div><span>미용사</span></div></div></div></article>
+        <article class="svc-card"><span class="svc-tag" style="background:#ffedd5;color:#c2410c;">💊 AI 건강 분석</span><h3 class="svc-title"><em style="color:#c2410c;">산책 데이터</em>로<br>건강 신호를 읽어요</h3><p class="svc-desc">산책 기록을 바탕으로 활동 점수와 케어 힌트를 확인해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ffedd5,#fed7aa);"><div class="ill-health"><div class="ill-health__ring"><div class="ill-health__ri"><strong>74</strong><span>활동 점수</span></div></div><div class="ill-health__m"><div class="ill-health__row"><span>산책</span><strong>13회</strong></div><div class="ill-health__row"><span>시간</span><strong>48분</strong></div><div class="ill-health__row"><span>거리</span><strong>2.4km</strong></div></div></div></div></article>
+      </div>
     </section>
 
     <section id="stack" class="section soft">
