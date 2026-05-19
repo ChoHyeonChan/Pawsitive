@@ -1,5 +1,8 @@
 const fs = require('fs');
-const d = require('./server/data/knowledge.json');
+const path = require('path');
+
+const knowledgePath = path.join(__dirname, '..', 'server', 'data', 'knowledge.json');
+const d = require(knowledgePath);
 
 const newItems = [
   {
@@ -31,7 +34,7 @@ const newItems = [
 const lastCount = d.length;
 const updated = [...d, ...newItems];
 
-fs.writeFileSync('./server/data/knowledge.json', JSON.stringify(updated, null, 2), 'utf8');
+fs.writeFileSync(knowledgePath, JSON.stringify(updated, null, 2), 'utf8');
 console.log('추가 전:', lastCount, '개');
 console.log('추가 후:', updated.length, '개');
 console.log('추가된 항목:');

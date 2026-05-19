@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Lvs6kcL8)
 
 <div align="center">
-  <img src="pawsitive_logo_transparent.png" alt="Pawsitive" width="800">
+  <img src="images/brand/pawsitive_logo_transparent.png" alt="Pawsitive" width="800">
   <h1>Pawsitive (포지티브)</h1>
   <p><strong>Be Pawsitive! 반려견과 함께하는 더 나은 일상</strong></p>
   <p>AI 건강 상담부터 산책 매칭까지, 당신과 반려견을 위한 통합 케어 플랫폼.</p>
@@ -15,7 +15,7 @@
 
   <br/><br/>
 
-  <img src="poster.png" alt="Pawsitive 포스터" width="800">
+  <img src="docs/assets/poster.png" alt="Pawsitive 포스터" width="800">
 </div>
 
 <br/><br/>
@@ -94,7 +94,7 @@
 ## 4. 시스템 아키텍처
 
 <div align="center">
-  <img src="System_Architecture.png" alt="시스템 아키텍처" width="800">
+  <img src="docs/System_Architecture.png" alt="시스템 아키텍처" width="800">
 </div>
 
 ### 목표 아키텍처

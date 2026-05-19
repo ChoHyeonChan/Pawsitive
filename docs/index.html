@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawsitive | Capstone Project</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #617084;
+      --line: #dbe3ee;
+      --brand: #00a7a5;
+      --brand-dark: #007b79;
+      --soft: #f5f8fb;
+      --accent: #f4b740;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background: #fff;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      min-height: 64px;
+      padding: 0 clamp(20px, 5vw, 72px);
+      background: rgba(255, 255, 255, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .nav a {
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+      gap: clamp(28px, 6vw, 80px);
+      align-items: center;
+      padding: clamp(48px, 7vw, 92px) clamp(20px, 5vw, 72px);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.9) 46%, rgba(255,255,255,.72) 100%),
+        url("assets/hero/background_pawsitive.png") center / cover no-repeat;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--brand-dark);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 700px;
+      margin: 22px 0 0;
+      color: #344255;
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 650;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--brand);
+      border-radius: 8px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--brand-dark);
+    }
+
+    .poster {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 70px rgba(23, 32, 51, .16);
+    }
+
+    .section {
+      padding: clamp(48px, 7vw, 86px) clamp(20px, 5vw, 72px);
+      border-top: 1px solid var(--line);
+    }
+
+    .section.soft { background: var(--soft); }
+
+    .section h2 {
+      margin: 0 0 22px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      min-height: 148px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stack li {
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      font-weight: 800;
+    }
+
+    .architecture {
+      width: min(100%, 960px);
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .team {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .team th,
+    .team td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .team th {
+      background: #eef5f8;
+      font-size: 14px;
+    }
+
+    .team tr:last-child td { border-bottom: 0; }
+
+    footer {
+      padding: 28px clamp(20px, 5vw, 72px);
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .poster { max-width: 520px; }
+      .grid { grid-template-columns: 1fr; }
+      .stack { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .team {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Pawsitive">
+      <img src="assets/brand/pawsitive_logo_transparent.png" alt="">
+      <span>Pawsitive</span>
+    </a>
+    <nav class="nav" aria-label="페이지 섹션">
+      <a href="#features">기능</a>
+      <a href="#stack">기술</a>
+      <a href="#team">팀</a>
+      <a href="team-page.html">기존 팀페이지</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">2026 Capstone Design</p>
+        <h1>Pawsitive</h1>
+        <p class="lead">반려견 보호자와 산책 도우미를 연결하고, AI 건강 상담부터 교육 콘텐츠와 커뮤니티까지 제공하는 반려견 종합 케어 플랫폼입니다.</p>
+        <div class="actions">
+          <a class="button" href="https://competent-famished-leatrice.ngrok-free.dev">서비스 체험</a>
+          <a class="button secondary" href="https://github.com/kookmin-sw/2026-capstone-55">GitHub 저장소</a>
+        </div>
+      </div>
+      <img class="poster" src="assets/poster.png" alt="Pawsitive 프로젝트 포스터">
+    </section>
+
+    <section id="features" class="section">
+      <h2>주요 기능</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>실시간 산책 매칭</h3>
+          <p>위치 기반으로 주변 산책 도우미와 보호자를 연결하고 요청 상태를 실시간으로 공유합니다.</p>
+        </article>
+        <article class="card">
+          <h3>GPS 산책 추적</h3>
+          <p>산책 경로, 시간, 거리 데이터를 기록하고 보호자에게 산책 상황을 전달합니다.</p>
+        </article>
+        <article class="card">
+          <h3>AI 건강 분석</h3>
+          <p>Gemini 기반 상담 흐름으로 증상, 생활 습관, 관리 방법을 안내합니다.</p>
+        </article>
+        <article class="card">
+          <h3>교육 콘텐츠</h3>
+          <p>산책, 사회화, 리드줄 사용법 등 보호자에게 필요한 학습 콘텐츠를 제공합니다.</p>
+        </article>
+        <article class="card">
+          <h3>커뮤니티</h3>
+          <p>반려견 일상과 산책 기록을 공유하며 사용자 간 소통을 돕습니다.</p>
+        </article>
+        <article class="card">
+          <h3>PAW 포인트</h3>
+          <p>서비스 활동과 결제 흐름을 포인트 시스템과 연결해 플랫폼 경험을 확장합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="stack" class="section soft">
+      <h2>기술 스택</h2>
+      <ul class="stack">
+        <li>Frontend: HTML, CSS, Vanilla JavaScript</li>
+        <li>Backend: Node.js, Express</li>
+        <li>Realtime: Socket.IO</li>
+        <li>AI: Google Gemini API</li>
+        <li>Auth: Passport.js OAuth</li>
+        <li>Payment: 토스페이먼츠</li>
+      </ul>
+      <img class="architecture" src="System_Architecture.png" alt="Pawsitive 시스템 아키텍처">
+    </section>
+
+    <section id="team" class="section">
+      <h2>팀 소개</h2>
+      <table class="team">
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>역할</th>
+            <th>기여 내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>조현찬</td>
+            <td>팀장, 풀스택 개발</td>
+            <td>프로젝트 총괄, 서버 아키텍처 설계 및 핵심 기능 구현</td>
+          </tr>
+          <tr>
+            <td>하준서</td>
+            <td>풀스택 개발</td>
+            <td>프로필·반려견 관리, AI 건강 분석, 커뮤니티 기능 구현</td>
+          </tr>
+          <tr>
+            <td>이재준</td>
+            <td>풀스택 개발</td>
+            <td>산책 매칭·GPS 추적, 실시간 채팅, 결제 시스템 구현</td>
+          </tr>
+          <tr>
+            <td>이충범</td>
+            <td>풀스택 개발</td>
+            <td>교육 콘텐츠, 워커 대시보드, 리뷰·평점 시스템 구현</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    국민대학교 소프트웨어융합대학 2026 Capstone Design · Pawsitive
+  </footer>
+</body>
+</html>

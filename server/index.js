@@ -42,6 +42,7 @@ const PORT = process.env.PORT || 3000;
 
 // io를 라우터에서 사용할 수 있도록 app에 주입
 app.set('io', io);
+app.set('trust proxy', true);
 
 // --- 미들웨어 ---
 app.use(cors({ origin: true, credentials: true }));

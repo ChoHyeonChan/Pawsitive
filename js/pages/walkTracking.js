@@ -623,7 +623,7 @@ function showTrackingGpsLoading(message = '내 위치를 확인하고 있어요.
   overlay.classList.add('gps-map-overlay--loading');
   overlay.style.display = 'flex';
   overlay.innerHTML = `
-    <video class="gps-map-loading-video" src="/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <video class="gps-map-loading-video" src="/images/brand/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
     <div class="gps-map-loading-text">${message}</div>
   `;
 }

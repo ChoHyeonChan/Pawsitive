@@ -8,7 +8,7 @@ function renderBreedListPage() {
       .breed-atlas-page { max-width:1120px; margin:0 auto; padding:8px 0 44px; color:#0B1220; }
       .breed-atlas-hero { position:relative; overflow:hidden; min-height:326px; display:flex; align-items:flex-end; border:1px solid #DDE6F0; border-radius:8px; margin-bottom:18px; background-image:
         linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.92) 45%, rgba(255,255,255,.64) 70%, rgba(255,255,255,.18) 100%),
-        url('/breed-atlas-hero-bg.png'); background-size:cover, cover; background-position:center, right center; background-repeat:no-repeat; box-shadow:0 24px 58px rgba(15,23,42,.08); }
+        url('/images/hero/breed-atlas-hero-bg.png'); background-size:cover, cover; background-position:center, right center; background-repeat:no-repeat; box-shadow:0 24px 58px rgba(15,23,42,.08); }
       .breed-atlas-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0) 58%, rgba(255,255,255,.18) 100%); pointer-events:none; }
       .breed-atlas-hero__content { position:relative; z-index:1; max-width:620px; padding:42px 38px 36px; }
       .breed-atlas-hero__eyebrow { display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border-radius:999px; background:#EFF6FF; color:#175CD3; font-size:.72rem; font-weight:950; margin-bottom:14px; }
@@ -59,7 +59,7 @@ function renderBreedListPage() {
       .breed-recommend-card .btn { width:100%; max-width:320px; padding:14px; font-weight:950; display:inline-flex; align-items:center; justify-content:center; gap:9px; text-align:center; }
       .breed-recommend-btn-loading { display:inline-flex; align-items:center; justify-content:center; gap:9px; line-height:1; }
       .breed-recommend-btn-loading .spinner { width:20px; height:20px; border-width:2px; border-color:rgba(255,255,255,.28); border-top-color:#fff; flex-shrink:0; margin:0; }
-      .breed-recommend-photo { position:relative; min-height:286px; overflow:hidden; border-radius:8px; border:1px solid #DDE6F0; background:url('/breed-detail-feature.png') center / cover no-repeat; box-shadow:0 18px 44px rgba(15,23,42,.08); }
+      .breed-recommend-photo { position:relative; min-height:286px; overflow:hidden; border-radius:8px; border:1px solid #DDE6F0; background:url('/images/hero/breed-detail-feature.png') center / cover no-repeat; box-shadow:0 18px 44px rgba(15,23,42,.08); }
       .breed-recommend-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(11,18,32,.04), rgba(11,18,32,.58)); }
       .breed-recommend-photo__copy { position:absolute; left:18px; right:18px; bottom:18px; z-index:1; color:#fff; }
       .breed-recommend-photo__copy strong { display:block; font-size:1.02rem; font-weight:950; margin-bottom:5px; }
@@ -396,7 +396,7 @@ async function handleBreedRecommend() {
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="breed-recommend-btn-loading"><span class="spinner"></span><span>AI가 분석 중...</span></span>'; }
   if (resultEl) resultEl.innerHTML = `
     <div class="card breed-recommend-loading-card">
-      <video class="breed-recommend-loading-video" src="/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-label="Pawsitive 로딩 중"></video>
+      <video class="breed-recommend-loading-video" src="/images/brand/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-label="Pawsitive 로딩 중"></video>
     </div>
   `;
 

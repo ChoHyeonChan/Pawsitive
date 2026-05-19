@@ -2,7 +2,7 @@
  * DALL-E 3로 한국인 도우미 프로필 사진 생성
  *
  * 사용법:
- *   node generate-walker-photos.js sk-xxxxxxxx
+ *   node tools/generate-walker-photos.js sk-xxxxxxxx
  *
  * 결과:
  *   - images/walkers/ 폴더에 실사 사진 저장
@@ -18,7 +18,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.argv[2];
 
 if (!OPENAI_API_KEY || !OPENAI_API_KEY.startsWith('sk-')) {
   console.error('❌  OpenAI API 키를 인수로 전달해주세요.');
-  console.error('    사용법: node generate-walker-photos.js sk-xxxxxxxx');
+  console.error('    사용법: node tools/generate-walker-photos.js sk-xxxxxxxx');
   process.exit(1);
 }
 
@@ -105,8 +105,9 @@ function downloadImage(imageUrl, destPath) {
 
 // 메인
 async function main() {
-  const outDir      = path.join(__dirname, 'images', 'walkers');
-  const walkersPath = path.join(__dirname, 'server', 'data', 'walkers.json');
+  const repoRoot    = path.join(__dirname, '..');
+  const outDir      = path.join(repoRoot, 'images', 'walkers');
+  const walkersPath = path.join(repoRoot, 'server', 'data', 'walkers.json');
 
   // 출력 디렉터리 생성
   if (!fs.existsSync(outDir)) {

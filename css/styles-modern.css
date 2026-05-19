@@ -2586,7 +2586,7 @@ textarea.form-input { resize: vertical; min-height: 90px; }
 .dw-map { width: 100%; height: 400px; z-index: 0; }
 .dw-map-hint { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; overflow: hidden; font-size: 0.9rem; color: var(--color-text-light); font-weight: 500; text-align: center; z-index: 10; pointer-events: none; transition: opacity 0.4s ease; }
 .dw-map-hint--loading { justify-content: center; padding: 0; background: #fdfdfd; }
-video[src="/pawsitive_loading.mp4"],
+video[src="/images/brand/pawsitive_loading.mp4"],
 video[src$="pawsitive_loading.mp4"] {
   background: #fdfdfd;
   clip-path: inset(2px);

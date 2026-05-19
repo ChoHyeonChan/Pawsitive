@@ -2068,7 +2068,7 @@ async function renderRequesterDashboard(user, myProfile) {
  <div class="dw-map-wrap">
  <div id="dw-disc-map" class="dw-map"></div>
  <div class="dw-map-hint dw-map-hint--loading" id="dw-map-hint" style="flex-direction:column;gap:0;background:#fdfdfd;backdrop-filter:none;">
- <video class="dw-map-loading-video" src="/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+ <video class="dw-map-loading-video" src="/images/brand/pawsitive_loading.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
  </div>
  </div>
  </div>

@@ -10,7 +10,7 @@ function renderHomePage() {
  app.innerHTML = `
  <style>
  .hero-banner { position:relative; overflow:hidden; height:calc(100vh - 64px); min-height:520px; width:100%; }
- .hero-banner__bg { position:absolute; inset:0; background:url('/background_pawsitive.png') center/cover no-repeat; animation:heroBgSlideUp 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+ .hero-banner__bg { position:absolute; inset:0; background:url('/images/hero/background_pawsitive.png') center/cover no-repeat; animation:heroBgSlideUp 1.2s cubic-bezier(0.16,1,0.3,1) both; }
  .hero-banner__overlay { position:absolute; inset:0; background:linear-gradient(to right, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.28) 60%, transparent 100%); }
  .hero-banner__content { position:absolute; top:50%; left:0; transform:translateY(-50%); z-index:1; padding:0 60px; max-width:540px; animation:heroContentUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both; }
  .hero-banner__title { font-size:clamp(2rem,4.5vw,3.2rem); font-weight:700; color:#fff; letter-spacing:-1px; line-height:1.2; margin:0 0 16px; }
@@ -437,7 +437,7 @@ function renderHomePage() {
 
  <style>
  .home-breed-showcase { max-width:1120px; margin:80px auto 0; padding:0; }
- .home-breed-showcase__head { position:relative; overflow:hidden; display:flex; justify-content:space-between; gap:26px; align-items:flex-end; margin-bottom:16px; padding:28px 30px; border:1px solid #DDE6F0; border-radius:8px; background-color:#fff; background-image:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.94) 44%,rgba(255,255,255,.72) 72%,rgba(255,255,255,.34) 100%),url('/breed-atlas-hero-bg.png'); background-size:cover,auto 100%; background-position:center,right center; background-repeat:no-repeat,no-repeat; box-shadow:0 18px 44px rgba(15,23,42,.065); }
+ .home-breed-showcase__head { position:relative; overflow:hidden; display:flex; justify-content:space-between; gap:26px; align-items:flex-end; margin-bottom:16px; padding:28px 30px; border:1px solid #DDE6F0; border-radius:8px; background-color:#fff; background-image:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.94) 44%,rgba(255,255,255,.72) 72%,rgba(255,255,255,.34) 100%),url('/images/hero/breed-atlas-hero-bg.png'); background-size:cover,auto 100%; background-position:center,right center; background-repeat:no-repeat,no-repeat; box-shadow:0 18px 44px rgba(15,23,42,.065); }
  .home-breed-showcase__copy { position:relative; z-index:1; max-width:650px; }
  .home-breed-showcase__eyebrow { display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border-radius:999px; background:#EFF6FF; color:#175CD3; font-size:.72rem; font-weight:950; margin-bottom:12px; }
  .home-breed-showcase__head h2 { margin:0 0 8px; color:#0B1220; font-size:1.72rem; line-height:1.18; font-weight:950; letter-spacing:0; word-break:keep-all; }

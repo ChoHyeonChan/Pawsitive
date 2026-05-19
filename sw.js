@@ -4,8 +4,8 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'Pawsitive';
   const options = {
     body:    data.body || '',
-    icon:    '/pawsitive_logo_transparent.png',
-    badge:   '/pawsitive_logo_transparent.png',
+    icon:    '/images/brand/pawsitive_logo_transparent.png',
+    badge:   '/images/brand/pawsitive_logo_transparent.png',
     tag:     data.tag  || 'pawsitive',
     data:    data.url  || '/',
     vibrate: [200, 100, 200]

@@ -8,8 +8,15 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-// 요청 호스트 기반으로 BASE_URL 동적 생성 (로컬이면 localhost, ngrok이면 ngrok)
+function normalizeBaseUrl(url) {
+  return (url || '').replace(/\/+$/, '');
+}
+
+// BASE_URL을 우선 사용하고, 없을 때만 요청 호스트 기반으로 생성
 function getBaseUrl(req) {
+  const configuredBaseUrl = normalizeBaseUrl(process.env.BASE_URL);
+  if (configuredBaseUrl) return configuredBaseUrl;
+
   const proto = req.headers['x-forwarded-proto'] || req.protocol || 'http';
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   return `${proto}://${host}`;
@@ -27,7 +34,7 @@ function makeCallback(action) {
       profileImage: user.profileImage,
       action: action
     }));
-    res.redirect(`/#/auth-callback?user=${userData}`);
+    res.redirect(`${normalizeBaseUrl(process.env.BASE_URL) || ''}/#/auth-callback?user=${userData}`);
   };
 }
 

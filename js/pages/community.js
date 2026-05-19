@@ -298,7 +298,7 @@ function renderCommunityPage(options = {}) {
  { authorId: 'sample-3', authorName: '해피누나', text: '비 오는 날 산책은 레인코트가 다 했다. 발 씻기는 아직 어렵지만.\n\n#골든리트리버 #비오는날 #산책', imageData: '/photos/02_display.png', walkData: { dogName: '해피', distance: 1.5, duration: 35, coordinates: [] } },
  { authorId: 'sample-4', authorName: '시바집사', text: '병원 다녀온 뒤 주차장에서 열린 짧고 강렬한 하울링 콘서트.\n\n#시바이누 #시바스크림 #동물병원', imageData: '/images/dog_walker.png', walkData: null },
  { authorId: 'sample-5', authorName: '댕댕이네', text: '주말에 가기 좋은 놀이터 찾음. 넓고 조용해서 다시 갈 예정.\n\n#반려견놀이터 #마포구 #추천장소', imageData: '/photos/03_customers.png', walkData: null },
- { authorId: 'sample-6', authorName: '비숑프리제', text: '오늘 미용 끝. 테디베어컷은 볼 때마다 기분 좋아지는 치트키.\n\n#비숑프리제 #미용 #테디베어컷', imageData: '/pawsitive_logo_transparent.png', walkData: null }
+ { authorId: 'sample-6', authorName: '비숑프리제', text: '오늘 미용 끝. 테디베어컷은 볼 때마다 기분 좋아지는 치트키.\n\n#비숑프리제 #미용 #테디베어컷', imageData: '/images/brand/pawsitive_logo_transparent.png', walkData: null }
  ];
  samples.forEach(s => {
  try { CommunityService.createPost(s); } catch(e) {}
@@ -312,7 +312,7 @@ function renderCommunityPage(options = {}) {
  '해피누나': '/photos/02_display.png',
  '시바집사': '/images/dog_walker.png',
  '댕댕이네': '/photos/03_customers.png',
- '비숑프리제': '/pawsitive_logo_transparent.png'
+ '비숑프리제': '/images/brand/pawsitive_logo_transparent.png'
  };
  const storedPosts = StorageService.get('communityPosts', []);
  let sampleUpdated = false;

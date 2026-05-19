@@ -44,7 +44,7 @@ function renderNavbar() {
  <line x1="3" y1="15" x2="17" y2="15"/>
  </svg>
  </button>
- <div class="navbar__brand" onclick="Router.navigate('/')"><img src="/pawsitive_logo_transparent.png" alt="Pawsitive" class="navbar__logo"></div>
+ <div class="navbar__brand" onclick="Router.navigate('/')"><img src="/images/brand/pawsitive_logo_transparent.png" alt="Pawsitive" class="navbar__logo"></div>
  <div class="navbar__auth" id="nav-auth"></div>
  `;
 

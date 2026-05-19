@@ -160,7 +160,7 @@ function renderAiPage() {
       .ai-main::before { content:''; position:absolute; inset:0; z-index:0; background-color:#fff; background-image:
         radial-gradient(ellipse 34% 82% at 56% 50%, rgba(255,255,255,.98) 0%, rgba(255,255,255,.72) 45%, rgba(255,255,255,.10) 74%, rgba(255,255,255,0) 100%),
         linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.92) 42%, rgba(255,255,255,.56) 68%, rgba(255,255,255,.22) 100%),
-        url('/ai-dog-consult-bg.png'); background-position:56% center, center, calc(100% + clamp(140px, 12vw, 220px)) center; background-size:cover, cover, auto 100%; background-repeat:no-repeat, no-repeat, no-repeat; opacity:1; pointer-events:none; }
+        url('/images/hero/ai-dog-consult-bg.png'); background-position:56% center, center, calc(100% + clamp(140px, 12vw, 220px)) center; background-size:cover, cover, auto 100%; background-repeat:no-repeat, no-repeat, no-repeat; opacity:1; pointer-events:none; }
       .ai-main::after { content:''; position:absolute; inset:0; z-index:0; background:
         linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.90) 36%, rgba(255,255,255,.30) 58%, rgba(255,255,255,.08) 100%),
         radial-gradient(ellipse 24% 92% at 54% 50%, rgba(255,255,255,.86) 0%, rgba(255,255,255,.38) 48%, rgba(255,255,255,0) 78%); pointer-events:none; }

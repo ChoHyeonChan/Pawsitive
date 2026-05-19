@@ -11,7 +11,7 @@ const router = express.Router();
 // 로고 이미지 base64 (이메일용)
 let _logoBase64 = '';
 try {
-  const logoPath = path.join(__dirname, '..', '..', 'pawsitive_logo_transparent.png');
+  const logoPath = path.join(__dirname, '..', '..', 'images', 'brand', 'pawsitive_logo_transparent.png');
   _logoBase64 = fs.readFileSync(logoPath).toString('base64');
 } catch(e) { console.warn('로고 이미지 로드 실패:', e.message); }
 
