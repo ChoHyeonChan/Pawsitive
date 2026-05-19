@@ -1,13 +1,13 @@
-# 🐾 Pawsitive
-
-**반려견과의 더 나은 일상, Pawsitive — AI 건강 분석부터 산책 매칭까지**
-
-> 반려견 보호자와 전문 산책 도우미를 연결하고, AI 기반 건강 관리·교육·커뮤니티를 제공하는 반려견 종합 케어 플랫폼
+<div align="center" style="padding: 60px 20px;">
+  <img src="pawsitive_logo_transparent.png" alt="Pawsitive" width="300">
+  <h1 style="font-size: 2.5em; margin-top: 20px;">Be Pawsitive!</h1>
+  <p style="font-size: 1.3em; color: #555;">Pawsitive는 반려견과 보호자를 위한 통합 케어 플랫폼입니다.</p>
+</div>
 
 ---
 
 ### 🌐 웹사이트
-- [클릭하여 Pawsitive를 체험해보세요!](https://competent-famished-leatrice.ngrok-free.dev)
+- [클릭하여 Pawsitive를 체험해보세요!](http://d1lrqxcxhsi30k.cloudfront.net/)
 
 ### 🎥 소개 영상
 - [클릭하여 Pawsitive 소개 영상을 시청해보세요!](https://youtu.be/)
@@ -33,34 +33,31 @@
 |------|------|
 | Frontend | HTML, CSS, JavaScript (Vanilla) |
 | Backend | Node.js, Express |
-| AI | Google Gemini API |
+| AI | Google Gemini API, Anthropic Claude API |
+| 지도 | OpenStreetMap API |
 | 실시간 통신 | Socket.IO |
 | 인증 | Passport.js (Google, Kakao, Naver OAuth) |
 | 결제 | 토스페이먼츠 |
 
 ---
 
-### 👥 팀 소개
+### 👥 팀 소개 {#team}
 
 | 이름 | 역할 | 기여 내용 |
 |------|------|-----------|
-| 조현찬 | 팀장, 풀스택 개발 | 프로젝트 총괄, 서버 아키텍처 설계 및 핵심 기능 구현 |
-| 하준서 | 풀스택 개발 | 프로필·반려견 관리, AI 건강 분석, 커뮤니티 기능 구현 |
-| 이재준 | 풀스택 개발 | 산책 매칭·GPS 추적, 실시간 채팅, 결제 시스템 구현 |
-| 이충범 | 풀스택 개발 | 교육 콘텐츠, 워커 대시보드, 리뷰·평점 시스템 구현 |
+| 조현찬 | 팀장, 풀스택 개발 | 프로젝트 총괄, 교육 컨텐츠, 품종 정보, AI 상담 기능 구현 |
+| 이재준 | 풀스택 개발 | 서버 아키텍처 설계, 전문가 매칭, 커뮤니티 기능 구현 |
+| 이충범 | 풀스택 개발 | 산책 매칭·GPS 추적, 워커 대시보드, UI 설계, 리뷰·평점 시스템 구현 |
+| 하준서 | 풀스택 개발 | AI 건강 분석, 프로필·반려견 건강서류 관리, 알림 시스템 구현 |
 
 ---
 
 ### ⚙️ 설치 및 실행
 
-`ash
+```bash
 git clone https://github.com/kookmin-sw/2026-capstone-55.git
 cd 2026-capstone-55
 npm install
 npm start
 # http://localhost:3000 에서 확인
-`
-
----
-
-팀페이지: [https://kookmin-sw.github.io/2026-capstone-55/](https://kookmin-sw.github.io/2026-capstone-55/)
+```
