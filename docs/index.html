@@ -310,6 +310,18 @@
     .timeline__content h3{margin:0 0 4px;font-size:1rem;font-weight:800;}
     .timeline__content p{margin:0;font-size:.85rem;color:var(--muted);}
 
+    /* === TEAM CARDS === */
+    .team-card{background:#fff;border-radius:16px;padding:0 24px 24px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;overflow:hidden;}
+    .team-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.1);}
+    .team-card__bar{height:4px;margin:0 -24px 20px;border-radius:0 0 4px 4px;}
+    .team-card__avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+    .team-card__name{margin:0 0 4px;font-size:1rem;font-weight:800;color:#111;}
+    .team-card__role{margin:0 0 14px;font-size:.75rem;color:var(--muted);font-weight:700;}
+    .team-card__tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+    .team-card__tags span{padding:4px 10px;border-radius:999px;font-size:.65rem;font-weight:700;background:var(--soft);color:var(--brand-dark);}
+    @media(max-width:768px){#team > div:last-child{grid-template-columns:repeat(2,1fr) !important;}}
+    @media(max-width:480px){#team > div:last-child{grid-template-columns:1fr !important;}}
+
     /* === FOOTER REDESIGN === */
     .site-footer{padding:48px clamp(20px,5vw,72px) 32px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
     .site-footer__brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin-bottom:12px;}
@@ -448,40 +460,41 @@
       </ul>
     </section>
 
-    <section id="team" class="section reveal">
+    <section id="team" class="section reveal" style="background:#f0fdfa;">
       <span class="section-num">05</span>
-      <h2>팀원 소개</h2>
-      <table class="team">
-        <thead>
-          <tr>
-            <th>이름</th>
-            <th>역할</th>
-            <th>기여 내용</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>조현찬</td>
-            <td>팀장, 풀스택 개발</td>
-            <td>프로젝트 총괄, 교육 컨텐츠, 품종 정보, AI 상담 기능 구현</td>
-          </tr>
-          <tr>
-            <td>이재준</td>
-            <td>풀스택 개발</td>
-            <td>서버 아키텍처 설계, 전문가 매칭, 커뮤니티 기능 구현</td>
-          </tr>
-          <tr>
-            <td>이충범</td>
-            <td>풀스택 개발</td>
-            <td>산책 매칭·GPS 추적, 워커 대시보드, UI 설계, 리뷰·평점 시스템 구현</td>
-          </tr>
-          <tr>
-            <td>하준서</td>
-            <td>풀스택 개발</td>
-            <td>AI 건강 분석, 프로필·반려견 건강서류 관리, 알림 시스템 구현</td>
-          </tr>
-        </tbody>
-      </table>
+      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">TEAM</span>
+      <h2 style="margin-bottom:12px;">함께 만든<br><span style="color:var(--brand);">55팀</span></h2>
+      <p style="color:var(--muted);margin-bottom:40px;">국민대학교 소프트웨어융합대학 2026 캡스톤 55팀입니다.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto;">
+        <div class="team-card">
+          <div class="team-card__bar" style="background:var(--brand);"></div>
+          <div class="team-card__avatar" style="background:#ccfbf1;color:#005f5e;">👑</div>
+          <h3 class="team-card__name">조현찬</h3>
+          <p class="team-card__role">팀장 · 풀스택</p>
+          <div class="team-card__tags"><span>교육</span><span>품종</span><span>AI상담</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__bar" style="background:#0891b2;"></div>
+          <div class="team-card__avatar" style="background:#cffafe;color:#155e75;">🛠️</div>
+          <h3 class="team-card__name">이재준</h3>
+          <p class="team-card__role">풀스택</p>
+          <div class="team-card__tags"><span>서버설계</span><span>전문가매칭</span><span>커뮤니티</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__bar" style="background:#047857;"></div>
+          <div class="team-card__avatar" style="background:#d1fae5;color:#047857;">🗺️</div>
+          <h3 class="team-card__name">이충범</h3>
+          <p class="team-card__role">풀스택</p>
+          <div class="team-card__tags"><span>산책매칭</span><span>GPS</span><span>UI설계</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__bar" style="background:#115e59;"></div>
+          <div class="team-card__avatar" style="background:#f0fdfa;color:#115e59;">🤖</div>
+          <h3 class="team-card__name">하준서</h3>
+          <p class="team-card__role">풀스택</p>
+          <div class="team-card__tags"><span>AI건강분석</span><span>프로필</span><span>알림</span></div>
+        </div>
+      </div>
     </section>
   </main>
 
