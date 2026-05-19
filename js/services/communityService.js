@@ -118,6 +118,29 @@ const CommunityService = (() => {
   }
 
   /**
+   * 게시물 삭제
+   * @param {string} postId
+   * @param {{ isAdmin?: boolean }} actorUser
+   * @returns {boolean}
+   * @throws {Error} 권한이 없거나 게시물을 찾을 수 없는 경우
+   */
+  function deletePost(postId, actorUser) {
+    if (!actorUser || actorUser.isAdmin !== true) {
+      throw new Error('관리자 권한이 없습니다.');
+    }
+
+    const posts = getAllPosts();
+    const index = posts.findIndex(p => p.id === postId);
+    if (index === -1) {
+      throw new Error('게시물을 찾을 수 없습니다.');
+    }
+
+    posts.splice(index, 1);
+    savePosts(posts);
+    return true;
+  }
+
+  /**
    * 좋아요 토글
    * @param {string} postId
    * @param {string} userId
@@ -215,6 +238,7 @@ const CommunityService = (() => {
     getUserFeed,
     getPostById,
     createPost,
+    deletePost,
     toggleLike,
     addComment,
     addReply
