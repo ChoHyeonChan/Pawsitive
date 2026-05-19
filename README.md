@@ -77,6 +77,15 @@
 
 ## 3. 주요 화면
 
+| 기능 | 시연 화면 |
+|:----:|:----:|
+| **산책 매칭** | <img src="Git_gif/산책_매칭.gif" width="600"> |
+| **GPS 트래킹** | <img src="Git_gif/Gps_트래킹.gif" width="600"> |
+| **AI 서비스** | <img src="Git_gif/AI_서비스.gif" width="600"> |
+| **전문가 상담** | <img src="Git_gif/전문가_상담.gif" width="600"> |
+| **품종 추천** | <img src="Git_gif/품종_추천.gif" width="600"> |
+| **품종 교육** | <img src="Git_gif/품종_교육.gif" width="600"> |
+
 
 <br/><br/>
 
