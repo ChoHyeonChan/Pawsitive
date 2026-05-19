@@ -29,15 +29,19 @@ const RealtimeService = (() => {
       'walk-started', 'walk-ended',
       'walker-position', 'walker-status-changed', 'walker-location-updated',
       'walker-location-update',
+      'walker-returning', 'walker-returned', 'return-handoff-updated',
       // matching (AI 매칭 직접 요청)
-      'match-request', 'match-request-accepted', 'match-request-rejected',
-      'match-request-walker-busy', 'match-request-cancelled',
       // broadcast
       'broadcast-walk-request', 'broadcast-matched', 'broadcast-cancelled',
       // 산책 진행 단계
       'walker-arrived', 'walk-tracking-started', 'handoff-confirmed',
       // 채팅
-      'walk-chat-message'
+      'walk-chat-message',
+      // experts
+      'expert-application-reviewed', 'expert-consultation-requested',
+      'expert-consultation-updated', 'expert-consultation-message',
+      // global notifications
+      'admin-notice', 'user-notification'
     ];
     EVENTS.forEach(evt => {
       _socket.on(evt, data => {

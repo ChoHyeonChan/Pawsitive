@@ -2,33 +2,74 @@
 // 도우미 대시보드: 요청 목록, 네비게이션, 산책 이력
 // ============================================================
 
+function escapeQ(value) {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r?\n/g, ' ');
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[ch]);
+}
+
 async function renderWalkerRequestsList(userId) {
   let requests = [];
   try {
     const res = await fetch(`/api/walk-requests?walkerId=${userId}`);
     const data = await res.json();
-    requests = (data.requests || []).filter(r => ['pending', 'accepted', 'heading', 'arrived', 'walking'].includes(r.status));
+    requests = (data.requests || []).filter(r => ['pending', 'accepted', 'heading', 'arrived', 'handoff', 'walking', 'returning', 'return_arrived'].includes(r.status));
   } catch(e) {}
 
   if (requests.length === 0) return { html: '<p style="color:#718096;font-size:0.88rem;">현재 받은 요청이 없습니다.</p>', requests: [] };
 
   const users = StorageService.get('users', []);
 
+  try {
   const html = requests.map(r => {
     const requester = users.find(u => u.id === r.requesterId);
     const requesterName = requester ? (requester.nickname || requester.name) : (r.requesterName || '요청자');
-    const statusLabel = { pending: '⏳ 대기 중', accepted: '이동 중', walking: '산책 중' };
-    const statusColor = { pending: '#F6AD55', accepted: '#4299E1', walking: '#48BB78' };
+    const requesterPhoto = requester?.profileImage || '';
+    const statusLabel = {
+      pending: '수락 대기',
+      accepted: '출발 준비',
+      heading: '이동 중',
+      arrived: '도착',
+      handoff: '산책 시작 준비',
+      walking: '산책 중',
+      returning: '복귀 중',
+      return_arrived: '복귀 도착'
+    };
+    const statusColor = {
+      pending: '#F6AD55',
+      accepted: '#4299E1',
+      heading: '#3B82F6',
+      arrived: '#F59E0B',
+      handoff: '#8B5CF6',
+      walking: '#48BB78',
+      returning: '#0EA5E9',
+      return_arrived: '#FB7185'
+    };
 
     return `
     <div class="match-request-card ${r.status === 'pending' ? 'match-request-card--pending' : ''}">
     <div class="match-request-card__header">
-    <div class="match-request-card__avatar">${requesterName.charAt(0)}</div>
+    <div class="match-request-card__avatar">${requesterPhoto ? `<img src="${escapeHtml(requesterPhoto)}" alt="${escapeHtml(requesterName)}">` : escapeHtml(requesterName.charAt(0) || '?')}</div>
     <div>
     <div class="match-request-card__from">${requesterName}</div>
     <div style="font-size:0.75rem;color:var(--color-text-muted);">${new Date(r.createdAt).toLocaleString('ko-KR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
     </div>
     <span style="margin-left:auto;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;background:${statusColor[r.status]}20;color:${statusColor[r.status]};">${statusLabel[r.status]||r.status}</span>
+    </div>
+    <div class="match-face-notice match-face-notice--compact">
+      <strong>! 요청자 얼굴을 잘 확인하세요</strong>
+      <span>실제 개인 얼굴이 보이는 프로필 사진을 기준으로 안전하게 매칭돼요.</span>
     </div>
     <div class="match-request-card__body">
     <div class="match-request-card__dog">
@@ -66,7 +107,7 @@ async function renderWalkerRequestsList(userId) {
     <div style="font-weight:700;font-size:0.9rem;color:#1E40AF;margin-bottom:6px;">이동 중 · 요청자 위치로 향하는 중</div>
     <div style="font-size:0.8rem;color:#4A5568;margin-bottom:12px;">요청자 위치에 도착하면 아래 버튼을 눌러주세요.</div>
     <div style="display:flex;gap:8px;">
-    <button class="btn btn-primary" style="flex:2;padding:13px;" onclick="arriveAtPickup('${_activeSessionId||r.sessionId||''}')">
+    <button class="btn btn-primary" style="flex:2;padding:13px;" onclick="arriveAtPickup('${r.sessionId||_activeSessionId||''}')">
     도착했어요
     </button>
     <button class="btn btn-ghost" style="flex:1;padding:13px;color:#b91c1c;border:1px solid #fca5a5;" onclick="cancelWalkByWalker('${r.id}')">
@@ -78,22 +119,54 @@ async function renderWalkerRequestsList(userId) {
     ${r.status === 'arrived' ? `
     <div style="background:#FFFBEB;border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid #FCD34D;">
     <div style="font-weight:700;font-size:0.9rem;color:#92400E;margin-bottom:6px;">도착 · 반려견 픽업 중</div>
-    <div style="font-size:0.8rem;color:#4A5568;margin-bottom:12px;">반려견을 인계받으면 산책을 시작해주세요.</div>
-    <button class="btn btn-primary" style="width:100%;padding:13px;background:#00AA76;" onclick="startActualWalk('${_activeSessionId||r.sessionId||''}')">
-    산책 시작
+    <div style="font-size:0.8rem;color:#4A5568;">요청자가 반려견 전달완료를 누르면 산책이 바로 시작돼요.</div>
+    </div>
+    ` : ''}
+    ${r.status === 'handoff' ? `
+    <div style="background:#F5F3FF;border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid #C4B5FD;">
+    <div style="font-weight:700;font-size:0.9rem;color:#5B21B6;margin-bottom:6px;">산책 시작 처리 중</div>
+    <div style="font-size:0.8rem;color:#4A5568;margin-bottom:12px;">전달 확인을 산책 시작 상태로 반영하고 있어요.</div>
+    <button class="btn btn-primary" style="width:100%;padding:13px;background:#00AA76;" onclick="Router.navigate('/walk-session')">
+    지도 열기
     </button>
     </div>
     ` : ''}
     ${r.status === 'walking' ? `
     <div style="display:flex;gap:8px;">
     <button class="btn btn-primary btn-sm" style="flex:1;" onclick="Router.navigate('/walk-session')">트래킹 보기</button>
-    <button class="btn btn-danger btn-sm" onclick="endWalkSession('${_activeSessionId||''}')">산책 종료</button>
+    <button class="btn btn-danger btn-sm" onclick="startReturnToRequester('${r.sessionId||_activeSessionId||''}')">복귀 시작</button>
+    </div>
+    ` : ''}
+    ${r.status === 'returning' ? `
+    <div style="display:flex;gap:8px;">
+    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="Router.navigate('/walk-session')">실시간 보기</button>
+    <button class="btn btn-secondary btn-sm" onclick="arriveReturnToRequester('${r.sessionId||_activeSessionId||''}')">복귀 도착</button>
+    </div>
+    ` : ''}
+    ${r.status === 'return_arrived' ? `
+    <div style="background:#FFF1F2;border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid #FDA4AF;">
+    <div style="font-weight:700;font-size:0.9rem;color:#9F1239;margin-bottom:6px;">재인계 확인</div>
+    <div style="font-size:0.8rem;color:#4A5568;margin-bottom:12px;">요청자와 도우미가 모두 확인하면 산책이 완료돼요.</div>
+    ${r.walkerReturnHandoffConfirmedAt ? `
+    <div style="font-size:0.8rem;color:#64748B;background:#F1F5F9;border-radius:9px;padding:10px;text-align:center;font-weight:700;">요청자 확인 대기 중…</div>
+    ` : `
+    <button class="btn btn-primary" style="width:100%;padding:13px;background:#00AA76;" onclick="confirmWalkerReturnHandoff('${r.sessionId||_activeSessionId||''}')">
+    반려견을 잘 인계했어요
+    </button>
+    `}
     </div>
     ` : ''}
     </div>`;
   }).join('');
 
   return { html, requests };
+  } catch (e) {
+    console.error('[WalkerDashboard] 요청 목록 렌더링 실패:', e);
+    return {
+      html: '<div class="empty-state"><div class="empty-icon">!</div><p>산책 요청을 불러오지 못했어요.<br>잠시 후 다시 시도해주세요.</p></div>',
+      requests: []
+    };
+  }
 }
 
 function initWalkerNavMaps(requests) {
@@ -194,9 +267,9 @@ async function showWalkRouteModal(sessionId, partnerName, distText, dateText) {
 
 async function renderDirectWalkHistory(userId, role) {
   const STATUS_LABEL = {
-    accepted: '수락됨',
+    accepted: '출발 준비',
     walking: '산책 중',
-    completed:'완료됨'
+    completed: '완료'
   };
   const HISTORY_STATUSES = ['accepted', 'walking', 'completed'];
 
@@ -219,34 +292,71 @@ async function renderDirectWalkHistory(userId, role) {
     sessions = data.sessions || [];
   } catch (e) {}
 
-  const html = requests.map(r => {
+  const sortedRequests = requests
+    .slice()
+    .sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+  const completedCount = sortedRequests.filter(r => r.status === 'completed').length;
+  const activeCount = sortedRequests.length - completedCount;
+  const totalKm = sessions.reduce((sum, s) => sum + (Number(s.totalDistanceKm) || 0), 0);
+  const roleLabel = role === 'walker' ? '도우미 기록' : '요청 기록';
+  const emptyRouteHint = role === 'walker' ? '산책 완료 후 경로가 저장돼요' : '완료된 산책은 경로를 다시 볼 수 있어요';
+
+  const cards = sortedRequests.map(r => {
     const partnerName = role === 'walker' ? (r.requesterName || r.requesterId) : (r.walkerName || r.walkerId);
     const session = sessions.find(s => s.requestId === r.id);
-    const distText = session && session.totalDistanceKm != null ? `${session.totalDistanceKm} km` : '';
+    const distText = session && session.totalDistanceKm != null ? `${Number(session.totalDistanceKm).toFixed(2)} km` : '';
     const dateText = new Date(r.updatedAt || r.createdAt).toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
     const startFmt = r.requestedStartTime
       ? new Date(r.requestedStartTime).toLocaleString('ko-KR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
       : '시간 미정';
     const sessionId = session?.id || '';
     const hasRoute = session && session.totalDistanceKm != null;
+    const dogName = r.dogName || '반려견';
+    const statusClass = r.status === 'completed' ? 'is-complete' : r.status === 'walking' ? 'is-live' : 'is-ready';
+    const tagText = hasRoute ? '경로 보기' : emptyRouteHint;
 
     return `
-    <div class="match-walk-card ${r.status === 'completed' ? 'match-walk-card--completed' : ''}" style="cursor:${hasRoute ? 'pointer' : 'default'};transition:background 0.15s;" ${hasRoute ? `onclick="showWalkRouteModal('${sessionId}','${partnerName}','${distText}','${dateText}')"` : ''}>
-    <div class="match-walk-card__avatar">${partnerName.charAt(0)}</div>
-    <div class="match-walk-card__info" style="flex:1;">
-    <div class="match-walk-card__name">${partnerName}</div>
-    <div style="font-size:0.82rem;color:#718096;margin-top:2px;">
-    ${r.dogName || '-'} · ${startFmt}
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:4px;flex-wrap:wrap;">
-    <span class="badge ${r.status === 'completed' ? 'badge-success' : 'badge-info'}">${STATUS_LABEL[r.status] || r.status}</span>
-    ${distText ? `<span style="font-size:0.82rem;color:#4A5568;">📍 ${distText}</span>` : ''}
-    <span style="font-size:0.78rem;color:#A0AEC0;">${dateText}</span>
-    ${hasRoute ? `<span style="font-size:0.72rem;color:#00AA76;font-weight:600;">경로 보기 →</span>` : ''}
-    </div>
-    </div>
-    </div>`;
+    <article class="match-history-card ${hasRoute ? 'match-history-card--clickable' : ''}" ${hasRoute ? `onclick="showWalkRouteModal('${escapeQ(sessionId)}','${escapeQ(partnerName)}','${escapeQ(distText)}','${escapeQ(dateText)}')"` : ''}>
+      <div class="match-history-card__avatar">${escapeHtml(partnerName.charAt(0) || '?')}</div>
+      <div class="match-history-card__main">
+        <div class="match-history-card__top">
+          <div>
+            <div class="match-history-card__name">${escapeHtml(partnerName)}</div>
+            <div class="match-history-card__sub">${escapeHtml(dogName)} · ${escapeHtml(startFmt)}</div>
+          </div>
+          <span class="match-history-status ${statusClass}">${escapeHtml(STATUS_LABEL[r.status] || r.status)}</span>
+        </div>
+        <div class="match-history-card__meta">
+          <span>${icon('calendar', 13)} ${escapeHtml(dateText)}</span>
+          <span>${icon('map-pin', 13)} ${escapeHtml(distText || '기록 대기')}</span>
+          <span class="${hasRoute ? 'is-link' : 'is-muted'}">${escapeHtml(tagText)}${hasRoute ? ' →' : ''}</span>
+        </div>
+      </div>
+    </article>`;
   }).join('');
+
+  const html = `
+  <div class="match-history-panel">
+    <div class="match-history-summary">
+      <div>
+        <span>${escapeHtml(roleLabel)}</span>
+        <strong>${sortedRequests.length}건</strong>
+      </div>
+      <div>
+        <span>완료</span>
+        <strong>${completedCount}건</strong>
+      </div>
+      <div>
+        <span>진행</span>
+        <strong>${activeCount}건</strong>
+      </div>
+      <div>
+        <span>누적 거리</span>
+        <strong>${totalKm.toFixed(2)}km</strong>
+      </div>
+    </div>
+    <div class="match-history-list">${cards}</div>
+  </div>`;
 
   return { html, hasRecords: true };
 }
