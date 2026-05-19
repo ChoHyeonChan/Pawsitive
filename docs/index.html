@@ -140,12 +140,13 @@
     .section {
       padding: clamp(48px, 7vw, 86px) clamp(20px, 5vw, 72px);
       border-top: 1px solid var(--line);
+      text-align: center;
     }
 
     .section.soft { background: var(--soft); }
 
     .section h2 {
-      margin: 0 0 22px;
+      margin: 0 auto 22px;
       font-size: clamp(28px, 4vw, 42px);
       line-height: 1.15;
       letter-spacing: 0;
@@ -155,6 +156,9 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
     }
 
     .card {
@@ -180,9 +184,11 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
       list-style: none;
+      max-width: 700px;
+      text-align: left;
     }
 
     .stack li {
@@ -203,11 +209,14 @@
 
     .team {
       width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
       border-collapse: collapse;
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
+      text-align: left;
     }
 
     .team th,
@@ -358,7 +367,6 @@
       <a href="#about">소개</a>
       <a href="#features">기능</a>
       <a href="#screens">화면</a>
-      <a href="#architecture">아키텍처</a>
       <a href="#stack">기술</a>
       <a href="#team">팀</a>
     </nav>
@@ -381,9 +389,9 @@
       <span class="section-num">01</span>
       <h2>프로젝트 소개</h2>
       <p style="font-size:1.05rem;font-weight:700;color:var(--brand-dark);margin-bottom:18px;">"Pawsitive : AI 기반 반려견 통합 케어 플랫폼"</p>
-      <p style="max-width:800px;color:#444;line-height:1.8;margin-bottom:24px;">현대 사회에서 반려견 양육 가구는 꾸준히 증가하고 있지만, 보호자들은 바쁜 일상 속에서 산책, 건강 관리, 행동 상담 등을 체계적으로 관리하는 데 어려움을 겪고 있습니다. 현재 반려견 관련 서비스들은 각각 분리된 앱과 사이트로 운영되어 건강 기록과 관리 정보가 분산되는 문제가 있습니다.</p>
-      <p style="max-width:800px;color:#444;line-height:1.8;margin-bottom:32px;">저희는 이러한 문제를 해결하기 위해 <strong>Pawsitive</strong>를 개발하였습니다. 실시간 산책 매칭, AI 건강 분석, 전문가 매칭, AI 상담, 건강 서류 통합 관리를 하나의 서비스로 제공하여 보호자와 반려견 모두의 더 나은 일상을 지원합니다.</p>
-      <div style="display:grid;gap:14px;max-width:800px;">
+      <p style="max-width:800px;color:#444;line-height:1.8;margin:0 auto 24px;">현대 사회에서 반려견 양육 가구는 꾸준히 증가하고 있지만, 보호자들은 바쁜 일상 속에서 산책, 건강 관리, 행동 상담 등을 체계적으로 관리하는 데 어려움을 겪고 있습니다. 현재 반려견 관련 서비스들은 각각 분리된 앱과 사이트로 운영되어 건강 기록과 관리 정보가 분산되는 문제가 있습니다.</p>
+      <p style="max-width:800px;color:#444;line-height:1.8;margin:0 auto 32px;">저희는 이러한 문제를 해결하기 위해 <strong>Pawsitive</strong>를 개발하였습니다. 실시간 산책 매칭, AI 건강 분석, 전문가 매칭, AI 상담, 건강 서류 통합 관리를 하나의 서비스로 제공하여 보호자와 반려견 모두의 더 나은 일상을 지원합니다.</p>
+      <div style="display:grid;gap:14px;max-width:800px;margin:0 auto;text-align:left;">
         <div style="padding:16px 20px;border-radius:12px;background:#f0fdfa;border:1px solid #ccfbf1;">✅ <strong>실시간 산책 매칭</strong>으로 주변 도우미와 연결하여 안전하고 효율적인 산책 환경 제공</div>
         <div style="padding:16px 20px;border-radius:12px;background:#f0fdfa;border:1px solid #ccfbf1;">✅ <strong>훈련사·전문가 매칭</strong>으로 행동 교정, 건강 관리 등 전문 상담을 빠르게 연결</div>
         <div style="padding:16px 20px;border-radius:12px;background:#f0fdfa;border:1px solid #ccfbf1;">✅ <strong>Gemini AI 상담 + 건강 분석</strong>으로 맞춤형 건강 리포트 및 상담 서비스 제공</div>
@@ -423,20 +431,8 @@
       </div>
     </section>
 
-    <section id="architecture" class="section soft reveal">
-      <span class="section-num">04</span>
-      <h2>시스템 아키텍처</h2>
-      <img class="architecture" src="System_Architecture.png" alt="Pawsitive 시스템 아키텍처">
-      <div style="margin-top:28px;max-width:800px;">
-        <h3 style="font-size:1rem;margin:0 0 10px;">목표 아키텍처</h3>
-        <p style="color:#444;line-height:1.8;margin-bottom:18px;">AWS 기반 고가용성 아키텍처: Route 53 → ALB 트래픽 분산, S3 + CloudFront CDN, EC2 + Socket.IO, ElastiCache(Redis), RDS(PostgreSQL), Cognito, Lambda, Bedrock 연동</p>
-        <h3 style="font-size:1rem;margin:0 0 10px;">현재 MVP</h3>
-        <p style="color:#444;line-height:1.8;">핵심 비즈니스 로직(실시간 산책 매칭, Gemini AI 상담)의 완성도에 집중. 단일 Node.js 서버 + JSON 파일 기반 데이터 저장 + 브라우저 웹 스토리지 하이브리드 구조로 구현.</p>
-      </div>
-    </section>
-
     <section id="stack" class="section reveal">
-      <span class="section-num">05</span>
+      <span class="section-num">04</span>
       <h2>기술 스택</h2>
       <div class="tech-logos">
         <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
@@ -456,11 +452,10 @@
         <li>Auth: Passport.js OAuth</li>
         <li>Payment: 토스페이먼츠</li>
       </ul>
-      <img class="architecture" src="System_Architecture.png" alt="Pawsitive 시스템 아키텍처">
     </section>
 
     <section id="team" class="section reveal">
-      <span class="section-num">06</span>
+      <span class="section-num">05</span>
       <h2>팀원 소개</h2>
       <table class="team">
         <thead>
@@ -493,34 +488,6 @@
           </tr>
         </tbody>
       </table>
-    </section>
-
-    <section class="section soft reveal">
-      <span class="section-num">07</span>
-      <h2>개발 히스토리</h2>
-      <div class="timeline">
-        <div class="timeline__item">
-          <span class="timeline__date">2026.03</span>
-          <div class="timeline__content">
-            <h3>프로젝트 킥오프</h3>
-            <p>팀 구성 및 기획, 핵심 기능 정의, 기술 스택 선정</p>
-          </div>
-        </div>
-        <div class="timeline__item">
-          <span class="timeline__date">2026.04</span>
-          <div class="timeline__content">
-            <h3>MVP 개발</h3>
-            <p>산책 매칭, GPS 추적, AI 건강 분석 핵심 모듈 구현</p>
-          </div>
-        </div>
-        <div class="timeline__item">
-          <span class="timeline__date">2026.05</span>
-          <div class="timeline__content">
-            <h3>고도화 및 배포</h3>
-            <p>전문가 상담, 커뮤니티, DM, 품종 도감 완성 및 AWS 배포</p>
-          </div>
-        </div>
-      </div>
     </section>
   </main>
 
