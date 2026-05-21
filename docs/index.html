@@ -400,15 +400,22 @@
     @media(max-width:480px){#team > div:last-child{grid-template-columns:1fr !important;}}
 
     /* === FOOTER REDESIGN === */
-    .site-footer{padding:48px clamp(20px,5vw,72px) 32px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
-    .site-footer__brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.1rem;margin-bottom:12px;}
-    .site-footer__brand img{width:36px;height:36px;object-fit:contain;}
-    .site-footer__info{font-size:.8rem;color:var(--muted);line-height:1.8;}
-    .site-footer__links{display:flex;gap:14px;justify-content:flex-end;align-items:center;}
-    .site-footer__links a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--soft);color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:800;transition:background .2s,color .2s;}
-    .site-footer__links a:hover{background:var(--brand);color:#fff;}
-    .site-footer__copy{grid-column:1/-1;text-align:center;font-size:.7rem;color:var(--muted);margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
-    @media(max-width:768px){.site-footer{grid-template-columns:1fr;}.site-footer__links{justify-content:flex-start;}}
+    .site-footer{padding:0 clamp(20px,5vw,72px) 30px;border-top:1px solid var(--line);background:#f4fbfa;color:var(--ink);font-weight:700;overflow:hidden;}
+    .site-footer__cta{position:relative;margin:36px auto 58px;padding:52px 24px;border-radius:24px;background:linear-gradient(135deg,#00a7a5 0%,#047857 100%);color:#fff;text-align:center;overflow:hidden;box-shadow:0 18px 48px rgba(0,123,121,.22);}
+    .site-footer__cta::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.18) 0 1px,transparent 1px 24px);opacity:.24;}
+    .site-footer__cta h2{position:relative;margin:0 auto 12px;max-width:680px;font-size:clamp(1.7rem,3.5vw,2.6rem);line-height:1.2;letter-spacing:0;font-weight:900;}
+    .site-footer__cta p{position:relative;margin:0 auto 24px;max-width:620px;color:rgba(255,255,255,.86);font-size:.95rem;font-weight:700;}
+    .site-footer__cta a{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:999px;background:#fff;color:var(--brand-dark);text-decoration:none;font-size:.88rem;font-weight:900;box-shadow:0 10px 24px rgba(0,0,0,.12);}
+    .site-footer__body{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;max-width:980px;margin:0 auto 34px;text-align:left;}
+    .site-footer__brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.25rem;margin-bottom:14px;color:var(--brand-dark);}
+    .site-footer__info{max-width:360px;font-size:.82rem;color:var(--muted);line-height:1.85;}
+    .site-footer__social{display:flex;gap:10px;margin-top:20px;}
+    .site-footer__social a{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 12px;border:1px solid #cce7e6;border-radius:10px;background:#fff;color:var(--brand-dark);text-decoration:none;font-size:.72rem;font-weight:900;}
+    .site-footer__group h3{margin:0 0 14px;color:var(--brand-dark);font-size:.78rem;letter-spacing:1.4px;text-transform:uppercase;}
+    .site-footer__group a{display:block;margin:0 0 10px;color:#516071;text-decoration:none;font-size:.82rem;font-weight:750;}
+    .site-footer__bottom{display:flex;justify-content:space-between;gap:16px;max-width:980px;margin:0 auto;padding-top:20px;border-top:1px solid #d8ebe9;color:var(--muted);font-size:.72rem;}
+    .site-footer__status{color:var(--brand-dark);font-weight:900;}
+    @media(max-width:820px){.site-footer__body{grid-template-columns:1fr;gap:28px;}.site-footer__bottom{flex-direction:column;}.site-footer__cta{margin-top:26px;padding:42px 20px;}}
 
     footer {
       padding: 28px clamp(20px, 5vw, 72px);
@@ -857,20 +864,45 @@
   </div>
 
   <footer class="site-footer">
+    <div class="site-footer__cta">
+      <h2>반려견 케어, 이제 Pawsitive로 더 스마트하게</h2>
+      <p>산책 매칭부터 건강 분석, AI 상담과 전문가 연결까지 하나의 흐름으로 관리하는 통합 케어 플랫폼</p>
+      <a href="http://d1lrqxcxhsi30k.cloudfront.net/">서비스 체험하기</a>
+    </div>
+    <div class="site-footer__body">
     <div>
       <div class="site-footer__brand">
         <span style="font-size:1.1rem;font-weight:900;">Pawsitive</span>
       </div>
       <div class="site-footer__info">
-        국민대학교 소프트웨어융합대학<br>
-        2026 Capstone Design · 55조
+        반려견과 보호자의 일상을 산책, 건강, 상담 데이터로 연결하는 Pawsitive 프로젝트입니다.<br>
+        국민대학교 소프트웨어융합대학 2026 Capstone Design 55조
+      </div>
+      <div class="site-footer__social">
+        <a href="https://github.com/kookmin-sw/2026-capstone-55" title="GitHub">GH</a>
+        <a href="http://d1lrqxcxhsi30k.cloudfront.net/" title="Live Demo">DEMO</a>
       </div>
     </div>
-    <div class="site-footer__links">
-      <a href="https://github.com/kookmin-sw/2026-capstone-55" title="GitHub">GH</a>
-      <a href="http://d1lrqxcxhsi30k.cloudfront.net/" title="Live Demo">🚀</a>
+    <div class="site-footer__group">
+      <h3>Sections</h3>
+      <a href="#about">01 Intro</a>
+      <a href="#features">02 Services</a>
+      <a href="#screens">03 Impact</a>
+      <a href="#stack">04 Tech</a>
+      <a href="#team">05 Team</a>
     </div>
-    <div class="site-footer__copy">©2026 Pawsitive. All rights reserved.</div>
+    <div class="site-footer__group">
+      <h3>Project</h3>
+      <a href="https://github.com/kookmin-sw/2026-capstone-55">GitHub Repository</a>
+      <a href="http://d1lrqxcxhsi30k.cloudfront.net/">Live Demo</a>
+      <a href="#top">Back to Top</a>
+      <a href="https://kookmin-sw.github.io/2026-capstone-55/">GitHub Pages</a>
+    </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>©2026 Pawsitive · Kookmin University Capstone Design 55</span>
+      <span class="site-footer__status">Demo page active</span>
+    </div>
   </footer>
   <script>
     document.addEventListener('DOMContentLoaded',()=>{
