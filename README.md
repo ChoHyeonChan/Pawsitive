@@ -146,26 +146,19 @@
 
 ## 7. 설치 및 실행
 
-### 로컬 실행 방법
+### 💻 설치 및 실행 방법
 
-Repository 클론
+1. **Repository 클론**
 
 ```bash
 git clone https://github.com/kookmin-sw/2026-capstone-55.git
 cd 2026-capstone-55
 ```
 
-패키지 설치
+2. **환경 변수 설정 (`.env`)**  
+프로젝트 실행을 위해 루트 디렉토리에 `.env` 파일을 생성하고 아래 환경 변수를 설정합니다. 배포 환경에서는 `BASE_URL`을 실제 서비스 주소로 변경합니다.
 
 ```bash
-npm install
-```
-
-환경 변수 설정
-
-프로젝트 루트에 `.env` 파일을 생성하고 아래 값을 설정합니다. 현재 MVP는 별도 DB 없이 `server/data/*.json` 파일을 데이터 저장소로 사용하므로 MySQL, Redis 등의 로컬 설치는 필요하지 않습니다.
-
-```env
 # ===== Pawsitive 환경 설정 =====
 # 아래 값들을 실제 발급받은 키로 교체하세요
 
@@ -201,58 +194,20 @@ GEMINI_API_KEY=your_gemini_api_key
 ADMIN_EMAILS=admin@example.com,manager@example.com
 ```
 
-- `PORT`: 서버 실행 포트입니다. 기본값은 `3000`입니다.
-- `SESSION_SECRET`: 로그인 세션 암호화에 사용하는 임의의 긴 문자열입니다.
-- `BASE_URL`: 로컬 실행 시 `http://localhost:3000`, 배포 시 실제 서비스 주소를 입력합니다.
-- OAuth 키: 구글/카카오/네이버 소셜 로그인 사용 시 각 개발자 콘솔에서 발급받아 입력합니다.
-- `SMTP_USER`, `SMTP_PASS`: Gmail 이메일 인증 발송용 계정과 앱 비밀번호입니다. 미설정 시 이메일 인증은 테스트 모드로 동작합니다.
-- `GEMINI_API_KEY`, `ANTHROPIC_API_KEY`: AI 상담 및 건강 분석 기능 사용을 위한 API 키입니다.
-- `ADMIN_EMAILS`: 관리자 권한을 부여할 이메일을 쉼표로 구분해 입력합니다.
-
-서버 실행
+3. **서버 설치 및 실행**  
+본 프로젝트는 Node.js Express 서버가 프론트엔드 정적 파일, API, Socket.IO 실시간 통신을 함께 제공합니다. 현재 MVP는 별도 DB 없이 `server/data/*.json` 파일을 데이터 저장소로 사용합니다.
 
 ```bash
-npm start
-```
-
-서버 실행 후 브라우저에서 아래 주소로 접속합니다.
-
-```text
-http://localhost:3000
-```
-
-### 배포 방법
-
-현재 구현은 **Node.js Express 서버가 프론트엔드 정적 파일, API, Socket.IO 실시간 통신을 함께 제공하는 구조**입니다. 따라서 S3 정적 호스팅만으로 배포하면 API와 실시간 매칭 기능이 동작하지 않습니다. 배포 시에는 EC2 같은 Node.js 실행 환경에서 서버를 실행하고, CloudFront 또는 도메인이 해당 서버로 요청을 전달하도록 구성해야 합니다.
-
-배포 서버에서 실행하는 기본 절차는 로컬과 동일합니다.
-
-```bash
-git clone https://github.com/kookmin-sw/2026-capstone-55.git
-cd 2026-capstone-55
 npm install
 npm start
 ```
 
-운영 환경에서는 `.env`의 `BASE_URL`을 실제 서비스 주소로 설정합니다.
+4. **서비스 접속**
 
-```env
-PORT=3000
-BASE_URL=http://d1lrqxcxhsi30k.cloudfront.net
-SESSION_SECRET=production_session_secret
-```
-
-소셜 로그인을 사용하는 경우 각 OAuth 제공자 콘솔에 아래 콜백 URL을 등록해야 합니다. `BASE_URL`과 콜백 URL의 도메인이 일치해야 로그인 후 리다이렉트가 정상 동작합니다.
+서버 구동 후 브라우저에서 아래 주소로 접속합니다.
 
 ```text
-{BASE_URL}/auth/google/callback
-{BASE_URL}/auth/google/register/callback
-{BASE_URL}/auth/kakao/callback
-{BASE_URL}/auth/kakao/register/callback
-{BASE_URL}/auth/naver/callback
-{BASE_URL}/auth/naver/register/callback
+http://localhost:3000
 ```
-
-AI 기능은 `GEMINI_API_KEY`, `ANTHROPIC_API_KEY`가 설정되어야 정상 동작합니다. 이메일 인증은 `SMTP_USER`, `SMTP_PASS`가 없으면 테스트 모드로 인증코드를 화면에 표시합니다.
 
 팀페이지: [https://kookmin-sw.github.io/2026-capstone-55/](https://kookmin-sw.github.io/2026-capstone-55/)
