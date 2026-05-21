@@ -362,6 +362,23 @@
     .tech-logos{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-bottom:28px;}
     .tech-logos img{height:36px;opacity:.7;transition:opacity .2s;}
     .tech-logos img:hover{opacity:1;}
+    .tech-map{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:980px;margin:0 auto;text-align:left;}
+    .tech-map::before{content:'';position:absolute;left:16%;right:16%;top:50%;height:2px;background:linear-gradient(90deg,transparent,#b8e4e3,var(--brand),#b8e4e3,transparent);z-index:0;}
+    .tech-column{position:relative;z-index:1;display:grid;gap:14px;align-content:start;}
+    .tech-column--center{padding-top:42px;}
+    .tech-group{border:1px solid #d8ebe9;border-radius:14px;background:rgba(255,255,255,.92);box-shadow:0 12px 28px rgba(23,32,51,.07);overflow:hidden;}
+    .tech-group__head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;border-bottom:1px solid #e4f1f0;background:#f7fbfb;}
+    .tech-group__title{display:flex;align-items:center;gap:9px;margin:0;color:#172033;font-size:.95rem;font-weight:900;}
+    .tech-group__dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px #d9f3f2;}
+    .tech-group__note{color:var(--muted);font-size:.72rem;font-weight:750;white-space:nowrap;}
+    .tech-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;}
+    .tech-node{display:flex;align-items:center;gap:10px;min-height:58px;padding:10px;border:1px solid #edf3f5;border-radius:10px;background:#fff;}
+    .tech-node--wide{grid-column:1/-1;}
+    .tech-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#effaf9;color:var(--brand-dark);font-size:1rem;font-weight:900;flex:0 0 auto;}
+    .tech-node strong{display:block;color:#172033;font-size:.8rem;line-height:1.2;}
+    .tech-node span:last-child{display:block;color:var(--muted);font-size:.66rem;font-weight:700;margin-top:3px;line-height:1.25;}
+    @media(max-width:900px){.tech-map{grid-template-columns:1fr;}.tech-map::before{display:none;}.tech-column--center{padding-top:0;}.tech-items{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media(max-width:520px){.tech-items{grid-template-columns:1fr;}.tech-group__head{align-items:flex-start;flex-direction:column;}.tech-group__note{white-space:normal;}}
 
     /* === TIMELINE === */
     .timeline{display:grid;gap:0;margin-top:28px;border-left:2px solid var(--line);padding-left:28px;}
@@ -539,24 +556,67 @@
       <span class="section-num">04</span>
       <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">TECH STACK</span>
       <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0 0 32px;">Pawsitive를 구현하는<br><span style="color:var(--brand);">핵심 기술</span></h2>
-      <div class="tech-logos">
-        <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
-        <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express">
-        <img src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.IO">
-        <img src="https://img.shields.io/badge/Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini">
-        <img src="https://img.shields.io/badge/Passport.js-34E27A?style=for-the-badge&logo=passport&logoColor=white" alt="Passport">
-        <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
-        <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
-        <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JS">
+      <div class="tech-map" aria-label="Pawsitive technology diagram">
+        <div class="tech-column">
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Client</h3>
+              <span class="tech-group__note">사용자 화면과 인터랙션</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon">H5</span><span><strong>HTML5</strong><span>Static pages</span></span></div>
+              <div class="tech-node"><span class="tech-icon">CSS</span><span><strong>CSS3</strong><span>Responsive UI</span></span></div>
+              <div class="tech-node tech-node--wide"><span class="tech-icon">JS</span><span><strong>Vanilla JavaScript</strong><span>SPA routing and page logic</span></span></div>
+            </div>
+          </section>
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Experience</h3>
+              <span class="tech-group__note">실제 서비스 흐름</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon">GPS</span><span><strong>Walk Tracking</strong><span>산책 경로 기록</span></span></div>
+              <div class="tech-node"><span class="tech-icon">PAY</span><span><strong>Toss Payments</strong><span>결제 연동</span></span></div>
+            </div>
+          </section>
+        </div>
+        <div class="tech-column tech-column--center">
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Core API</h3>
+              <span class="tech-group__note">서비스 로직의 중심</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon">N</span><span><strong>Node.js</strong><span>Runtime</span></span></div>
+              <div class="tech-node"><span class="tech-icon">EX</span><span><strong>Express</strong><span>REST endpoints</span></span></div>
+              <div class="tech-node"><span class="tech-icon">ID</span><span><strong>Passport.js</strong><span>OAuth login</span></span></div>
+              <div class="tech-node"><span class="tech-icon">DB</span><span><strong>JSON Data</strong><span>Prototype storage</span></span></div>
+            </div>
+          </section>
+        </div>
+        <div class="tech-column">
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Intelligence</h3>
+              <span class="tech-group__note">상담과 분석 기능</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon">AI</span><span><strong>Google Gemini</strong><span>AI 상담/분석</span></span></div>
+              <div class="tech-node"><span class="tech-icon">RT</span><span><strong>Socket.IO</strong><span>Realtime events</span></span></div>
+            </div>
+          </section>
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Delivery</h3>
+              <span class="tech-group__note">배포와 소개 페이지</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon">GH</span><span><strong>GitHub Pages</strong><span>Project site</span></span></div>
+              <div class="tech-node"><span class="tech-icon">AWS</span><span><strong>CloudFront</strong><span>Live demo</span></span></div>
+            </div>
+          </section>
+        </div>
       </div>
-      <ul class="stack">
-        <li>Frontend: HTML, CSS, Vanilla JavaScript</li>
-        <li>Backend: Node.js, Express</li>
-        <li>Realtime: Socket.IO</li>
-        <li>AI: Google Gemini API</li>
-        <li>Auth: Passport.js OAuth</li>
-        <li>Payment: 토스페이먼츠</li>
-      </ul>
     </section>
 
     <section id="team" class="section reveal" style="background:#f0fdfa;">
