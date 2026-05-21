@@ -180,6 +180,60 @@
       font-weight: 600;
     }
 
+    .impact-panel {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 22px 28px;
+      width: min(100%, 980px);
+      margin: 28px auto 0;
+      padding: clamp(24px, 4vw, 38px);
+      border: 1px solid rgba(23, 32, 51, .08);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 16px 42px rgba(23, 32, 51, .12);
+      text-align: left;
+    }
+
+    .impact-item {
+      min-width: 0;
+    }
+
+    .impact-item h3 {
+      margin: 0 0 8px;
+      color: var(--brand-dark);
+      font-size: clamp(1.02rem, 2vw, 1.28rem);
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .impact-item p {
+      margin: 0;
+      color: #1f2937;
+      font-size: .95rem;
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .impact-item:nth-child(1) { grid-column: 1 / span 5; }
+    .impact-item:nth-child(2) { grid-column: 6 / span 6; margin-top: 42px; }
+    .impact-item:nth-child(3) { grid-column: 1 / span 5; }
+    .impact-item:nth-child(4) { grid-column: 7 / span 5; }
+    .impact-item:nth-child(5) { grid-column: 2 / span 5; }
+    .impact-item:nth-child(6) { grid-column: 7 / span 5; margin-top: 8px; }
+
+    @media (max-width: 760px) {
+      .impact-panel {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .impact-item,
+      .impact-item:nth-child(n) {
+        grid-column: 1;
+        margin-top: 0;
+      }
+    }
+
     .stack {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -439,17 +493,35 @@
       <p style="color:var(--muted);margin-top:28px;">각 기능의 시연 영상은 <a href="https://github.com/kookmin-sw/2026-capstone-55#3-%EC%A3%BC%EC%9A%94-%ED%99%94%EB%A9%B4" style="color:var(--brand);font-weight:700;text-decoration:underline;">GitHub README</a>에서 GIF로 확인할 수 있습니다.</p>
     </section>
 
-    <section id="screens" class="section reveal">
+    <section id="screens" class="section reveal" style="background:#f5f8fb;">
       <span class="section-num">03</span>
-      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">EXPECTED OUTCOMES</span>
-      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0 0 32px;">Pawsitive가 만드는 <span style="color:var(--brand);">변화</span></h2>
-      <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto;text-align:left;">
-        <div class="card" style="border-left:3px solid #005f5e;"><h3>산책 접근성 향상</h3><p>바쁜 보호자도 원클릭으로 검증된 도우미를 매칭받아 반려견의 규칙적인 산책을 보장합니다.</p></div>
-        <div class="card" style="border-left:3px solid #047857;"><h3>건강 관리 체계화</h3><p>AI 분석과 건강 서류 통합 관리로 분산된 기록을 한곳에서 지속적으로 추적합니다.</p></div>
-        <div class="card" style="border-left:3px solid #0f766e;"><h3>전문 상담 접근 간소화</h3><p>수의사·훈련사를 앱 내에서 바로 연결하여 긴급 상황에도 빠르게 대응할 수 있습니다.</p></div>
-        <div class="card" style="border-left:3px solid #155e75;"><h3>데이터 기반 예방 케어</h3><p>산책 활동 데이터를 AI가 분석하여 건강 이상 징후를 조기에 감지합니다.</p></div>
-        <div class="card" style="border-left:3px solid #065f46;"><h3>보호자 교육 강화</h3><p>44가지 교육 콘텐츠로 반려견에 대한 올바른 지식과 대응 능력을 키웁니다.</p></div>
-        <div class="card" style="border-left:3px solid #0c4a6e;"><h3>반려 생활 품질 향상</h3><p>모든 케어 기능을 하나의 플랫폼에서 제공하여 보호자와 반려견 모두의 일상을 개선합니다.</p></div>
+      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">EXPECTED IMPACT</span>
+      <h2>기대효과</h2>
+      <div class="impact-panel" aria-label="Pawsitive 기대효과">
+        <article class="impact-item">
+          <h3>데이터 기반 맞춤 케어</h3>
+          <p>반려견 보호자의 행동 패턴과 산책·상담·교육 데이터를 분석해 보호자와 반려견에게 맞는 케어 방향을 제안합니다.</p>
+        </article>
+        <article class="impact-item">
+          <h3>반려견 건강 관리 체계화</h3>
+          <p>AI 건강 상담, 산책 활동 기록, 건강 리포트를 하나로 연결해 맞춤 건강 리포트를 제공하고 예방적 관리를 돕습니다.</p>
+        </article>
+        <article class="impact-item">
+          <h3>시간·정보 비용 절감</h3>
+          <p>AI 즉시 상담, 위치 기반 매칭, 교육 콘텐츠 통합 관리로 별도 탐색과 반복 문의에 드는 시간을 줄입니다.</p>
+        </article>
+        <article class="impact-item">
+          <h3>보호자 불안 완화와 빠른 대응</h3>
+          <p>증상 입력과 사진 기반 AI 분석으로 이상 징후를 빠르게 파악하고, 필요 시 전문가 상담으로 이어질 수 있습니다.</p>
+        </article>
+        <article class="impact-item">
+          <h3>검증된 전문가 연결</h3>
+          <p>수의사, 훈련사, 미용사 등 검증된 전문가 상담과 산책 도우미 매칭을 통해 신뢰도 높은 케어 경험을 제공합니다.</p>
+        </article>
+        <article class="impact-item">
+          <h3>반려 생활 데이터 자산화</h3>
+          <p>GPS 산책 기록, 품종 정보, 44가지 교육 콘텐츠를 누적해 반려견의 생활 변화와 성장 흐름을 장기적으로 관리합니다.</p>
+        </article>
       </div>
     </section>
 
