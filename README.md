@@ -144,7 +144,7 @@
 
 ---
 
-## 7. 설치 및 실행
+## 7. 실행 가이드
 
 ```bash
 git clone https://github.com/kookmin-sw/2026-capstone-55.git
