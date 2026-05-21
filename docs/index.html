@@ -444,11 +444,11 @@
       <h2>기능 흐름</h2>
       <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:12px;">
         <div class="card" onclick="document.getElementById('modal-matching').style.display='flex'" style="cursor:pointer;"><h3>산책 매칭</h3><p>실시간 도우미 매칭 흐름</p></div>
-        <div class="card"><h3>GPS 트래킹</h3><p>산책 경로 실시간 기록</p></div>
-        <div class="card"><h3>AI 서비스</h3><p>증상 분석 및 품종 추천</p></div>
-        <div class="card"><h3>전문가 상담</h3><p>수의사·훈련사 1:1 상담</p></div>
-        <div class="card"><h3>품종 추천</h3><p>AI 맞춤 품종 매칭</p></div>
-        <div class="card"><h3>품종 교육</h3><p>44가지 교육 콘텐츠</p></div>
+        <div class="card" onclick="document.getElementById('modal-gps').style.display='flex'" style="cursor:pointer;"><h3>GPS 트래킹</h3><p>산책 경로 실시간 기록</p></div>
+        <div class="card" onclick="document.getElementById('modal-ai').style.display='flex'" style="cursor:pointer;"><h3>AI 서비스</h3><p>증상 분석 및 품종 추천</p></div>
+        <div class="card" onclick="document.getElementById('modal-expert').style.display='flex'" style="cursor:pointer;"><h3>전문가 상담</h3><p>수의사·훈련사 1:1 상담</p></div>
+        <div class="card" onclick="document.getElementById('modal-breed').style.display='flex'" style="cursor:pointer;"><h3>품종 추천</h3><p>AI 맞춤 품종 매칭</p></div>
+        <div class="card" onclick="document.getElementById('modal-edu').style.display='flex'" style="cursor:pointer;"><h3>품종 교육</h3><p>44가지 교육 콘텐츠</p></div>
       </div>
     </section>
 
@@ -554,6 +554,181 @@
           <span class="flow-step__num" style="background:#065f46;display:none;">5</span>
           <h4>안전 귀가</h4>
           <p>산책 완료 후 경로·사진 리포트 자동 발송</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GPS 트래킹 모달 -->
+  <div id="modal-gps" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-gps').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive GPS 트래킹 절차</h2>
+      <p class="flow-modal__sub">산책 시작부터 기록 저장까지 — 4단계로 안전하게</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <h4>산책 시작</h4>
+          <p>도우미 픽업 후 산책 시작 버튼 활성화</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h4>실시간 위치 추적</h4>
+          <p>Geolocation API로 GPS 좌표 실시간 수집</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="3 6 12 3 21 6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+          <h4>경로 시각화</h4>
+          <p>지도에 산책 경로를 라인으로 실시간 그리기</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <h4>기록 저장</h4>
+          <p>거리·시간·평균 속도 자동 계산 후 리포트 발송</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 서비스 모달 -->
+  <div id="modal-ai" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-ai').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive AI 서비스 절차</h2>
+      <p class="flow-modal__sub">증상 입력부터 처방까지 — 4단계로 빠르게</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h4>증상 입력</h4>
+          <p>채팅창에 텍스트 또는 사진으로 증상 설명</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h4>AI 분석</h4>
+          <p>Gemini AI가 RAG 기반 지식으로 원인 추론</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.39 0 4.68.94 6.36 2.64"/></svg></div>
+          <h4>진단 결과 제공</h4>
+          <p>가능 원인·심각도·즉시 조치사항 안내</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <h4>전문가 연결</h4>
+          <p>심각도가 높으면 수의사 상담으로 자동 연계</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 전문가 상담 모달 -->
+  <div id="modal-expert" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-expert').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 전문가 상담 절차</h2>
+      <p class="flow-modal__sub">전문가 선택부터 상담 종료까지 — 4단계로 간편하게</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <h4>전문가 탐색</h4>
+          <p>수의사·훈련사·미용사 카테고리별 검색</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <h4>결제</h4>
+          <p>토스페이먼츠로 안전 결제 진행</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <h4>1:1 채팅</h4>
+          <p>전용 상담방에서 실시간 대화</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h4>리뷰 작성</h4>
+          <p>상담 종료 후 별점·후기로 신뢰도 누적</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 품종 추천 모달 -->
+  <div id="modal-breed" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-breed').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 품종 추천 절차</h2>
+      <p class="flow-modal__sub">라이프스타일 입력부터 추천까지 — 4단계로 매칭</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+          <h4>설문 응답</h4>
+          <p>주거 환경·활동량·가족 구성 등 입력</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h4>AI 매칭</h4>
+          <p>400여 품종 데이터와 라이프스타일 매칭</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+          <h4>점수 산출</h4>
+          <p>활동성·친화성·훈련성 등 항목별 적합도 점수</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <h4>맞춤 추천</h4>
+          <p>상위 3~5개 품종을 카드 형태로 제공</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 품종 교육 모달 -->
+  <div id="modal-edu" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-edu').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 교육 콘텐츠 절차</h2>
+      <p class="flow-modal__sub">카테고리 선택부터 학습 완료까지 — 4단계로 체계적</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+          <h4>카테고리 선택</h4>
+          <p>훈련·건강·영양 등 10개 카테고리 탐색</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+          <h4>콘텐츠 학습</h4>
+          <p>44가지 콘텐츠 영상·텍스트로 학습</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <h4>퀴즈 풀이</h4>
+          <p>학습 완료 후 이해도 체크 퀴즈</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+          <h4>배지 획득</h4>
+          <p>완료 시 PAW 포인트와 배지 적립</p>
         </div>
       </div>
     </div>
