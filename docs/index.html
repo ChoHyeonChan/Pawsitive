@@ -372,9 +372,10 @@
     .tech-group__dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px #d9f3f2;}
     .tech-group__note{color:var(--muted);font-size:.72rem;font-weight:750;white-space:nowrap;}
     .tech-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;}
-    .tech-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:112px;padding:14px 10px;border:1px solid #edf3f5;border-radius:14px;background:#fff;text-align:center;}
+    .tech-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:128px;padding:16px 10px;border:1px solid #edf3f5;border-radius:14px;background:#fff;text-align:center;}
     .tech-node--wide{grid-column:1/-1;}
-    .tech-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;background:#effaf9;color:var(--brand-dark);font-size:1.05rem;font-weight:900;flex:0 0 auto;}
+    .tech-icon{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:16px;background:#effaf9;color:var(--brand-dark);font-size:1.05rem;font-weight:900;flex:0 0 auto;}
+    .tech-icon img{width:38px;height:38px;object-fit:contain;display:block;}
     .tech-icon--html{background:#fff1eb;color:#e34f26;}
     .tech-icon--css{background:#eaf3ff;color:#1572b6;}
     .tech-icon--js{background:#fff8d7;color:#b08a00;}
@@ -388,7 +389,7 @@
     .tech-icon--realtime{background:#f4f4f5;color:#111;}
     .tech-icon--github{background:#f4f4f5;color:#24292f;}
     .tech-icon--aws{background:#fff7e6;color:#ff9900;}
-    .tech-node strong{display:block;color:#172033;font-size:.82rem;line-height:1.2;}
+    .tech-node strong{display:block;color:#172033;font-size:.84rem;line-height:1.2;}
     .tech-node span:last-child{display:block;color:var(--muted);font-size:.66rem;font-weight:700;margin-top:4px;line-height:1.25;}
     @media(max-width:900px){.tech-map{grid-template-columns:1fr;}.tech-map::before{display:none;}.tech-column--center{padding-top:0;}.tech-items{grid-template-columns:repeat(2,minmax(0,1fr));}}
     @media(max-width:520px){.tech-items{grid-template-columns:1fr;}.tech-group__head{align-items:flex-start;flex-direction:column;}.tech-group__note{white-space:normal;}}
@@ -577,9 +578,9 @@
               <span class="tech-group__note">사용자 화면과 인터랙션</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon tech-icon--html">H5</span><span><strong>HTML5</strong><span>Static pages</span></span></div>
-              <div class="tech-node"><span class="tech-icon tech-icon--css">CSS</span><span><strong>CSS3</strong><span>Responsive UI</span></span></div>
-              <div class="tech-node tech-node--wide"><span class="tech-icon tech-icon--js">JS</span><span><strong>Vanilla JavaScript</strong><span>SPA routing and page logic</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--html"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt=""></span><span><strong>HTML5</strong><span>Static pages</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--css"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt=""></span><span><strong>CSS3</strong><span>Responsive UI</span></span></div>
+              <div class="tech-node tech-node--wide"><span class="tech-icon tech-icon--js"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt=""></span><span><strong>Vanilla JavaScript</strong><span>SPA routing and page logic</span></span></div>
             </div>
           </section>
           <section class="tech-group">
@@ -600,8 +601,8 @@
               <span class="tech-group__note">서비스 로직의 중심</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon tech-icon--node">JS</span><span><strong>Node.js</strong><span>Runtime</span></span></div>
-              <div class="tech-node"><span class="tech-icon tech-icon--express">ex</span><span><strong>Express</strong><span>REST endpoints</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--node"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt=""></span><span><strong>Node.js</strong><span>Runtime</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--express"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt=""></span><span><strong>Express</strong><span>REST endpoints</span></span></div>
               <div class="tech-node"><span class="tech-icon tech-icon--auth">ID</span><span><strong>Passport.js</strong><span>OAuth login</span></span></div>
               <div class="tech-node"><span class="tech-icon tech-icon--data">DB</span><span><strong>JSON Data</strong><span>Prototype storage</span></span></div>
             </div>
@@ -614,8 +615,8 @@
               <span class="tech-group__note">상담과 분석 기능</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon tech-icon--ai">AI</span><span><strong>Google Gemini</strong><span>AI 상담/분석</span></span></div>
-              <div class="tech-node"><span class="tech-icon tech-icon--realtime">IO</span><span><strong>Socket.IO</strong><span>Realtime events</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--ai"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt=""></span><span><strong>Google Gemini</strong><span>AI 상담/분석</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--realtime"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg" alt=""></span><span><strong>Socket.IO</strong><span>Realtime events</span></span></div>
             </div>
           </section>
           <section class="tech-group">
@@ -624,8 +625,8 @@
               <span class="tech-group__note">배포와 소개 페이지</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon tech-icon--github">GH</span><span><strong>GitHub Pages</strong><span>Project site</span></span></div>
-              <div class="tech-node"><span class="tech-icon tech-icon--aws">AWS</span><span><strong>CloudFront</strong><span>Live demo</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--github"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt=""></span><span><strong>GitHub Pages</strong><span>Project site</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--aws"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt=""></span><span><strong>CloudFront</strong><span>Live demo</span></span></div>
             </div>
           </section>
         </div>
