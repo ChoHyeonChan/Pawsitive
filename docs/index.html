@@ -371,12 +371,25 @@
     .tech-group__title{display:flex;align-items:center;gap:9px;margin:0;color:#172033;font-size:.95rem;font-weight:900;}
     .tech-group__dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px #d9f3f2;}
     .tech-group__note{color:var(--muted);font-size:.72rem;font-weight:750;white-space:nowrap;}
-    .tech-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;}
-    .tech-node{display:flex;align-items:center;gap:10px;min-height:58px;padding:10px;border:1px solid #edf3f5;border-radius:10px;background:#fff;}
+    .tech-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;}
+    .tech-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:112px;padding:14px 10px;border:1px solid #edf3f5;border-radius:14px;background:#fff;text-align:center;}
     .tech-node--wide{grid-column:1/-1;}
-    .tech-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#effaf9;color:var(--brand-dark);font-size:1rem;font-weight:900;flex:0 0 auto;}
-    .tech-node strong{display:block;color:#172033;font-size:.8rem;line-height:1.2;}
-    .tech-node span:last-child{display:block;color:var(--muted);font-size:.66rem;font-weight:700;margin-top:3px;line-height:1.25;}
+    .tech-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;background:#effaf9;color:var(--brand-dark);font-size:1.05rem;font-weight:900;flex:0 0 auto;}
+    .tech-icon--html{background:#fff1eb;color:#e34f26;}
+    .tech-icon--css{background:#eaf3ff;color:#1572b6;}
+    .tech-icon--js{background:#fff8d7;color:#b08a00;}
+    .tech-icon--gps{background:#e9fbfb;color:#008f8d;}
+    .tech-icon--pay{background:#edf4ff;color:#2563eb;}
+    .tech-icon--node{background:#ecfdf5;color:#339933;}
+    .tech-icon--express{background:#f4f4f5;color:#555;}
+    .tech-icon--auth{background:#ecfdf5;color:#16a34a;}
+    .tech-icon--data{background:#f5f8fb;color:#5b6472;}
+    .tech-icon--ai{background:#edf4ff;color:#4285f4;}
+    .tech-icon--realtime{background:#f4f4f5;color:#111;}
+    .tech-icon--github{background:#f4f4f5;color:#24292f;}
+    .tech-icon--aws{background:#fff7e6;color:#ff9900;}
+    .tech-node strong{display:block;color:#172033;font-size:.82rem;line-height:1.2;}
+    .tech-node span:last-child{display:block;color:var(--muted);font-size:.66rem;font-weight:700;margin-top:4px;line-height:1.25;}
     @media(max-width:900px){.tech-map{grid-template-columns:1fr;}.tech-map::before{display:none;}.tech-column--center{padding-top:0;}.tech-items{grid-template-columns:repeat(2,minmax(0,1fr));}}
     @media(max-width:520px){.tech-items{grid-template-columns:1fr;}.tech-group__head{align-items:flex-start;flex-direction:column;}.tech-group__note{white-space:normal;}}
 
@@ -564,9 +577,9 @@
               <span class="tech-group__note">사용자 화면과 인터랙션</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon">H5</span><span><strong>HTML5</strong><span>Static pages</span></span></div>
-              <div class="tech-node"><span class="tech-icon">CSS</span><span><strong>CSS3</strong><span>Responsive UI</span></span></div>
-              <div class="tech-node tech-node--wide"><span class="tech-icon">JS</span><span><strong>Vanilla JavaScript</strong><span>SPA routing and page logic</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--html">H5</span><span><strong>HTML5</strong><span>Static pages</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--css">CSS</span><span><strong>CSS3</strong><span>Responsive UI</span></span></div>
+              <div class="tech-node tech-node--wide"><span class="tech-icon tech-icon--js">JS</span><span><strong>Vanilla JavaScript</strong><span>SPA routing and page logic</span></span></div>
             </div>
           </section>
           <section class="tech-group">
@@ -575,8 +588,8 @@
               <span class="tech-group__note">실제 서비스 흐름</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon">GPS</span><span><strong>Walk Tracking</strong><span>산책 경로 기록</span></span></div>
-              <div class="tech-node"><span class="tech-icon">PAY</span><span><strong>Toss Payments</strong><span>결제 연동</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--gps">GPS</span><span><strong>Walk Tracking</strong><span>산책 경로 기록</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--pay">Pay</span><span><strong>Toss Payments</strong><span>결제 연동</span></span></div>
             </div>
           </section>
         </div>
@@ -587,10 +600,10 @@
               <span class="tech-group__note">서비스 로직의 중심</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon">N</span><span><strong>Node.js</strong><span>Runtime</span></span></div>
-              <div class="tech-node"><span class="tech-icon">EX</span><span><strong>Express</strong><span>REST endpoints</span></span></div>
-              <div class="tech-node"><span class="tech-icon">ID</span><span><strong>Passport.js</strong><span>OAuth login</span></span></div>
-              <div class="tech-node"><span class="tech-icon">DB</span><span><strong>JSON Data</strong><span>Prototype storage</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--node">JS</span><span><strong>Node.js</strong><span>Runtime</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--express">ex</span><span><strong>Express</strong><span>REST endpoints</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--auth">ID</span><span><strong>Passport.js</strong><span>OAuth login</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--data">DB</span><span><strong>JSON Data</strong><span>Prototype storage</span></span></div>
             </div>
           </section>
         </div>
@@ -601,8 +614,8 @@
               <span class="tech-group__note">상담과 분석 기능</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon">AI</span><span><strong>Google Gemini</strong><span>AI 상담/분석</span></span></div>
-              <div class="tech-node"><span class="tech-icon">RT</span><span><strong>Socket.IO</strong><span>Realtime events</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--ai">AI</span><span><strong>Google Gemini</strong><span>AI 상담/분석</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--realtime">IO</span><span><strong>Socket.IO</strong><span>Realtime events</span></span></div>
             </div>
           </section>
           <section class="tech-group">
@@ -611,8 +624,8 @@
               <span class="tech-group__note">배포와 소개 페이지</span>
             </div>
             <div class="tech-items">
-              <div class="tech-node"><span class="tech-icon">GH</span><span><strong>GitHub Pages</strong><span>Project site</span></span></div>
-              <div class="tech-node"><span class="tech-icon">AWS</span><span><strong>CloudFront</strong><span>Live demo</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--github">GH</span><span><strong>GitHub Pages</strong><span>Project site</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--aws">AWS</span><span><strong>CloudFront</strong><span>Live demo</span></span></div>
             </div>
           </section>
         </div>
