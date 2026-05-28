@@ -403,5 +403,23 @@
     "requesterReturnHandoffConfirmedAt": "2026-05-16T10:02:00.000Z",
     "endedAt": "2026-05-16T10:02:00.000Z",
     "totalDistanceKm": 2.8
+  },
+  {
+    "id": "id-mpdlnzbd-cv4ttgn",
+    "requestId": "id-mpdlncu7-dmu1duf",
+    "walkerId": "id-mok5uf8l-0badxjq",
+    "requesterId": "id-mnsm12ov-kpkaldi",
+    "dogName": "치치",
+    "status": "completed",
+    "startedAt": "2026-05-20T05:06:59.593Z",
+    "arrivedAt": "2026-05-20T05:07:25.851Z",
+    "handoffAt": "2026-05-20T05:07:28.414Z",
+    "walkStartedAt": "2026-05-20T05:07:28.414Z",
+    "returnStartedAt": "2026-05-20T05:08:25.534Z",
+    "returnArrivedAt": "2026-05-20T05:08:45.711Z",
+    "walkerReturnHandoffConfirmedAt": "2026-05-20T05:09:02.297Z",
+    "requesterReturnHandoffConfirmedAt": "2026-05-20T05:08:58.704Z",
+    "endedAt": "2026-05-20T05:09:02.297Z",
+    "totalDistanceKm": 0
   }
 ]

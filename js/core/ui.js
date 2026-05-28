@@ -189,7 +189,7 @@ function updateNavAuth() {
  `;
  } else {
  navAuth.innerHTML = `
- <button class="nav-icon-btn" onclick="Router.navigate('/login')" title="로그인">${profileIcon}</button>
+ <button class="nav-icon-btn" onclick="showLoginModal('프로필 설정, 반려견 등록, 닉네임 변경 등을 하려면 로그인이 필요해요!')" title="로그인">${profileIcon}</button>
  `;
  }
  }
@@ -225,6 +225,7 @@ function showLoginModal(message) {
  <div style="font-size:3rem;margin-bottom:12px;"></div>
  <h3 style="margin:0 0 8px;font-size:1.15rem;">로그인이 필요해요!</h3>
  <p style="color:#666;font-size:0.9rem;line-height:1.6;margin-bottom:20px;">${msg}</p>
+ ${typeof renderDemoQuickSignupBox === 'function' ? renderDemoQuickSignupBox() : ''}
  <div style="display:flex;gap:10px;justify-content:center;">
  <button onclick="document.getElementById('login-modal-overlay').remove();Router.navigate('/login')" style="flex:1;padding:12px;border:none;border-radius:12px;background:var(--color-primary,#7C4DFF);color:#fff;font-weight:700;font-size:0.95rem;cursor:pointer;">로그인</button>
  <button onclick="document.getElementById('login-modal-overlay').remove();Router.navigate('/register')" style="flex:1;padding:12px;border:none;border-radius:12px;background:#f0f0f0;color:#333;font-weight:700;font-size:0.95rem;cursor:pointer;">회원가입</button>

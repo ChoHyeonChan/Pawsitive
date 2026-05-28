@@ -57,7 +57,7 @@ function _normalizeNotification(entry, refData = {}) {
     type: entry.type || data.type || 'info',
     source: entry.source || data.source || '',
     read: entry.read === true,
-    createdAt: entry.createdAt || new Date().toISOString()
+    createdAt: entry.createdAt || data.createdAt || new Date().toISOString()
   };
 
   const ref = data.refType || data.type;
@@ -71,6 +71,18 @@ function _normalizeNotification(entry, refData = {}) {
   normalized.category = entry.category || data.category || _inferNotificationCategory(normalized);
   normalized.targetRoute = _defaultTargetForNotification(normalized);
   return normalized;
+}
+
+function _getNoticeCutoffTime(user) {
+  const createdTime = new Date(user?.createdAt || 0).getTime();
+  return Number.isFinite(createdTime) ? createdTime : 0;
+}
+
+function _isNoticeVisibleToUser(entry, user) {
+  if (_inferNotificationCategory(entry) !== 'notice') return true;
+  const noticeTime = new Date(entry?.createdAt || 0).getTime();
+  if (!Number.isFinite(noticeTime)) return true;
+  return noticeTime >= _getNoticeCutoffTime(user);
 }
 
 function _pushNotify(title, body, url) {
@@ -88,7 +100,11 @@ function getNotifications() {
   const stored = localStorage.getItem('pawsitive_notifications_' + user.id);
   if (stored) {
     try {
-      _notifications = JSON.parse(stored).map(n => _normalizeNotification(n));
+      const parsed = JSON.parse(stored).map(n => _normalizeNotification(n));
+      _notifications = parsed.filter(n => _isNoticeVisibleToUser(n, user));
+      if (_notifications.length !== parsed.length) {
+        localStorage.setItem('pawsitive_notifications_' + user.id, JSON.stringify(_notifications));
+      }
     } catch(e) {
       _notifications = [];
     }
@@ -108,7 +124,12 @@ async function loadServerNotices() {
     const readKey = 'pawsitive_read_notices_' + user.id;
     const readIds = JSON.parse(localStorage.getItem(readKey) || '[]');
     let added = false;
-    notices.forEach(n => {
+    notices.filter(n => _isNoticeVisibleToUser({
+      ...n,
+      type: 'notice',
+      source: 'admin',
+      category: 'notice'
+    }, user)).forEach(n => {
       if (!readIds.includes(n.id) && !_notifications.find(x => x.id === 'notice_' + n.id)) {
         _notifications.unshift(_normalizeNotification({
           id: 'notice_' + n.id,
@@ -150,6 +171,8 @@ function receiveNotification(entry) {
   if (!entry) return;
   getNotifications();
   const normalized = _normalizeNotification(entry);
+  const user = AuthService.getCurrentUser();
+  if (!_isNoticeVisibleToUser(normalized, user)) return;
   if (_notifications.some(n => n.id === normalized.id)) return;
   _notifications.unshift(normalized);
   if (_notifications.length > 80) _notifications = _notifications.slice(0, 80);
@@ -164,6 +187,8 @@ function receiveNotification(entry) {
 function addNotification(message, type = 'info', refData = {}) {
   const entry = _normalizeNotification({ message, type }, refData);
   getNotifications();
+  const user = AuthService.getCurrentUser();
+  if (!_isNoticeVisibleToUser(entry, user)) return null;
   _notifications.unshift(entry);
   if (_notifications.length > 80) _notifications = _notifications.slice(0, 80);
   saveNotifications();

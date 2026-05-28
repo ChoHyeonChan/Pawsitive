@@ -197,5 +197,128 @@
     "viewedBy": [],
     "reactions": {},
     "comments": []
+  },
+  {
+    "id": "sample-story-20260520-0",
+    "authorId": "sample-1",
+    "authorName": "초코맘",
+    "authorProfileImage": "/photos/01_interior.png",
+    "imageData": "/photos/01_interior.png",
+    "text": "한강 산책로 기록",
+    "createdAt": "2026-05-20T04:53:22.917Z",
+    "expiresAt": 1779320122917,
+    "viewedBy": [
+      "id-mnsm12ov-kpkaldi"
+    ],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260520-1",
+    "authorId": "sample-4",
+    "authorName": "시바집사",
+    "authorProfileImage": "/images/dog_walker.png",
+    "imageData": "/images/dog_walker.png",
+    "text": "오후 산책 체크인",
+    "createdAt": "2026-05-20T04:11:22.917Z",
+    "expiresAt": 1779323722917,
+    "viewedBy": [
+      "id-mnsm12ov-kpkaldi"
+    ],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260520-2",
+    "authorId": "sample-5",
+    "authorName": "댕댕이네",
+    "authorProfileImage": "/photos/03_customers.png",
+    "imageData": "/photos/03_customers.png",
+    "text": "새 놀이터 저장",
+    "createdAt": "2026-05-20T03:29:22.917Z",
+    "expiresAt": 1779327322917,
+    "viewedBy": [
+      "id-mnsm12ov-kpkaldi"
+    ],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260521-0",
+    "authorId": "sample-1",
+    "authorName": "초코맘",
+    "authorProfileImage": "/photos/01_interior.png",
+    "imageData": "/photos/01_interior.png",
+    "text": "한강 산책로 기록",
+    "createdAt": "2026-05-21T13:15:56.693Z",
+    "expiresAt": 1779436676693,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260521-1",
+    "authorId": "sample-4",
+    "authorName": "시바집사",
+    "authorProfileImage": "/images/dog_walker.png",
+    "imageData": "/images/dog_walker.png",
+    "text": "오후 산책 체크인",
+    "createdAt": "2026-05-21T12:33:56.693Z",
+    "expiresAt": 1779440276693,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260521-2",
+    "authorId": "sample-5",
+    "authorName": "댕댕이네",
+    "authorProfileImage": "/photos/03_customers.png",
+    "imageData": "/photos/03_customers.png",
+    "text": "새 놀이터 저장",
+    "createdAt": "2026-05-21T11:51:56.693Z",
+    "expiresAt": 1779443876693,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260528-0",
+    "authorId": "sample-1",
+    "authorName": "초코맘",
+    "authorProfileImage": "/photos/01_interior.png",
+    "imageData": "/photos/01_interior.png",
+    "text": "한강 산책로 기록",
+    "createdAt": "2026-05-28T03:35:03.741Z",
+    "expiresAt": 1780006623741,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260528-1",
+    "authorId": "sample-4",
+    "authorName": "시바집사",
+    "authorProfileImage": "/images/dog_walker.png",
+    "imageData": "/images/dog_walker.png",
+    "text": "오후 산책 체크인",
+    "createdAt": "2026-05-28T02:53:03.741Z",
+    "expiresAt": 1780010223741,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
+  },
+  {
+    "id": "sample-story-20260528-2",
+    "authorId": "sample-5",
+    "authorName": "댕댕이네",
+    "authorProfileImage": "/photos/03_customers.png",
+    "imageData": "/photos/03_customers.png",
+    "text": "새 놀이터 저장",
+    "createdAt": "2026-05-28T02:11:03.741Z",
+    "expiresAt": 1780013823741,
+    "viewedBy": [],
+    "reactions": {},
+    "comments": []
   }
 ]

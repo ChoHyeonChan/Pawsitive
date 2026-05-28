@@ -1,0 +1,31 @@
+{
+  "id": "demo-user-mpp0cufp-3ui6isu_demo-user-mpp0d5pr-ppfl0s5",
+  "participants": [
+    "demo-user-mpp0cufp-3ui6isu",
+    "demo-user-mpp0d5pr-ppfl0s5"
+  ],
+  "names": {
+    "demo-user-mpp0d5pr-ppfl0s5": "혠니",
+    "demo-user-mpp0cufp-3ui6isu": "배배"
+  },
+  "avatars": {
+    "demo-user-mpp0d5pr-ppfl0s5": "",
+    "demo-user-mpp0cufp-3ui6isu": ""
+  },
+  "messages": [
+    {
+      "id": "id-mpp0iix1-o70w2m0",
+      "senderId": "demo-user-mpp0d5pr-ppfl0s5",
+      "senderName": "혠니",
+      "content": "ㅎㅇ",
+      "createdAt": "2026-05-28T04:48:07.237Z"
+    }
+  ],
+  "unread": {
+    "demo-user-mpp0cufp-3ui6isu": 0,
+    "demo-user-mpp0d5pr-ppfl0s5": 0
+  },
+  "createdAt": "2026-05-28T04:48:07.236Z",
+  "lastMessage": "ㅎㅇ",
+  "lastAt": "2026-05-28T04:48:07.237Z"
+}

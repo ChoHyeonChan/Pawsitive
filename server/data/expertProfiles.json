@@ -1,5 +1,43 @@
 [
   {
+    "id": "expert-id-mpdmromm-basy292",
+    "userId": "id-mok5uf8l-0badxjq",
+    "category": "vet",
+    "categoryLabel": "수의사",
+    "name": "하준서",
+    "title": "소동물 내과 수의사",
+    "avatar": "하",
+    "rating": 4.8,
+    "reviews": 0,
+    "price": 30000,
+    "responseTime": "평균 15분",
+    "experience": "5년 경력",
+    "location": "서울 강남",
+    "tags": [
+      "ㅁㄴㅇㄹ",
+      "ㅇㅁㄴㄻ"
+    ],
+    "intro": "뭐든지",
+    "credentials": [
+      {
+        "issuer": "KKC",
+        "name": "수의사 면허",
+        "grade": "1급",
+        "number": "1200200403329",
+        "expiry": ""
+      }
+    ],
+    "verificationBadges": [
+      "수의사 면허 확인",
+      "관리자 서류 심사 통과"
+    ],
+    "workplace": "ㅁㄴㅇㄹ",
+    "status": "approved",
+    "source": "application",
+    "applicationId": "id-mpdmromm-basy292",
+    "approvedAt": "2026-05-20T05:38:20.732Z"
+  },
+  {
     "id": "expert-vet-mock",
     "userId": "mock-vet-user",
     "category": "vet",

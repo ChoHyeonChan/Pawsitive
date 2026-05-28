@@ -133,5 +133,32 @@
     "reason": "산책 완료 (0.12km)",
     "createdAt": "2026-05-17T08:53:59.759Z",
     "balanceAfter": 3003
+  },
+  {
+    "id": "id-mpdm3en0-7t7vsbh",
+    "userId": "id-mpdm3dws-vtvlg8a",
+    "type": "earn",
+    "amount": 3000,
+    "reason": "회원가입 축하 보상 ",
+    "createdAt": "2026-05-20T05:18:59.292Z",
+    "balanceAfter": 3000
+  },
+  {
+    "id": "id-mpdmgtbv-iekfe96",
+    "userId": "id-mpdmgsme-tufst4u",
+    "type": "earn",
+    "amount": 3000,
+    "reason": "회원가입 축하 보상 ",
+    "createdAt": "2026-05-20T05:29:24.859Z",
+    "balanceAfter": 3000
+  },
+  {
+    "id": "id-mpflyjcl-gqt49dj",
+    "userId": "demo-user-mpflwie5-g0dgklf",
+    "type": "earn",
+    "amount": 1,
+    "reason": "산책 완료 (0.13km)",
+    "createdAt": "2026-05-21T14:50:44.469Z",
+    "balanceAfter": 3001
   }
 ]

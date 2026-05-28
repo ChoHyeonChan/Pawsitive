@@ -8,6 +8,12 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
+const GEMINI_TIMEOUT_MS = Number(process.env.GEMINI_TIMEOUT_MS || 30000);
+const GEMINI_MAX_OUTPUT_TOKENS = Number(process.env.GEMINI_MAX_OUTPUT_TOKENS || 4096);
+const GEMINI_GENERATE_MODELS = (process.env.GEMINI_MODELS || 'gemini-2.5-flash,gemini-2.5-flash-lite')
+  .split(',')
+  .map(name => name.trim())
+  .filter(Boolean);
 
 // ===== RAG: 지식 데이터 로드 =====
 let knowledgeBase = [];
@@ -53,7 +59,7 @@ async function getQueryEmbedding(query) {
   try {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-embedding-2' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-embedding-2' }, { timeout: GEMINI_TIMEOUT_MS });
     const result = await model.embedContent(query);
     return new Float32Array(result.embedding.values);
   } catch {
@@ -289,22 +295,77 @@ function searchKnowledge(query, maxResults = 5) {
 // ===== Gemini 설정 =====
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+function extractGeminiText(result) {
+  if (!result) return '';
+  if (typeof result.response?.text === 'function') return result.response.text();
+  if (typeof result.text === 'string') return result.text;
+  return result.candidates?.[0]?.content?.parts
+    ?.map(part => part.text || '')
+    .join('')
+    .trim() || '';
+}
+
 function getGeminiModel() {
   if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY.includes('여기에')) {
     return null;
   }
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-  // 단일 모델 호출 + 503/429 재시도 (최대 3회, 간격 2초)
-  async function callWithRetry(modelName, prompt, maxRetries = 3) {
+  function buildGenerateBody(contents, options = {}) {
+    const parts = typeof contents === 'string' ? [{ text: contents }] : contents;
+    const body = {
+      contents: [{ role: 'user', parts }],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: options.maxOutputTokens || GEMINI_MAX_OUTPUT_TOKENS,
+        ...options.generationConfig
+      }
+    };
+    if (options.systemInstruction) {
+      body.systemInstruction = { parts: [{ text: options.systemInstruction }] };
+    }
+    return body;
+  }
+
+  // 단일 모델 호출 + 503/429/네트워크 재시도
+  async function callWithRetry(modelName, contents, maxRetries = 2, options = {}) {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), Number(options.timeoutMs || GEMINI_TIMEOUT_MS));
       try {
-        const model = genAI.getGenerativeModel({ model: modelName });
-        return await model.generateContent(prompt);
+        const url = `https://generativelanguage.googleapis.com/v1/models/${encodeURIComponent(modelName)}:generateContent`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': process.env.GEMINI_API_KEY
+          },
+          body: JSON.stringify(buildGenerateBody(contents, options)),
+          signal: controller.signal
+        });
+        const text = await response.text();
+        let data = null;
+        try { data = text ? JSON.parse(text) : null; } catch (e) {}
+
+        if (!response.ok) {
+          const detail = data?.error?.message || text || response.statusText;
+          const err = new Error(`[${response.status} ${response.statusText}] ${detail}`);
+          err.status = response.status;
+          throw err;
+        }
+
+        return {
+          response: {
+            text: () => data?.candidates?.[0]?.content?.parts?.map(part => part.text || '').join('').trim() || ''
+          },
+          raw: data
+        };
       } catch (e) {
         const msg = e.message || '';
-        const isRetryable = msg.includes('503') || msg.includes('429') || msg.includes('overloaded');
-        console.log(`[AI] ${modelName} 시도 ${attempt}/${maxRetries} 실패:`, msg.substring(0, 100));
+        const cause = e.cause?.code || e.cause?.message || '';
+        const isRetryable = e.status === 503 || e.status === 429 || e.status >= 500 ||
+          msg.includes('overloaded') || msg.includes('fetch failed') ||
+          /ENOTFOUND|ECONNRESET|ECONNREFUSED|ETIMEDOUT|EAI_AGAIN|AbortError/.test(cause + msg);
+        console.log(`[AI] ${modelName} 시도 ${attempt}/${maxRetries} 실패:`, (msg + (cause ? ` (${cause})` : '')).substring(0, 180));
         if (isRetryable && attempt < maxRetries) {
           const delay = attempt * 2000; // 2초, 4초
           console.log(`[AI] ${delay}ms 후 재시도...`);
@@ -312,30 +373,65 @@ function getGeminiModel() {
         } else {
           throw e;
         }
+      } finally {
+        clearTimeout(timeout);
       }
     }
   }
 
   return {
-    async generateContent(prompt) {
-      // gemini-2.5-flash를 재시도 포함하여 호출
-      try {
-        return await callWithRetry('gemini-2.5-flash', prompt, 3);
-      } catch (e) {
-        console.log('[AI] gemini-2.5-flash 최종 실패, 폴백 시도...');
-        // 폴백 모델들 시도
-        const fallbacks = ['gemini-2.5-flash-preview-05-20', 'gemini-2.0-flash'];
-        for (const name of fallbacks) {
-          try {
-            return await callWithRetry(name, prompt, 2);
-          } catch (e2) {
-            console.log(`[AI] ${name} 폴백도 실패`);
-          }
+    async generateContent(contents, options = {}) {
+      let firstError = null;
+      for (const [index, name] of GEMINI_GENERATE_MODELS.entries()) {
+        try {
+          return await callWithRetry(name, contents, index === 0 ? 3 : 2, options);
+        } catch (e) {
+          if (!firstError) firstError = e;
+          console.log(index === 0 ? '[AI] Gemini 기본 모델 최종 실패, 폴백 시도...' : `[AI] ${name} 폴백도 실패`);
         }
-        throw e;
       }
+      throw firstError || new Error('Gemini 모델 호출 실패');
     }
   };
+}
+
+function buildLocalAiFallback({ message = '', mode = 'consult', breed = '', age = '', ragResults = [], image = false }) {
+  const refs = ragResults.slice(0, 3);
+  const refText = refs.length
+    ? refs.map((r, i) => `${i + 1}. ${r.title}: ${String(r.content || '').slice(0, 180)}`).join('\n')
+    : '';
+
+  if (mode === 'health' || breed || age || image) {
+    return [
+      '지금 외부 AI 연결이 불안정해서, Pawsitive 기본 건강 가이드로 먼저 정리해드릴게요.',
+      '',
+      breed || age ? `[반려견 정보]\n- 품종: ${breed || '미상'}\n- 나이: ${age || '미상'}` : '',
+      image ? '첨부 이미지는 현재 외부 AI 연결 문제로 정밀 판독하지 못했어요. 눈에 띄는 증상은 텍스트로 함께 적어주시면 더 안전하게 안내할 수 있어요.' : '',
+      '',
+      '[현재 확인할 점]',
+      '- 식욕, 물 섭취량, 활력, 배변/소변 변화가 있는지 확인해주세요.',
+      '- 구토, 설사, 호흡 이상, 경련, 심한 통증, 피가 섞인 분비물이 있으면 바로 병원에 문의해주세요.',
+      '- 증상이 24시간 이상 지속되거나 빠르게 악화되면 수의사 진료가 필요합니다.',
+      refText ? `\n[관련 참고]\n${refText}` : '',
+      '',
+      '⚠️ AI 분석 결과는 참고용이며, 정확한 진단은 수의사와 상담해주세요.'
+    ].filter(Boolean).join('\n');
+  }
+
+  return [
+    '지금 외부 AI 연결이 불안정해서, Pawsitive 기본 상담 가이드로 먼저 답변드릴게요.',
+    '',
+    '[상황 정리]',
+    `- 질문: ${message || '상담 내용 미입력'}`,
+    '- 문제 행동은 보통 환경 변화, 에너지 부족, 불안, 보상 패턴이 함께 작용할 수 있어요.',
+    '',
+    '[바로 해볼 수 있는 방법]',
+    '1. 문제가 생기는 시간, 장소, 직전 행동을 메모해주세요.',
+    '2. 혼내기보다 원하는 행동을 했을 때 바로 칭찬과 보상을 주세요.',
+    '3. 산책, 노즈워크, 짧은 훈련으로 에너지를 먼저 풀어주세요.',
+    '4. 공격성, 자해, 극심한 불안이 있으면 전문가 상담을 권장합니다.',
+    refText ? `\n[관련 참고]\n${refText}` : ''
+  ].filter(Boolean).join('\n');
 }
 
 // ===== Claude 설정 =====
@@ -384,8 +480,8 @@ router.post('/symptom', async (req, res) => {
   const model = getGeminiModel();
   if (model) {
     try {
-      const result = await model.generateContent(fullPrompt);
-      const response = result.response.text();
+      const result = await model.generateContent(fullPrompt, { maxOutputTokens: 4096 });
+      const response = extractGeminiText(result);
       return res.json({ success: true, analysis: response });
     } catch (e) {
       console.error('[AI 증상] Gemini 실패:', e.message?.substring(0, 100));
@@ -397,18 +493,26 @@ router.post('/symptom', async (req, res) => {
     console.log('[AI 증상] Claude 폴백 시도...');
     const client = getClaudeClient();
     if (!client) {
-      return res.status(503).json({ success: false, error: 'AI 서비스가 일시적으로 불안정해요.' });
+      return res.json({
+        success: true,
+        analysis: buildLocalAiFallback({ message: symptoms, mode: 'health', breed, age, ragResults }),
+        fallback: 'local'
+      });
     }
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
+      max_tokens: 2048,
       system: SYSTEM_PROMPTS.symptom,
       messages: [{ role: 'user', content: `[반려견 정보]\n품종: ${breed || '미상'}\n나이: ${age || '미상'}\n\n[증상]\n${symptoms}${ragContext}` }]
     });
     return res.json({ success: true, analysis: response.content[0].text });
   } catch (e2) {
     console.error('[AI 증상] Claude 폴백도 실패:', e2.message?.substring(0, 100));
-    return res.status(500).json({ success: false, error: 'AI 분석 중 오류가 발생했어요. 잠시 후 다시 시도해주세요~' });
+    return res.json({
+      success: true,
+      analysis: buildLocalAiFallback({ message: symptoms, mode: 'health', breed, age, ragResults }),
+      fallback: 'local'
+    });
   }
 });
 
@@ -429,7 +533,7 @@ async function consultWithClaude(message, history, systemPrompt) {
 
   const response = await client.messages.create({
     model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
+    max_tokens: 2048,
     system: systemPrompt || SYSTEM_PROMPTS.consult,
     messages: [{ role: 'user', content: userContent }]
   });
@@ -509,8 +613,8 @@ router.post('/consult', async (req, res) => {
       }
       prompt += `사용자: ${message}`;
 
-      const result = await model.generateContent(prompt);
-      const response = result.response.text();
+      const result = await model.generateContent(prompt, { maxOutputTokens: 4096 });
+      const response = extractGeminiText(result);
       return res.json({ success: true, reply: response });
     } catch (e) {
       console.error('[AI 상담] Gemini 실패:', e.message?.substring(0, 100));
@@ -524,13 +628,25 @@ router.post('/consult', async (req, res) => {
     if (reply) {
       return res.json({ success: true, reply });
     }
-    return res.status(503).json({ success: false, error: 'AI 서비스가 일시적으로 불안정해요. 잠시 후 다시 시도해주세요~' });
+    return res.json({
+      success: true,
+      reply: buildLocalAiFallback({ message, mode, ragResults: await searchKnowledgeHybrid(message) }),
+      fallback: 'local'
+    });
   } catch (e2) {
     console.error('[AI 상담] Claude 폴백도 실패:', e2.message?.substring(0, 100));
     if (e2.message && e2.message.includes('credit balance')) {
-      return res.status(503).json({ success: false, error: 'AI 크레딧이 부족해요. 관리자에게 문의해주세요.' });
+      return res.json({
+        success: true,
+        reply: buildLocalAiFallback({ message, mode, ragResults: await searchKnowledgeHybrid(message) }),
+        fallback: 'local'
+      });
     }
-    return res.status(500).json({ success: false, error: 'AI 응답 중 오류가 발생했어요. 잠시 후 다시 시도해주세요~' });
+    return res.json({
+      success: true,
+      reply: buildLocalAiFallback({ message, mode, ragResults: await searchKnowledgeHybrid(message) }),
+      fallback: 'local'
+    });
   }
 });
 
@@ -547,11 +663,9 @@ router.post('/consult-with-image', async (req, res) => {
   }
 
   // Gemini 멀티모달 시도
-  if (process.env.GEMINI_API_KEY && !process.env.GEMINI_API_KEY.includes('여기에')) {
+  const geminiModel = getGeminiModel();
+  if (geminiModel) {
     try {
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
       // 프롬프트 구성
       let textPrompt = systemPrompt + '\n\n';
 
@@ -586,8 +700,8 @@ router.post('/consult-with-image', async (req, res) => {
         });
       }
 
-      const result = await model.generateContent(parts);
-      const response = result.response.text();
+      const result = await geminiModel.generateContent(parts, { maxOutputTokens: 4096 });
+      const response = extractGeminiText(result);
       return res.json({ success: true, reply: response });
     } catch (e) {
       console.error('[AI 이미지] Gemini 실패:', e.message?.substring(0, 100));
@@ -598,7 +712,16 @@ router.post('/consult-with-image', async (req, res) => {
   try {
     const client = getClaudeClient();
     if (!client) {
-      return res.status(503).json({ success: false, error: 'AI 서비스를 사용할 수 없습니다.' });
+      return res.json({
+        success: true,
+        reply: buildLocalAiFallback({
+          message: message || '이미지 분석',
+          mode,
+          ragResults: await searchKnowledgeHybrid(message || ''),
+          image: Boolean(imageBase64)
+        }),
+        fallback: 'local'
+      });
     }
 
     const content = [];
@@ -612,14 +735,23 @@ router.post('/consult-with-image', async (req, res) => {
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
+      max_tokens: 2048,
       system: systemPrompt,
       messages: [{ role: 'user', content }]
     });
     return res.json({ success: true, reply: response.content[0].text });
   } catch (e2) {
     console.error('[AI 이미지] Claude 폴백도 실패:', e2.message?.substring(0, 100));
-    return res.status(500).json({ success: false, error: 'AI 이미지 분석에 실패했어요. 잠시 후 다시 시도해주세요.' });
+    return res.json({
+      success: true,
+      reply: buildLocalAiFallback({
+        message: message || '이미지 분석',
+        mode,
+        ragResults: await searchKnowledgeHybrid(message || ''),
+        image: Boolean(imageBase64)
+      }),
+      fallback: 'local'
+    });
   }
 });
 
@@ -765,7 +897,7 @@ router.post('/recommend-breed', async (req, res) => {
       return res.status(400).json({ success: false, error: '선호 조건을 입력해주세요.' });
     }
 
-    const recommendCount = Math.max(parseInt(count) || 3, 1);
+    const recommendCount = Math.min(20, Math.max(parseInt(count) || 3, 1));
 
     // breeds.js 데이터 로드
     let breedsData = [];
@@ -877,7 +1009,7 @@ router.post('/recommend-breed', async (req, res) => {
     candidates.sort((a, b) => b._matchScore - a._matchScore);
 
     // 점수 순으로 정렬 후 상위 후보를 AI에게 전달 (추천 수의 3배, 최소 30)
-    const candidateLimit = Math.max(recommendCount * 3, 30);
+    const candidateLimit = Math.min(Math.max(recommendCount * 3, 24), 60);
     const candidateSummaries = candidates.slice(0, candidateLimit).map(b => ({
       id: b.id,
       name: b.name,
@@ -992,8 +1124,11 @@ matchScore는 dataMatchScore를 기반으로 하되, 성격 적합성을 반영�
 
     if (model) {
       try {
-        const result = await model.generateContent(prompt);
-        aiReply = result.response?.text?.() || result.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+        const result = await model.generateContent(prompt, {
+          maxOutputTokens: Math.min(8192, 1200 + recommendCount * 450),
+          generationConfig: { responseMimeType: 'application/json' }
+        });
+        aiReply = extractGeminiText(result);
       } catch (e) {
         console.log('[품종추천] Gemini 실패:', e.message);
       }
@@ -1017,7 +1152,8 @@ matchScore는 dataMatchScore를 기반으로 하되, 성격 적합성을 반영�
     }
 
     if (!aiReply) {
-      return res.status(500).json({ success: false, error: 'AI 서비스에 일시적으로 연결할 수 없습니다.' });
+      console.log('[품종추천] 외부 AI 실패, 데이터 기반 추천으로 대체');
+      return res.json(buildFallbackRecommendation());
     }
 
     // JSON 파싱

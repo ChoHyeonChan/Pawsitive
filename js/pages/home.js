@@ -4,6 +4,7 @@ function renderHomePage() {
  _cleanupMaps();
  window.scrollTo(0, 0);
  const user = AuthService.getCurrentUser();
+ const isDemoUser = user?.isDemo === true;
  const app = document.getElementById('app');
  if (!app) return;
 
@@ -24,7 +25,7 @@ function renderHomePage() {
  @keyframes heroBgSlideUp { 0%{transform:translateY(60px);opacity:0.5} 100%{transform:translateY(0);opacity:1} }
  @keyframes heroContentUp { 0%{opacity:0;transform:translateY(-40%) } 100%{opacity:1;transform:translateY(-50%)} }
  @keyframes heroScrollFloat { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-10px)} }
- @media(max-width:600px){ .hero-banner{height:calc(100vh - 64px);} .hero-banner__content{padding:0 24px;} }
+ @media(max-width:600px){ .hero-banner{height:calc(100vh - 64px);} .hero-banner__content{padding:0 24px;} .hero-banner__bg{background-image:url('/images/hero/background_pawsitive_mobile.png');background-position:center center;} }
  .modern-footer { display:flex; justify-content:space-between; align-items:center; padding:24px 0; margin-top:60px; border-top:1px solid var(--color-border); }
  .modern-footer-item { font-size:0.72rem; color:var(--color-text-muted); text-transform:uppercase; letter-spacing:1.5px; font-weight:500; }
  </style>
@@ -36,6 +37,8 @@ function renderHomePage() {
  <p class="hero-banner__sub">AI 건강 상담부터 산책 매칭까지,<br>당신과 반려견을 위한 공간.</p>
  ${!user
  ? `<button class="hero-banner__btn" onclick="Router.navigate('/register')">시작하기 →</button>`
+ : isDemoUser
+ ? `<button class="hero-banner__btn" onclick="Router.navigate('/matching')">시작하기 →</button>`
  : `<button class="hero-banner__btn" onclick="Router.navigate('/matching')">산책 매칭 →</button>`
  }
  </div>

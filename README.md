@@ -155,7 +155,7 @@ git clone https://github.com/kookmin-sw/2026-capstone-55.git
 cd 2026-capstone-55
 ```
 
-2. **환경 변수 설정 (`.env`)**  
+2. **환경 변수 설정 (`.env`)**
 프로젝트 실행을 위해 루트 디렉토리에 `.env` 파일을 생성하고 아래 환경 변수를 설정합니다. 배포 환경에서는 `BASE_URL`을 실제 서비스 주소로 변경합니다.
 
 ```bash
@@ -194,7 +194,7 @@ GEMINI_API_KEY=your_gemini_api_key
 ADMIN_EMAILS=admin@example.com,manager@example.com
 ```
 
-3. **서버 설치 및 실행**  
+3. **서버 설치 및 실행**
 본 프로젝트는 Node.js Express 서버가 프론트엔드 정적 파일, API, Socket.IO 실시간 통신을 함께 제공합니다. 현재 MVP는 별도 DB 없이 `server/data/*.json` 파일을 데이터 저장소로 사용합니다.
 
 ```bash

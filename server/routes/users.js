@@ -46,6 +46,12 @@ router.post('/register', (req, res) => {
     return res.status(400).json({ success: false, error: '비밀번호는 4자 이상이어야 합니다.' });
   }
 
+  const users = db.get('users', []);
+  const exists = users.find(u => u.email === email.trim().toLowerCase());
+  if (exists && exists.passwordHash) {
+    return res.status(409).json({ success: false, error: '이미 사용 중인 이메일입니다.' });
+  }
+
   // 핸드폰 인증 필수
   if (!phoneToken) {
     return res.status(400).json({ success: false, error: '핸드폰 인증을 완료해주세요.' });
@@ -55,14 +61,11 @@ router.post('/register', (req, res) => {
     return res.status(400).json({ success: false, error: '핸드폰 인증이 만료되었습니다. 다시 인증해주세요.' });
   }
 
-  const users = db.get('users', []);
-
   // 전화번호 중복 체크
   if (users.find(u => u.phone === phone)) {
     return res.status(409).json({ success: false, error: '이미 가입된 휴대폰 번호입니다.' });
   }
 
-  const exists = users.find(u => u.email === email.trim().toLowerCase());
   if (exists) {
     // passwordHash가 없는 기존 사용자 → 비밀번호 설정 후 로그인 처리
     if (!exists.passwordHash) {

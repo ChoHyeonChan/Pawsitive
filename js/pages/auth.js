@@ -60,6 +60,7 @@ function renderRegisterPage() {
  <div class="auth-logo"></div>
  <h2>회원가입</h2>
  <div id="register-error"></div>
+ ${typeof renderDemoQuickSignupBox === 'function' ? renderDemoQuickSignupBox() : ''}
 
  <!-- 소셜 가입 버튼들 -->
  <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
@@ -609,6 +610,7 @@ async function handleRegister() {
  const email = document.getElementById('reg-email')?.value;
  const password = document.getElementById('reg-password')?.value;
  const emailVerified = document.getElementById('reg-email-verified')?.value;
+ const phoneToken = document.getElementById('reg-phone-token')?.value;
 
  if (!name || !email || !password) {
  const errEl = document.getElementById('register-error');
@@ -622,6 +624,13 @@ async function handleRegister() {
  return;
  }
 
+ if (!phoneToken) {
+ const errEl = document.getElementById('register-error');
+ if (errEl) errEl.innerHTML = '<div class="alert alert-error">핸드폰 인증을 완료해주세요.</div>';
+ document.getElementById('kyc-open-btn')?.focus();
+ return;
+ }
+
  const agreePrivacy = document.getElementById('reg-agree-privacy')?.checked;
  const agreeTerms = document.getElementById('reg-agree-terms')?.checked;
  if (!agreePrivacy || !agreeTerms) {
@@ -630,7 +639,7 @@ async function handleRegister() {
  return;
  }
 
- const result = await AuthService.register({ name, email, password });
+ const result = await AuthService.register({ name, email, password, phoneToken });
  if (result.success) {
   updateNavAuth();
   const loggedUser = AuthService.getCurrentUser();

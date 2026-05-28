@@ -217,6 +217,7 @@ function initRealtimeListeners() {
       category: 'notice',
       source: 'admin',
       targetRoute: '/admin',
+      createdAt: data?.createdAt,
       noticeText: data?.text || '새 공지사항이 등록됐어요'
     });
     showToast('새 공지사항이 등록됐어요!', 'info');
