@@ -1,0 +1,8 @@
+node_modules/
+.env
+.DS_Store
+.kiro/
+.tools/
+outputs/
+server-*.log
+server/data/backups/

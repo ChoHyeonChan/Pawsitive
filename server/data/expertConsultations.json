@@ -1,0 +1,197 @@
+[
+  {
+    "id": "id-mpgh9vqv-210zm20",
+    "requesterId": "demo-user-mpgh5gif-dgi3tdx",
+    "requesterName": "하준서",
+    "requesterEmail": "demo-mpgh5gif-dgi3tdx@pawsitive.demo",
+    "expertId": "expert-vet-mock",
+    "expertUserId": "mock-vet-user",
+    "expertName": "윤서진",
+    "category": "vet",
+    "categoryLabel": "수의사",
+    "dogName": "초코",
+    "topic": "수의사 상담",
+    "firstMessage": "상담을 시작하고 싶어요.",
+    "amount": 39000,
+    "paymentOrderId": "expert_mpgh8zzv_nal7v5",
+    "status": "completed",
+    "createdAt": "2026-05-22T05:27:21.847Z",
+    "updatedAt": "2026-05-22T05:29:30.859Z",
+    "messages": [
+      {
+        "from": "system",
+        "text": "윤서진 수의사에게 상담 요청이 접수됐어요.",
+        "createdAt": "2026-05-22T05:27:21.847Z"
+      },
+      {
+        "from": "requester",
+        "text": "상담을 시작하고 싶어요.",
+        "createdAt": "2026-05-22T05:27:21.847Z"
+      },
+      {
+        "from": "system",
+        "text": "윤서진 전문가가 상담을 확인했어요.",
+        "createdAt": "2026-05-22T05:27:26.930Z"
+      },
+      {
+        "from": "expert",
+        "text": "안녕하세요",
+        "images": [],
+        "createdAt": "2026-05-22T05:27:38.189Z"
+      },
+      {
+        "from": "expert",
+        "text": "안녕하세요",
+        "images": [],
+        "createdAt": "2026-05-22T05:27:38.197Z"
+      },
+      {
+        "from": "requester",
+        "text": "상담을 시작하래요",
+        "images": [],
+        "createdAt": "2026-05-22T05:27:40.853Z"
+      },
+      {
+        "from": "expert",
+        "text": "뭐가 고민이신가요",
+        "images": [],
+        "createdAt": "2026-05-22T05:27:48.848Z"
+      },
+      {
+        "from": "expert",
+        "text": "뭐가 고민이신가요",
+        "images": [],
+        "createdAt": "2026-05-22T05:27:48.856Z"
+      },
+      {
+        "from": "requester",
+        "text": "왜 2번씩 말하는거에요?",
+        "images": [],
+        "createdAt": "2026-05-22T05:28:14.774Z"
+      },
+      {
+        "from": "system",
+        "text": "상담이 종료됐어요. 필요하면 새 상담을 신청할 수 있어요.",
+        "createdAt": "2026-05-22T05:29:30.859Z"
+      }
+    ],
+    "acceptedAt": "2026-05-22T05:27:26.930Z",
+    "completedAt": "2026-05-22T05:29:30.859Z"
+  },
+  {
+    "id": "id-mpdmuo45-fgdsfpb",
+    "requesterId": "id-mok5uf8l-0badxjq",
+    "requesterName": "하준서",
+    "requesterEmail": "",
+    "expertId": "expert-groomer-mock",
+    "expertUserId": "mock-groomer-user",
+    "expertName": "정유민",
+    "category": "groomer",
+    "categoryLabel": "미용사",
+    "dogName": "딸기",
+    "topic": "오줌을 많이 싸요",
+    "firstMessage": "물 양을 줄여 봤어요",
+    "amount": 25000,
+    "paymentOrderId": "expert_mpdmt99w_mwifnr",
+    "status": "accepted",
+    "createdAt": "2026-05-20T05:40:11.285Z",
+    "updatedAt": "2026-05-20T05:47:27.015Z",
+    "messages": [
+      {
+        "from": "system",
+        "text": "정유민 미용사에게 상담 요청이 접수됐어요.",
+        "createdAt": "2026-05-20T05:40:11.285Z"
+      },
+      {
+        "from": "requester",
+        "text": "물 양을 줄여 봤어요",
+        "createdAt": "2026-05-20T05:40:11.285Z"
+      },
+      {
+        "from": "requester",
+        "text": "창민 ㅎㅇ",
+        "images": [],
+        "createdAt": "2026-05-20T05:45:21.657Z"
+      },
+      {
+        "from": "system",
+        "text": "정유민 전문가가 상담을 확인했어요.",
+        "createdAt": "2026-05-20T05:47:00.880Z"
+      },
+      {
+        "from": "expert",
+        "text": "명령하지마라",
+        "images": [],
+        "createdAt": "2026-05-20T05:47:19.191Z"
+      },
+      {
+        "from": "expert",
+        "text": "websocket",
+        "images": [],
+        "createdAt": "2026-05-20T05:47:25.070Z"
+      },
+      {
+        "from": "expert",
+        "text": "test",
+        "images": [],
+        "createdAt": "2026-05-20T05:47:27.015Z"
+      }
+    ],
+    "acceptedAt": "2026-05-20T05:47:00.880Z"
+  },
+  {
+    "id": "id-mp6cx0lj-4b2dnla",
+    "requesterId": "id-mol2g5lb-rvnvuvi",
+    "requesterName": "Peter Lee",
+    "requesterEmail": "",
+    "expertId": "expert-vet-mock",
+    "expertUserId": "mock-vet-user",
+    "expertName": "윤서진",
+    "category": "vet",
+    "categoryLabel": "수의사",
+    "dogName": "초코",
+    "topic": "피부가려움",
+    "firstMessage": "상담을 시작하고 싶어요.",
+    "amount": 39000,
+    "paymentOrderId": "expert_mp6cwi3m_luqm0q",
+    "status": "completed",
+    "createdAt": "2026-05-15T03:27:41.383Z",
+    "updatedAt": "2026-05-15T03:28:56.653Z",
+    "messages": [
+      {
+        "from": "system",
+        "text": "윤서진 수의사에게 상담 요청이 접수됐어요.",
+        "createdAt": "2026-05-15T03:27:41.383Z"
+      },
+      {
+        "from": "requester",
+        "text": "상담을 시작하고 싶어요.",
+        "createdAt": "2026-05-15T03:27:41.383Z"
+      },
+      {
+        "from": "system",
+        "text": "윤서진 전문가가 상담을 확인했어요.",
+        "createdAt": "2026-05-15T03:28:21.925Z"
+      },
+      {
+        "from": "expert",
+        "text": "ㅇㄴㅇㄴㅇㄴ",
+        "images": [],
+        "createdAt": "2026-05-15T03:28:24.764Z"
+      },
+      {
+        "from": "requester",
+        "text": "ㅇㄴ",
+        "images": [],
+        "createdAt": "2026-05-15T03:28:27.121Z"
+      },
+      {
+        "from": "system",
+        "text": "상담이 종료됐어요. 필요하면 새 상담을 신청할 수 있어요.",
+        "createdAt": "2026-05-15T03:28:56.653Z"
+      }
+    ],
+    "acceptedAt": "2026-05-15T03:28:21.925Z",
+    "completedAt": "2026-05-15T03:28:56.653Z"
+  }
+]

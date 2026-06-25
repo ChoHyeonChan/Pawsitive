@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawsitive | Capstone Project</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #617084;
+      --line: #dbe3ee;
+      --brand: #00a7a5;
+      --brand-dark: #007b79;
+      --soft: #f5f8fb;
+      --accent: #f4b740;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background: #fff;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      min-height: 64px;
+      padding: 0 clamp(20px, 5vw, 72px);
+      background: rgba(255, 255, 255, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 220px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .nav a {
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      padding: clamp(80px, 12vw, 160px) clamp(20px, 5vw, 72px);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.88) 0%, rgba(255,255,255,.72) 34%, rgba(255,255,255,.18) 68%, rgba(255,255,255,0) 100%),
+        url("assets/hero/background_pawsitive.png") center / cover no-repeat;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--brand-dark);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-size: clamp(52px, 9vw, 96px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+    }
+
+    .lead {
+      max-width: 700px;
+      margin: 22px 0 0;
+      color: #344255;
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 650;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--brand);
+      border-radius: 8px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--brand-dark);
+    }
+
+    .poster {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 70px rgba(23, 32, 51, .16);
+    }
+
+    .section {
+      padding: clamp(48px, 7vw, 86px) clamp(20px, 5vw, 72px);
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .section.soft { background: var(--soft); }
+
+    .section h2 {
+      margin: 0 auto 22px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .card {
+      min-height: 148px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .impact-panel {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 22px 28px;
+      width: min(100%, 980px);
+      margin: 28px auto 0;
+      padding: clamp(24px, 4vw, 38px);
+      border: 1px solid rgba(23, 32, 51, .08);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 16px 42px rgba(23, 32, 51, .12);
+      text-align: left;
+    }
+
+    .impact-item {
+      min-width: 0;
+    }
+
+    .impact-item h3 {
+      margin: 0 0 8px;
+      color: var(--brand-dark);
+      font-size: clamp(1.02rem, 2vw, 1.28rem);
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .impact-item p {
+      margin: 0;
+      color: #1f2937;
+      font-size: .95rem;
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .impact-item:nth-child(1) { grid-column: 1 / span 5; }
+    .impact-item:nth-child(2) { grid-column: 6 / span 6; margin-top: 42px; }
+    .impact-item:nth-child(3) { grid-column: 1 / span 5; }
+    .impact-item:nth-child(4) { grid-column: 7 / span 5; }
+    .impact-item:nth-child(5) { grid-column: 2 / span 5; }
+    .impact-item:nth-child(6) { grid-column: 7 / span 5; margin-top: 8px; }
+
+    @media (max-width: 760px) {
+      .impact-panel {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .impact-item,
+      .impact-item:nth-child(n) {
+        grid-column: 1;
+        margin-top: 0;
+      }
+    }
+
+    .stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 auto;
+      padding: 0;
+      list-style: none;
+      max-width: 700px;
+      text-align: left;
+    }
+
+    .stack li {
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      font-weight: 800;
+    }
+
+    .architecture {
+      width: min(100%, 960px);
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .team {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      text-align: left;
+    }
+
+    .team th,
+    .team td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .team th {
+      background: #eef5f8;
+      font-size: 14px;
+    }
+
+    .team tr:last-child td { border-bottom: 0; }
+
+    /* === SVC CARDS === */
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto;}
+    .svc-grid--bottom{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1160px;margin:20px auto 0;}
+    .svc-card{background:#fff;border-radius:20px;padding:32px 28px 0;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;cursor:pointer;display:flex;flex-direction:column;min-height:300px;}
+    .svc-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.1);}
+    .svc-tag{display:inline-flex;align-items:center;width:max-content;padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:700;margin-bottom:14px;}
+    .svc-num{display:block;font-size:.6rem;font-weight:900;letter-spacing:2px;color:#ccc;margin-bottom:6px;}
+    .svc-title{font-size:1.12rem;font-weight:800;letter-spacing:-.5px;line-height:1.35;color:#111;margin:0 0 10px;}
+    .svc-title em{font-style:normal;}
+    .svc-desc{font-size:.82rem;color:#888;line-height:1.7;margin:0 0 24px;flex:1;}
+    .svc-illust{margin:0 -28px;height:130px;position:relative;overflow:hidden;border-radius:0 0 20px 20px;}
+    /* match */
+    .ill-match{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;gap:10px;align-items:flex-end;}
+    .ill-match__card{background:#fff;border-radius:12px 12px 0 0;padding:10px 14px;box-shadow:0 4px 16px rgba(108,71,255,.15);display:flex;flex-direction:column;align-items:center;gap:5px;width:76px;}
+    .ill-match__card--c{transform:translateY(-12px);box-shadow:0 8px 24px rgba(108,71,255,.25);}
+    .ill-match__av{width:36px;height:36px;border-radius:50%;border:2px solid #ede9ff;object-fit:cover;object-position:top;}
+    .ill-match__sc{font-size:.58rem;font-weight:700;color:#6c47ff;background:#ede9ff;padding:2px 6px;border-radius:999px;}
+    .ill-match__nm{font-size:.58rem;font-weight:600;color:#555;}
+    /* gps */
+    .ill-gps-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(2,132,199,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(2,132,199,.08) 1px,transparent 1px);background-size:24px 24px;}
+    .ill-gps-badge{position:absolute;top:14px;right:16px;background:#0284c7;color:#fff;font-size:.6rem;font-weight:700;padding:4px 10px;border-radius:999px;box-shadow:0 3px 10px rgba(2,132,199,.35);animation:gpsPulse 2s ease-in-out infinite;}
+    .ill-gps-route{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);}
+    @keyframes gpsPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    /* ai */
+    .ill-ai{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:6px;width:210px;}
+    .ill-ai__b{padding:7px 12px;border-radius:10px;font-size:.65rem;font-weight:500;line-height:1.4;max-width:175px;}
+    .ill-ai__b--u{background:#fce7f3;color:#be185d;align-self:flex-end;border-radius:10px 10px 3px 10px;}
+    .ill-ai__b--a{background:#fff;color:#555;align-self:flex-start;border-radius:10px 10px 10px 3px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+    /* edu */
+    .ill-edu{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;flex-wrap:wrap;gap:5px;justify-content:center;width:240px;}
+    .ill-edu__c{padding:4px 10px;border-radius:999px;font-size:.6rem;font-weight:700;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.07);white-space:nowrap;}
+    /* breed */
+    .ill-breed{position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:#fff;border-radius:12px 12px 0 0;width:200px;padding:12px 14px 0;box-shadow:0 4px 18px rgba(21,128,61,.15);}
+    .ill-breed__r{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:.58rem;font-weight:600;color:#555;}
+    .ill-breed__r span:first-child{width:40px;}
+    .ill-breed__r span:last-child{width:24px;text-align:right;color:#15803d;font-weight:700;}
+    .ill-breed__t{flex:1;height:6px;background:#f0fdf4;border-radius:999px;overflow:hidden;}
+    .ill-breed__f{height:100%;border-radius:999px;background:linear-gradient(90deg,#4ade80,#15803d);}
+    /* expert */
+    .ill-expert{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding:0 14px 12px;}
+    .ill-expert__c{width:66px;min-height:86px;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 4px 16px rgba(15,118,110,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+    .ill-expert__c--m{transform:translateY(-10px);box-shadow:0 8px 24px rgba(15,118,110,.22);}
+    .ill-expert__av{width:34px;height:34px;border-radius:50%;background:#ecfdf5;border:2px solid #ccfbf1;object-fit:cover;object-position:top;}
+    .ill-expert__c span{font-size:.58rem;color:#0f766e;font-weight:800;}
+    .ill-expert__c small{font-size:.5rem;background:#f0fdfa;color:#0f766e;padding:1px 5px;border-radius:999px;font-weight:800;}
+    /* health */
+    .ill-health{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;}
+    .ill-health__ring{width:76px;height:76px;border-radius:50%;background:conic-gradient(#c2410c 0 74%,rgba(255,255,255,.85) 74% 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(194,65,12,.14);}
+    .ill-health__ri{width:56px;height:56px;border-radius:50%;background:#fffaf5;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#c2410c;font-weight:900;}
+    .ill-health__ri strong{font-size:1.1rem;line-height:1;}
+    .ill-health__ri span{margin-top:3px;font-size:.5rem;color:#9a3412;font-weight:800;}
+    .ill-health__m{display:grid;gap:5px;width:88px;}
+    .ill-health__row{display:flex;justify-content:space-between;align-items:center;padding:5px 7px;border-radius:8px;background:rgba(255,255,255,.9);color:#7c2d12;font-size:.56rem;font-weight:800;box-shadow:0 2px 10px rgba(194,65,12,.09);}
+    .ill-health__row strong{color:#c2410c;font-size:.62rem;}
+    @media(max-width:1100px){.svc-grid{grid-template-columns:repeat(2,1fr);}.svc-grid--bottom{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:768px){.svc-grid,.svc-grid--bottom{grid-template-columns:1fr;}.svc-card{min-height:260px;}}
+
+    /* === SCROLL ANIMATION === */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .section.reveal > *{opacity:0;transform:translateY(18px);transition:opacity .58s cubic-bezier(.16,1,.3,1),transform .58s cubic-bezier(.16,1,.3,1);}
+    .section.reveal.visible > *{opacity:1;transform:translateY(0);}
+    .section.reveal.visible > *:nth-child(1){transition-delay:.04s;}
+    .section.reveal.visible > *:nth-child(2){transition-delay:.10s;}
+    .section.reveal.visible > *:nth-child(3){transition-delay:.16s;}
+    .section.reveal.visible > *:nth-child(4){transition-delay:.22s;}
+    .section.reveal.visible > *:nth-child(5){transition-delay:.28s;}
+    .impact-fade{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+    .impact-fade.visible{opacity:1;transform:translateY(0);}
+    .ba-item{padding:14px 18px;border-radius:10px;margin-bottom:10px;text-align:left;font-size:.88rem;font-weight:600;min-height:52px;display:flex;align-items:center;}
+    .ba-before{background:#fff;border:1px solid var(--line);color:#555;}
+    .ba-before::before{content:'✕';color:#e11d48;margin-right:10px;font-weight:800;}
+    .ba-after{background:#fff;border:1px solid var(--brand);color:var(--ink);}
+    .ba-after::before{content:'✓';color:var(--brand);margin-right:10px;font-weight:800;}
+    @media(max-width:768px){#screens > div:last-child{grid-template-columns:1fr !important;border-radius:16px !important;}#screens > div:last-child > div:first-child{border-radius:16px 16px 0 0 !important;border-right:1px solid var(--line) !important;border-bottom:none !important;}#screens > div:last-child > div:last-child{border-radius:0 0 16px 16px !important;}}
+    .section-num{display:block;font-size:.72rem;font-weight:900;letter-spacing:2.5px;color:var(--brand);margin-bottom:8px;text-transform:uppercase;}
+
+    /* === TECH LOGOS === */
+    .tech-logos{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center;margin-bottom:28px;}
+    .tech-logos img{height:36px;opacity:.7;transition:opacity .2s;}
+    .tech-logos img:hover{opacity:1;}
+    .tech-map{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:980px;margin:0 auto;text-align:left;}
+    .tech-map::before{content:'';position:absolute;left:16%;right:16%;top:50%;height:2px;background:linear-gradient(90deg,transparent,#b8e4e3,var(--brand),#b8e4e3,transparent);z-index:0;}
+    .tech-column{position:relative;z-index:1;display:grid;gap:14px;align-content:start;}
+    .tech-column--center{padding-top:42px;}
+    .tech-group{border:1px solid #d8ebe9;border-radius:14px;background:rgba(255,255,255,.92);box-shadow:0 12px 28px rgba(23,32,51,.07);overflow:hidden;}
+    .tech-group__head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;border-bottom:1px solid #e4f1f0;background:#f7fbfb;}
+    .tech-group__title{display:flex;align-items:center;gap:9px;margin:0;color:#172033;font-size:.95rem;font-weight:900;}
+    .tech-group__dot{width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px #d9f3f2;}
+    .tech-group__note{color:var(--muted);font-size:.72rem;font-weight:750;white-space:nowrap;}
+    .tech-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;}
+    .tech-node{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:128px;padding:16px 10px;border:1px solid #edf3f5;border-radius:14px;background:#fff;text-align:center;}
+    .tech-node--wide{grid-column:1/-1;}
+    .tech-icon{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:16px;background:#effaf9;color:var(--brand-dark);font-size:1.05rem;font-weight:900;flex:0 0 auto;}
+    .tech-icon img{width:38px;height:38px;object-fit:contain;display:block;}
+    .tech-icon--html{background:#fff1eb;color:#e34f26;}
+    .tech-icon--css{background:#eaf3ff;color:#1572b6;}
+    .tech-icon--js{background:#fff8d7;color:#b08a00;}
+    .tech-icon--gps{background:#e9fbfb;color:#008f8d;}
+    .tech-icon--pay{background:#edf4ff;color:#2563eb;}
+    .tech-icon--node{background:#ecfdf5;color:#339933;}
+    .tech-icon--express{background:#f4f4f5;color:#555;}
+    .tech-icon--auth{background:#ecfdf5;color:#16a34a;}
+    .tech-icon--data{background:#f5f8fb;color:#5b6472;}
+    .tech-icon--ai{background:#edf4ff;color:#4285f4;}
+    .tech-icon--realtime{background:#f4f4f5;color:#111;}
+    .tech-icon--github{background:#f4f4f5;color:#24292f;}
+    .tech-icon--aws{background:#fff7e6;color:#ff9900;}
+    .tech-icon--claude{background:#fff4ed;}
+    .tech-icon--map{background:#eefbea;}
+    .tech-icon--google{background:#eef4ff;}
+    .tech-icon--kakao{background:#fff8d6;}
+    .tech-icon--naver{background:#e9fbef;}
+    .tech-icon--toss{background:#0064ff;}
+    .tech-icon--toss img{width:44px;height:auto;}
+    .tech-node strong{display:block;color:#172033;font-size:.84rem;line-height:1.2;}
+    .tech-node span:last-child{display:block;color:var(--muted);font-size:.66rem;font-weight:700;margin-top:4px;line-height:1.25;}
+    @media(max-width:900px){.tech-map{grid-template-columns:1fr;}.tech-map::before{display:none;}.tech-column--center{padding-top:0;}.tech-items{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media(max-width:520px){.tech-items{grid-template-columns:1fr;}.tech-group__head{align-items:flex-start;flex-direction:column;}.tech-group__note{white-space:normal;}}
+
+    /* === TIMELINE === */
+    .timeline{display:grid;gap:0;margin-top:28px;border-left:2px solid var(--line);padding-left:28px;}
+    .timeline__item{position:relative;padding:0 0 32px;}
+    .timeline__item::before{content:'';position:absolute;left:-34px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--brand);border:3px solid #fff;box-shadow:0 0 0 2px var(--brand);}
+    .timeline__item:last-child{padding-bottom:0;}
+    .timeline__date{display:inline-block;font-size:.7rem;font-weight:800;color:var(--brand);letter-spacing:1px;margin-bottom:6px;}
+    .timeline__content h3{margin:0 0 4px;font-size:1rem;font-weight:800;}
+    .timeline__content p{margin:0;font-size:.85rem;color:var(--muted);}
+
+    /* === TEAM CARDS === */
+    .flow-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
+    .flow-modal__content{background:#fff;border-radius:20px;padding:48px 32px;max-width:1200px;width:100%;text-align:center;position:relative;color:var(--ink);box-shadow:0 24px 80px rgba(0,0,0,.2);overflow:hidden;}
+    .flow-modal__close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;}
+    .flow-modal__eyebrow{font-size:.7rem;font-weight:700;letter-spacing:3px;color:var(--brand);text-transform:uppercase;}
+    .flow-modal__title{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin:12px 0 8px;color:var(--ink);}
+    .flow-modal__sub{font-size:.85rem;color:var(--muted);margin-bottom:36px;}
+    .flow-steps{display:flex;align-items:flex-start;justify-content:center;gap:0;flex-wrap:nowrap;}
+    .flow-step{display:flex;flex-direction:column;align-items:center;width:120px;flex-shrink:0;gap:8px;}
+    .flow-step__icon{width:56px;height:56px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.1rem;position:relative;color:var(--brand-dark);}
+    .flow-step__num{display:none;}
+    .flow-step h4{margin:0;font-size:.82rem;font-weight:800;color:var(--ink);}
+    .flow-step p{margin:0;font-size:.68rem;color:var(--muted);line-height:1.5;}
+    .flow-step__arrow{color:var(--brand);margin:20px 6px 0;display:flex;align-items:center;flex-shrink:0;}
+    @media(max-width:900px){.flow-steps{flex-wrap:wrap;gap:12px;}.flow-step__arrow{display:none;}.flow-step{width:100px;}}
+
+    .team-card{background:#fff;border-radius:16px;padding:0 24px 24px;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;overflow:hidden;}
+    .team-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.1);}
+    .team-card__bar{height:4px;margin:0 -24px 20px;border-radius:0 0 4px 4px;}
+    .team-card__avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+    .team-card__name{margin:0 0 4px;font-size:1rem;font-weight:800;color:#111;}
+    .team-card__role{margin:0 0 14px;font-size:.75rem;color:var(--muted);font-weight:700;}
+    .team-card__tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+    .team-card__tags span{padding:4px 10px;border-radius:999px;font-size:.65rem;font-weight:700;background:var(--soft);color:var(--brand-dark);}
+    @media(max-width:768px){#team > div:last-child{grid-template-columns:repeat(2,1fr) !important;}}
+    @media(max-width:480px){#team > div:last-child{grid-template-columns:1fr !important;}}
+
+    /* === FOOTER REDESIGN === */
+    .site-footer{padding:0 clamp(20px,5vw,72px) 30px;border-top:1px solid var(--line);background:#f7fbfb;color:var(--ink);font-weight:700;overflow:hidden;}
+    .site-footer__cta{display:flex;align-items:center;justify-content:space-between;gap:28px;max-width:1120px;margin:34px auto 58px;padding:34px clamp(24px,4vw,44px);border:1px solid #cce7e6;border-left:5px solid var(--brand);border-radius:14px;background:#fff;color:var(--ink);text-align:left;box-shadow:0 16px 40px rgba(23,32,51,.08);}
+    .site-footer__cta h2{margin:0 0 10px;max-width:660px;font-size:clamp(1.45rem,2.6vw,2.1rem);line-height:1.28;letter-spacing:0;font-weight:900;}
+    .site-footer__cta p{margin:0;max-width:660px;color:var(--muted);font-size:.94rem;line-height:1.7;font-weight:700;}
+    .site-footer__cta a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:8px;background:var(--brand);color:#fff;text-decoration:none;font-size:.9rem;font-weight:900;white-space:nowrap;box-shadow:0 10px 22px rgba(0,167,165,.18);}
+    .site-footer__body{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;max-width:980px;margin:0 auto 34px;text-align:left;}
+    .site-footer__brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.25rem;margin-bottom:14px;color:var(--brand-dark);}
+    .site-footer__info{max-width:360px;font-size:.82rem;color:var(--muted);line-height:1.85;}
+    .site-footer__social{display:flex;gap:10px;margin-top:20px;}
+    .site-footer__social a{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 12px;border:1px solid #cce7e6;border-radius:10px;background:#fff;color:var(--brand-dark);text-decoration:none;font-size:.72rem;font-weight:900;}
+    .site-footer__group h3{margin:0 0 14px;color:var(--brand-dark);font-size:.78rem;letter-spacing:1.4px;text-transform:uppercase;}
+    .site-footer__group a{display:block;margin:0 0 10px;color:#516071;text-decoration:none;font-size:.82rem;font-weight:750;}
+    .site-footer__bottom{display:flex;justify-content:space-between;gap:16px;max-width:980px;margin:0 auto;padding-top:20px;border-top:1px solid #d8ebe9;color:var(--muted);font-size:.72rem;}
+    .site-footer__status{color:var(--brand-dark);font-weight:900;}
+    @media(max-width:820px){.site-footer__body{grid-template-columns:1fr;gap:28px;}.site-footer__bottom{flex-direction:column;}.site-footer__cta{align-items:flex-start;flex-direction:column;margin-top:26px;padding:28px 22px;}.site-footer__cta a{width:100%;}}
+
+    footer {
+      padding: 28px clamp(20px, 5vw, 72px);
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .poster { max-width: 520px; }
+      .grid { grid-template-columns: 1fr; }
+      .stack { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .team {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Pawsitive">
+      <img src="assets/brand/pawsitive_logo_transparent.png" alt="Pawsitive">
+    </a>
+    <nav class="nav" aria-label="Page sections">
+      <a href="#about">Intro</a>
+      <a href="#features">Services</a>
+      <a href="#screens">Impact</a>
+      <a href="#stack">Tech</a>
+      <a href="#team">Team</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">2026 Capstone Design</p>
+        <h1>Be Pawsitive!</h1>
+        <p class="lead">Pawsitive는 반려견과 보호자를 위한 통합 케어 플랫폼입니다.</p>
+        <div class="actions">
+          <a class="button" href="http://d1lrqxcxhsi30k.cloudfront.net/">서비스 체험</a>
+          <a class="button secondary" href="https://github.com/kookmin-sw/2026-capstone-55">GitHub 저장소</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section reveal">
+      <span class="section-num">01</span>
+      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">PAWSITIVE INTRODUCTION</span>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0 0 32px;">반려견 케어의 모든 것을<br><span style="color:var(--brand);">하나로 연결</span>하다</h2>
+      <p style="max-width:700px;color:#444;line-height:1.9;margin:0 auto;">반려견 관련 서비스들은 산책, 건강 관리, 상담 등이 각각 분리되어 운영되고 있습니다. Pawsitive는 이 모든 기능을 하나의 플랫폼으로 통합하여, 보호자가 여러 앱을 오갈 필요 없이 반려견의 건강·활동·상담 기록을 한곳에서 체계적으로 관리할 수 있도록 설계되었습니다.</p>
+    </section>
+
+    <section id="features" class="section reveal" style="padding:80px 24px 96px; background:#f7f6f3; border-top:none;">
+      <div style="text-align:center; margin-bottom:56px;">
+        <span class="section-num">02</span>
+        <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">PAWSITIVE SERVICES</span>
+        <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0;">반려견과의 일상을<br><span style="color:var(--brand);">더 특별하게</span> 만드는 7가지</h2>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:12px;">각 카드를 클릭하면 기능 흐름을 확인할 수 있습니다.</p>
+      </div>
+      <div class="svc-grid">
+        <article class="svc-card" onclick="document.getElementById('modal-matching').style.display='flex'"><span class="svc-num">01</span><span class="svc-tag" style="background:#ccfbf1;color:#005f5e;">🤝 산책 매칭</span><h3 class="svc-title"><em style="color:#005f5e;">AI가 골라주는</em><br>딱 맞는 산책 도우미</h3><p class="svc-desc">반려견 크기·성격·선호 시간대를 분석해 가장 잘 맞는 도우미를 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ccfbf1,#99f6e4);"><div class="ill-match"><div class="ill-match__card"><img class="ill-match__av" src="assets/walkers/dummy-walker-001.png" alt="김지은"><span class="ill-match__sc" style="color:#005f5e;background:#ccfbf1;">⭐ 88점</span><span class="ill-match__nm">김지은</span></div><div class="ill-match__card ill-match__card--c"><img class="ill-match__av" src="assets/walkers/dummy-walker-003.png" alt="이하은"><span class="ill-match__sc" style="color:#005f5e;background:#ccfbf1;">⭐ 96점</span><span class="ill-match__nm">이하은</span></div><div class="ill-match__card"><img class="ill-match__av" src="assets/walkers/dummy-walker-002.png" alt="박서준"><span class="ill-match__sc" style="color:#005f5e;background:#ccfbf1;">⭐ 91점</span><span class="ill-match__nm">박서준</span></div></div></div></article>
+        <article class="svc-card" onclick="document.getElementById('modal-gps').style.display='flex'"><span class="svc-num">02</span><span class="svc-tag" style="background:#d1fae5;color:#047857;">🗺️ GPS 추적</span><h3 class="svc-title"><em style="color:#047857;">실시간 위치</em>로<br>안심하고 맡기세요</h3><p class="svc-desc">산책 중 도우미 위치를 지도에서 확인하고 완료 후 이동 경로와 기록을 저장해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);position:relative;"><div class="ill-gps-grid"></div><div class="ill-gps-badge" style="background:#047857;">✓ 실시간 추적 중</div><svg class="ill-gps-route" width="220" height="70" viewBox="0 0 220 70" fill="none"><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 200 20" stroke="#047857" stroke-width="2.5" stroke-dasharray="5 3" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M10 60 Q40 20 70 35 Q100 50 130 25 Q160 5 190 18" stroke="#047857" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="190" cy="18" r="7" fill="#047857"/><circle cx="190" cy="18" r="13" fill="#047857" opacity="0.2"/></svg></div></article>
+        <article class="svc-card" onclick="document.getElementById('modal-expert').style.display='flex'"><span class="svc-num">03</span><span class="svc-tag" style="background:#e0f7f5;color:#0f766e;">👨‍⚕️ 전문가 상담</span><h3 class="svc-title"><em style="color:#0f766e;">검증 전문가</em> 상담을<br>바로 이어가요</h3><p class="svc-desc">수의사·훈련사·미용사에게 필요한 상담을 신청해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#e0f7f5,#b2ebe7);"><div class="ill-expert"><div class="ill-expert__c"><img class="ill-expert__av" src="assets/experts/jung-yumin.png" alt="훈련사"><span style="color:#0f766e;">훈련사</span></div><div class="ill-expert__c ill-expert__c--m"><img class="ill-expert__av" src="assets/experts/kang-doyoon.png" alt="수의사"><span style="color:#0f766e;">수의사</span><small style="background:#e0f7f5;color:#0f766e;">✓ 검증</small></div><div class="ill-expert__c"><img class="ill-expert__av" src="assets/experts/yoon-seojin.png" alt="미용사"><span style="color:#0f766e;">미용사</span></div></div></div></article>
+      </div>
+      <div class="svc-grid svc-grid--bottom">
+        <article class="svc-card" onclick="document.getElementById('modal-ai').style.display='flex'"><span class="svc-num">04</span><span class="svc-tag" style="background:#f0fdfa;color:#115e59;">🤖 AI 건강 상담</span><h3 class="svc-title"><em style="color:#115e59;">증상을 말하면</em><br>AI가 바로 분석해요</h3><p class="svc-desc">사진·텍스트로 증상을 올리면 AI가 원인을 분석하고 대처법을 알려드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);"><div class="ill-ai"><div class="ill-ai__b" style="background:#ccfbf1;color:#115e59;align-self:flex-end;border-radius:10px 10px 3px 10px;">🐾 우리 강아지가 자꾸 긁어요</div><div class="ill-ai__b" style="background:#fff;color:#555;align-self:flex-start;border-radius:10px 10px 10px 3px;box-shadow:0 2px 8px rgba(0,0,0,.08);">🤖 피부 알레르기 가능성이 있어요</div></div></div></article>
+        <article class="svc-card" onclick="document.getElementById('modal-health').style.display='flex'"><span class="svc-num">05</span><span class="svc-tag" style="background:#cffafe;color:#155e75;">💊 AI 건강 분석</span><h3 class="svc-title"><em style="color:#155e75;">산책 데이터</em>로<br>건강 신호를 읽어요</h3><p class="svc-desc">산책 기록을 바탕으로 활동 점수와 케어 힌트를 확인해요</p><div class="svc-illust" style="background:linear-gradient(135deg,#cffafe,#a5f3fc);"><div class="ill-health"><div class="ill-health__ring" style="background:conic-gradient(#0891b2 0 74%,rgba(255,255,255,.85) 74% 100%);"><div class="ill-health__ri" style="background:#f0fdfa;color:#155e75;"><strong>74</strong><span style="color:#155e75;">활동 점수</span></div></div><div class="ill-health__m"><div class="ill-health__row" style="color:#155e75;"><span>산책</span><strong style="color:#0891b2;">13회</strong></div><div class="ill-health__row" style="color:#155e75;"><span>시간</span><strong style="color:#0891b2;">48분</strong></div><div class="ill-health__row" style="color:#155e75;"><span>거리</span><strong style="color:#0891b2;">2.4km</strong></div></div></div></div></article>
+        <article class="svc-card" onclick="document.getElementById('modal-edu').style.display='flex'"><span class="svc-num">06</span><span class="svc-tag" style="background:#ecfdf5;color:#065f46;">📚 교육 센터</span><h3 class="svc-title"><em style="color:#065f46;">44가지</em> 반려견<br>교육 콘텐츠</h3><p class="svc-desc">기본상식·훈련·건강관리까지 10개 카테고리로 배워요</p><div class="svc-illust" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);"><div class="ill-edu"><span class="ill-edu__c" style="color:#065f46;">🐾 기본상식</span><span class="ill-edu__c" style="color:#065f46;">🏃 훈련</span><span class="ill-edu__c" style="color:#065f46;">❤️ 건강관리</span><span class="ill-edu__c" style="color:#065f46;">🍽️ 영양/식이</span><span class="ill-edu__c" style="color:#065f46;">✨ 미용/관리</span><span class="ill-edu__c" style="color:#065f46;">🛡️ 안전</span><span class="ill-edu__c" style="color:#065f46;">👓 노견케어</span></div></div></article>
+        <article class="svc-card" onclick="document.getElementById('modal-breed').style.display='flex'"><span class="svc-num">07</span><span class="svc-tag" style="background:#e0f2fe;color:#0c4a6e;">🐕 품종 정보</span><h3 class="svc-title"><em style="color:#0c4a6e;">400여 품종</em> 백과사전<br>+ AI 맞춤 추천</h3><p class="svc-desc">생활환경과 선호도를 입력하면 어울리는 품종을 추천해드려요</p><div class="svc-illust" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);"><div class="ill-breed"><div class="ill-breed__r"><span>활동성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:85%;background:linear-gradient(90deg,#67e8f9,#0c4a6e);"></div></div><span style="color:#0c4a6e;">85%</span></div><div class="ill-breed__r"><span>친화성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:92%;background:linear-gradient(90deg,#67e8f9,#0c4a6e);"></div></div><span style="color:#0c4a6e;">92%</span></div><div class="ill-breed__r"><span>훈련성</span><div class="ill-breed__t"><div class="ill-breed__f" style="width:70%;background:linear-gradient(90deg,#67e8f9,#0c4a6e);"></div></div><span style="color:#0c4a6e;">70%</span></div></div></div></article>
+      </div>
+      <p style="color:var(--muted);margin-top:28px;">각 기능의 시연 영상은 <a href="https://github.com/kookmin-sw/2026-capstone-55#3-%EC%A3%BC%EC%9A%94-%ED%99%94%EB%A9%B4" style="color:var(--brand);font-weight:700;text-decoration:underline;">GitHub README</a>에서 GIF로 확인할 수 있습니다.</p>
+    </section>
+
+    <section id="screens" class="section reveal" style="background:#f5f8fb;">
+      <span class="section-num">03</span>
+      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">EXPECTED IMPACT</span>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0 0 12px;">보호자와 반려견의 일상이<br><span style="color:var(--brand);">이렇게 달라집니다</span></h2>
+      <p style="color:var(--muted);margin-bottom:40px;font-size:.9rem;">Pawsitive 도입 전후, 반려견 케어 경험의 변화를 확인하세요.</p>
+      <div style="max-width:800px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch;">
+        <div style="text-align:center;padding:24px;border-radius:16px 0 0 16px;background:#fff;border:1px solid var(--line);border-right:none;">
+          <span style="display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px;">BEFORE</span>
+          <div class="impact-fade ba-item ba-before">산책·건강·상담 앱을 따로 사용</div>
+          <div class="impact-fade ba-item ba-before">건강 기록이 분산되어 추적 불가</div>
+          <div class="impact-fade ba-item ba-before">증상 발생 시 정보 검색에 시간 소모</div>
+          <div class="impact-fade ba-item ba-before">검증된 전문가 찾기 어려움</div>
+          <div class="impact-fade ba-item ba-before">산책 도우미 신뢰도 확인 불가</div>
+          <div class="impact-fade ba-item ba-before">반려견 교육 정보 부족</div>
+        </div>
+        <div style="text-align:center;padding:24px;border-radius:0 16px 16px 0;background:#f0fdfa;border:2px solid var(--brand);position:relative;">
+          <span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:4px 16px;border-radius:999px;background:var(--brand);color:#fff;font-size:.65rem;font-weight:800;letter-spacing:1px;white-space:nowrap;">→ PAWSITIVE</span>
+          <span style="display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:1.5px;color:var(--brand);margin-bottom:16px;">AFTER</span>
+          <div class="impact-fade ba-item ba-after">하나의 플랫폼에서 모든 케어 통합</div>
+          <div class="impact-fade ba-item ba-after">AI가 활동 데이터를 분석해 건강 리포트 제공</div>
+          <div class="impact-fade ba-item ba-after">Gemini AI 즉시 상담으로 빠른 대응</div>
+          <div class="impact-fade ba-item ba-after">검증된 수의사·훈련사 1:1 매칭</div>
+          <div class="impact-fade ba-item ba-after">GPS 실시간 추적으로 안심 산책</div>
+          <div class="impact-fade ba-item ba-after">44가지 교육 콘텐츠로 지식 강화</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack" class="section reveal">
+      <span class="section-num">04</span>
+      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">TECH STACK</span>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0 0 32px;">Pawsitive를 구현하는<br><span style="color:var(--brand);">핵심 기술</span></h2>
+      <div class="tech-map" aria-label="Pawsitive technology diagram">
+        <div class="tech-column">
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Client</h3>
+              <span class="tech-group__note">사용자 화면과 인터랙션</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon tech-icon--html"><img src="assets/logos_images/html-5.svg" alt=""></span><span><strong>HTML5</strong><span>Static pages</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--css"><img src="assets/logos_images/css-3.svg" alt=""></span><span><strong>CSS3</strong><span>Responsive UI</span></span></div>
+              <div class="tech-node tech-node--wide"><span class="tech-icon tech-icon--js"><img src="assets/logos_images/javascript.svg" alt=""></span><span><strong>JavaScript</strong><span>SPA routing and page logic</span></span></div>
+            </div>
+          </section>
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Experience</h3>
+              <span class="tech-group__note">실제 서비스 흐름</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon tech-icon--gps">GPS</span><span><strong>Walk Tracking</strong><span>산책 경로 기록</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--map"><img src="assets/logos_images/openstreetmap.svg" alt=""></span><span><strong>OpenStreetMap</strong><span>지도 데이터</span></span></div>
+            </div>
+          </section>
+        </div>
+        <div class="tech-column tech-column--center">
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Core API</h3>
+              <span class="tech-group__note">서비스 로직의 중심</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon tech-icon--node"><img src="assets/logos_images/nodejs-icon.svg" alt=""></span><span><strong>Node.js</strong><span>Runtime</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--express"><img src="assets/logos_images/express.svg" alt=""></span><span><strong>Express</strong><span>REST endpoints</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--data">JSON</span><span><strong>JSON Data</strong><span>Prototype storage</span></span></div>
+            </div>
+          </section>
+        </div>
+        <div class="tech-column">
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Intelligence</h3>
+              <span class="tech-group__note">상담과 분석 기능</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon tech-icon--ai"><img src="assets/logos_images/google-gemini.svg" alt=""></span><span><strong>Google Gemini</strong><span>AI 상담/분석</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--claude"><img src="assets/logos_images/claude-icon.svg" alt=""></span><span><strong>Anthropic Claude</strong><span>AI assistant</span></span></div>
+              <div class="tech-node tech-node--wide"><span class="tech-icon tech-icon--realtime"><img src="assets/logos_images/socketio.svg" alt=""></span><span><strong>Socket.IO</strong><span>Realtime events</span></span></div>
+            </div>
+          </section>
+          <section class="tech-group">
+            <div class="tech-group__head">
+              <h3 class="tech-group__title"><span class="tech-group__dot"></span>Auth & Payment</h3>
+              <span class="tech-group__note">소셜 로그인과 결제</span>
+            </div>
+            <div class="tech-items">
+              <div class="tech-node"><span class="tech-icon tech-icon--auth"><img src="assets/logos_images/passport.svg" alt=""></span><span><strong>Passport.js</strong><span>OAuth strategy</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--google"><img src="assets/logos_images/google.svg" alt=""></span><span><strong>Google Login</strong><span>OAuth login</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--kakao"><img src="assets/logos_images/kakao.svg" alt=""></span><span><strong>Kakao Login</strong><span>Social login</span></span></div>
+              <div class="tech-node"><span class="tech-icon tech-icon--naver"><img src="assets/logos_images/naver.svg" alt=""></span><span><strong>Naver Login</strong><span>Social login</span></span></div>
+              <div class="tech-node tech-node--wide"><span class="tech-icon tech-icon--toss"><img src="assets/logos_images/Toss_Logo_Primary_White.png" alt=""></span><span><strong>Toss Payments</strong><span>결제 연동</span></span></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section reveal" style="background:#f0fdfa;">
+      <span class="section-num">05</span>
+      <span style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--brand); margin-bottom:14px;">TEAM</span>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); font-weight:800; letter-spacing:-1px; color:#111; line-height:1.25; margin:0 0 12px;">Pawsitive를 함께 만든<br><span style="color:var(--brand);">4명의 이야기</span></h2>
+      <p style="color:var(--muted);margin-bottom:40px;">국민대학교 소프트웨어융합대학 2026 캡스톤 55팀입니다.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto;">
+        <div class="team-card">
+          <div class="team-card__bar" style="background:var(--brand);"></div>
+          <div class="team-card__avatar" style="background:#ccfbf1;color:#005f5e;">👑</div>
+          <h3 class="team-card__name">조현찬</h3>
+          <p class="team-card__role">팀장 · 풀스택</p>
+          <div class="team-card__tags"><span>교육</span><span>품종</span><span>AI상담</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__bar" style="background:#0891b2;"></div>
+          <div class="team-card__avatar" style="background:#cffafe;color:#155e75;">🛠️</div>
+          <h3 class="team-card__name">이재준</h3>
+          <p class="team-card__role">풀스택</p>
+          <div class="team-card__tags"><span>서버설계</span><span>전문가매칭</span><span>커뮤니티</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__bar" style="background:#047857;"></div>
+          <div class="team-card__avatar" style="background:#d1fae5;color:#047857;">🗺️</div>
+          <h3 class="team-card__name">이충범</h3>
+          <p class="team-card__role">풀스택</p>
+          <div class="team-card__tags"><span>산책매칭</span><span>GPS</span><span>UI설계</span></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__bar" style="background:#115e59;"></div>
+          <div class="team-card__avatar" style="background:#f0fdfa;color:#115e59;">🤖</div>
+          <h3 class="team-card__name">하준서</h3>
+          <p class="team-card__role">풀스택</p>
+          <div class="team-card__tags"><span>AI건강분석</span><span>프로필</span><span>알림</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 산책 매칭 모달 -->
+  <div id="modal-matching" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-matching').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 산책 매칭 절차</h2>
+      <p class="flow-modal__sub">신청부터 귀가까지 — 5단계로 안전하고 간편하게</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">반려견의 크기·성격·선호 시간대를 AI가 분석하여 가장 적합한 산책 도우미를 자동 매칭합니다. 매칭 후에는 GPS로 실시간 위치를 확인하고, 산책 완료 시 경로 리포트가 자동 발송됩니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <span class="flow-step__num" style="background:#005f5e;">1</span>
+          <h4>산책 요청</h4>
+          <p>반려견 정보·시간·지역 선택 후 원클릭 요청</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <span class="flow-step__num" style="background:#047857;">2</span>
+          <h4>AI 매칭</h4>
+          <p>성격·지역·시간대 분석 후 최적 도우미 추천</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#e0f7f5;border-color:#b2ebe7;color:#0f766e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <span class="flow-step__num" style="background:#0f766e;">3</span>
+          <h4>도우미 픽업</h4>
+          <p>약속 장소에서 도우미가 반려견 직접 픽업</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></div>
+          <span class="flow-step__num" style="background:#155e75;">4</span>
+          <h4>GPS 실시간 산책</h4>
+          <p>앱에서 도우미 위치 경로를 실시간 확인</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <span class="flow-step__num" style="background:#065f46;display:none;">5</span>
+          <h4>안전 귀가</h4>
+          <p>산책 완료 후 경로·사진 리포트 자동 발송</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GPS 트래킹 모달 -->
+  <div id="modal-gps" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-gps').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive GPS 트래킹 절차</h2>
+      <p class="flow-modal__sub">산책 시작부터 기록 저장까지 — 4단계로 안전하게</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">산책이 시작되면 Geolocation API로 도우미의 위치를 실시간 수집하고, 지도에 경로를 그려 보호자가 언제든 확인할 수 있습니다. 완료 후 거리·시간·속도 데이터가 자동 저장됩니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <h4>산책 시작</h4>
+          <p>도우미 픽업 후 산책 시작 버튼 활성화</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h4>실시간 위치 추적</h4>
+          <p>Geolocation API로 GPS 좌표 실시간 수집</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="3 6 12 3 21 6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+          <h4>경로 시각화</h4>
+          <p>지도에 산책 경로를 라인으로 실시간 그리기</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <h4>기록 저장</h4>
+          <p>거리·시간·평균 속도 자동 계산 후 리포트 발송</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 서비스 모달 -->
+  <div id="modal-ai" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-ai').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive AI 서비스 절차</h2>
+      <p class="flow-modal__sub">증상 입력부터 처방까지 — 4단계로 빠르게</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">반려견의 증상을 텍스트나 사진으로 입력하면 Gemini AI가 RAG 기반 지식 데이터를 활용해 원인을 분석하고 대처법을 안내합니다. 심각도가 높으면 전문가 상담으로 자동 연계됩니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h4>증상 입력</h4>
+          <p>채팅창에 텍스트 또는 사진으로 증상 설명</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h4>AI 분석</h4>
+          <p>Gemini AI가 RAG 기반 지식으로 원인 추론</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.39 0 4.68.94 6.36 2.64"/></svg></div>
+          <h4>진단 결과 제공</h4>
+          <p>가능 원인·심각도·즉시 조치사항 안내</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <h4>전문가 연결</h4>
+          <p>심각도가 높으면 수의사 상담으로 자동 연계</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 전문가 상담 모달 -->
+  <div id="modal-expert" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-expert').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 전문가 상담 절차</h2>
+      <p class="flow-modal__sub">전문가 선택부터 상담 종료까지 — 4단계로 간편하게</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">수의사·훈련사·미용사를 카테고리별로 탐색하고, 토스페이먼츠로 결제 후 전용 1:1 채팅방에서 실시간 상담을 진행합니다. 상담 종료 후 리뷰로 신뢰도가 누적됩니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <h4>전문가 탐색</h4>
+          <p>수의사·훈련사·미용사 카테고리별 검색</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <h4>결제</h4>
+          <p>토스페이먼츠로 안전 결제 진행</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <h4>1:1 채팅</h4>
+          <p>전용 상담방에서 실시간 대화</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h4>리뷰 작성</h4>
+          <p>상담 종료 후 별점·후기로 신뢰도 누적</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 품종 추천 모달 -->
+
+  <!-- AI 건강 분석 모달 -->
+  <div id="modal-health" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-health').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive AI 건강 분석 절차</h2>
+      <p class="flow-modal__sub">산책 데이터 수집부터 건강 리포트까지 — 4단계로 체계적</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">산책 기록(거리·시간·칼로리)을 주간 단위로 수집하고, AI가 활동량 점수를 산출하여 건강 상태를 진단합니다. 이상 징후 감지 시 예방 케어 리포트를 자동 생성합니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+          <h4>활동 데이터 수집</h4>
+          <p>산책 거리·시간·칼로리를 주간 단위로 축적</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h4>점수 산출</h4>
+          <p>거리·시간·칼로리 각 항목별 100점 만점 환산</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <h4>건강 진단</h4>
+          <p>AI가 활동 패턴 분석 후 이상 징후 감지</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <h4>리포트 생성</h4>
+          <p>주간 건강 점수 + 예방 케어 제안 자동 발송</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 품종 추천 모달 (원본) -->
+  <div id="modal-breed" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-breed').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 품종 추천 절차</h2>
+      <p class="flow-modal__sub">라이프스타일 입력부터 추천까지 — 4단계로 매칭</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">주거 환경, 활동량, 가족 구성 등을 입력하면 400여 품종 데이터와 AI가 매칭하여 활동성·친화성·훈련성 항목별 적합도 점수를 산출하고 맞춤 품종을 추천합니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+          <h4>설문 응답</h4>
+          <p>주거 환경·활동량·가족 구성 등 입력</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h4>AI 매칭</h4>
+          <p>400여 품종 데이터와 라이프스타일 매칭</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+          <h4>점수 산출</h4>
+          <p>활동성·친화성·훈련성 등 항목별 적합도 점수</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <h4>맞춤 추천</h4>
+          <p>상위 3~5개 품종을 카드 형태로 제공</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 품종 교육 모달 -->
+  <div id="modal-edu" class="flow-modal" onclick="if(event.target===this)this.style.display='none'">
+    <div class="flow-modal__content">
+      <button class="flow-modal__close" onclick="document.getElementById('modal-edu').style.display='none'">✕</button>
+      <span class="flow-modal__eyebrow">HOW IT WORKS</span>
+      <h2 class="flow-modal__title">Pawsitive 교육 콘텐츠 절차</h2>
+      <p class="flow-modal__sub">카테고리 선택부터 학습 완료까지 — 4단계로 체계적</p>
+      <p style="max-width:600px;margin:0 auto 28px;font-size:.85rem;color:#444;line-height:1.7;">훈련·건강·영양 등 10개 카테고리에서 44가지 콘텐츠를 학습할 수 있습니다. 학습 완료 후 퀴즈를 풀면 PAW 포인트와 배지가 적립됩니다.</p>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ccfbf1;border-color:#99f6e4;color:#005f5e;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+          <h4>카테고리 선택</h4>
+          <p>훈련·건강·영양 등 10개 카테고리 탐색</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#d1fae5;border-color:#a7f3d0;color:#047857;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+          <h4>콘텐츠 학습</h4>
+          <p>44가지 콘텐츠 영상·텍스트로 학습</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#cffafe;border-color:#a5f3fc;color:#155e75;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <h4>퀴즈 풀이</h4>
+          <p>학습 완료 후 이해도 체크 퀴즈</p>
+        </div>
+        <div class="flow-step__arrow"><svg width="48" height="16" viewBox="0 0 48 16" fill="none"><line x1="0" y1="8" x2="42" y2="8" stroke="#00a7a5" stroke-width="2"/><polyline points="38,3 44,8 38,13" stroke="#00a7a5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step__icon" style="background:#ecfdf5;border-color:#d1fae5;color:#065f46;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+          <h4>배지 획득</h4>
+          <p>완료 시 PAW 포인트와 배지 적립</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__cta">
+      <div>
+        <h2>반려견 케어를 하나의 흐름으로 연결합니다</h2>
+        <p>산책 매칭, 건강 분석, AI 상담, 전문가 연결까지 Pawsitive에서 자연스럽게 이어집니다.</p>
+      </div>
+      <a href="http://d1lrqxcxhsi30k.cloudfront.net/">Now, Be Pawsitive!</a>
+    </div>
+    <div class="site-footer__body">
+    <div>
+      <div class="site-footer__brand">
+        <span style="font-size:1.1rem;font-weight:900;">Pawsitive</span>
+      </div>
+      <div class="site-footer__info">
+        반려견과 보호자의 일상을 산책, 건강, 상담 데이터로 연결하는 Pawsitive 프로젝트입니다.<br>
+        국민대학교 소프트웨어융합대학 2026 Capstone Design 55조
+      </div>
+      <div class="site-footer__social">
+        <a href="https://github.com/kookmin-sw/2026-capstone-55" title="GitHub">GH</a>
+        <a href="http://d1lrqxcxhsi30k.cloudfront.net/" title="Live Demo">DEMO</a>
+      </div>
+    </div>
+    <div class="site-footer__group">
+      <h3>Sections</h3>
+      <a href="#about">Intro</a>
+      <a href="#features">Services</a>
+      <a href="#screens">Impact</a>
+      <a href="#stack">Tech</a>
+      <a href="#team">Team</a>
+    </div>
+    <div class="site-footer__group">
+      <h3>Project</h3>
+      <a href="https://github.com/kookmin-sw/2026-capstone-55">GitHub Repository</a>
+      <a href="http://d1lrqxcxhsi30k.cloudfront.net/">Live Demo</a>
+      <a href="#top">Back to Top</a>
+      <a href="https://kookmin-sw.github.io/2026-capstone-55/">GitHub Pages</a>
+    </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>©2026 Pawsitive · Kookmin University Capstone Design 55</span>
+      <span class="site-footer__status">Demo page active</span>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded',()=>{
+      const els=document.querySelectorAll('.reveal');
+      const io=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+      },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+      els.forEach(el=>io.observe(el));
+
+      const fades=document.querySelectorAll('.impact-fade');
+      const io2=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io2.unobserve(e.target);}});
+      },{threshold:0.2});
+      fades.forEach((el,i)=>{el.style.transitionDelay=(i*0.12)+'s';io2.observe(el);});
+    });
+  </script>
+</body>
+</html>

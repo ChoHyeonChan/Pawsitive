@@ -1,0 +1,52 @@
+{
+  "id": "demo-user-mpozqqo7-oauhfyg_demo-user-mpp0d5pr-ppfl0s5",
+  "participants": [
+    "demo-user-mpozqqo7-oauhfyg",
+    "demo-user-mpp0d5pr-ppfl0s5"
+  ],
+  "names": {
+    "demo-user-mpozqqo7-oauhfyg": "강아지좋아요",
+    "demo-user-mpp0d5pr-ppfl0s5": "혠니"
+  },
+  "avatars": {
+    "demo-user-mpozqqo7-oauhfyg": "",
+    "demo-user-mpp0d5pr-ppfl0s5": ""
+  },
+  "messages": [
+    {
+      "id": "id-mpp0j68v-8al9tkd",
+      "senderId": "demo-user-mpozqqo7-oauhfyg",
+      "senderName": "강아지좋아요",
+      "content": "안녕하세요",
+      "createdAt": "2026-05-28T04:48:37.471Z"
+    },
+    {
+      "id": "id-mpp0jvyn-lwe7119",
+      "senderId": "demo-user-mpp0d5pr-ppfl0s5",
+      "senderName": "혠니",
+      "content": "안녕하세요",
+      "createdAt": "2026-05-28T04:49:10.799Z"
+    },
+    {
+      "id": "id-mpp0kbd0-lliott8",
+      "senderId": "demo-user-mpozqqo7-oauhfyg",
+      "senderName": "강아지좋아요",
+      "content": "산책하실래요?",
+      "createdAt": "2026-05-28T04:49:30.756Z"
+    },
+    {
+      "id": "id-mpp0khpy-gbdsx7x",
+      "senderId": "demo-user-mpozqqo7-oauhfyg",
+      "senderName": "강아지좋아요",
+      "content": "남친있으세요?",
+      "createdAt": "2026-05-28T04:49:38.998Z"
+    }
+  ],
+  "unread": {
+    "demo-user-mpp0d5pr-ppfl0s5": 0,
+    "demo-user-mpozqqo7-oauhfyg": 0
+  },
+  "createdAt": "2026-05-28T04:48:37.471Z",
+  "lastMessage": "남친있으세요?",
+  "lastAt": "2026-05-28T04:49:38.998Z"
+}

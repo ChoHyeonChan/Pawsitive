@@ -1,0 +1,38 @@
+{
+  "id": "demo-user-mpozbfwy-t9bpua5_demo-user-mpozbgmi-r3yqzfy",
+  "participants": [
+    "demo-user-mpozbfwy-t9bpua5",
+    "demo-user-mpozbgmi-r3yqzfy"
+  ],
+  "names": {
+    "demo-user-mpozbgmi-r3yqzfy": "수연",
+    "demo-user-mpozbfwy-t9bpua5": "주원숭잉"
+  },
+  "avatars": {
+    "demo-user-mpozbgmi-r3yqzfy": "",
+    "demo-user-mpozbfwy-t9bpua5": ""
+  },
+  "messages": [
+    {
+      "id": "id-mpozfye9-172ymiy",
+      "senderId": "demo-user-mpozbgmi-r3yqzfy",
+      "senderName": "수연",
+      "content": "강아지 못생겻어요 ㅜ",
+      "createdAt": "2026-05-28T04:18:07.713Z"
+    },
+    {
+      "id": "id-mpozg2fa-b08rbwn",
+      "senderId": "demo-user-mpozbfwy-t9bpua5",
+      "senderName": "주원숭잉",
+      "content": "불독하이",
+      "createdAt": "2026-05-28T04:18:12.934Z"
+    }
+  ],
+  "unread": {
+    "demo-user-mpozbfwy-t9bpua5": 0,
+    "demo-user-mpozbgmi-r3yqzfy": 1
+  },
+  "createdAt": "2026-05-28T04:18:07.712Z",
+  "lastMessage": "불독하이",
+  "lastAt": "2026-05-28T04:18:12.934Z"
+}
