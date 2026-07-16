@@ -6,9 +6,6 @@
   <p><strong>Be Pawsitive! 반려견과 함께하는 더 나은 일상</strong></p>
   <p>AI 건강 상담부터 산책 매칭까지, 당신과 반려견을 위한 통합 케어 플랫폼.</p>
 
-  <a href="http://d1lrqxcxhsi30k.cloudfront.net/">
-    <img src="https://img.shields.io/badge/🚀 LIVE DEMO-Pawsitive 바로가기-blueviolet?style=for-the-badge" alt="Live Demo">
-  </a>
   <a href="https://kookmin-sw.github.io/2026-capstone-55/">
     <img src="https://img.shields.io/badge/📄 GITHUB TEAM PAGE-프로젝트 소개-gray?style=for-the-badge" alt="GitHub Team Page">
   </a>
